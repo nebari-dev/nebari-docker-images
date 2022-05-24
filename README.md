@@ -1,2 +1,2 @@
-# images
-🌅 Docker images for the nebari platform
+# docker-images
+🌅 Docker images for the Nebari platform
