@@ -48,7 +48,8 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          # username: ${{ github.repository_owner }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
       # - name: Login to Quay Container Registry
@@ -71,6 +72,7 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v2
         with:
           # list of Docker images to use as base name for tags
+          # FIX ME #
           images: |
             "iameskild/nebari-${{ matrix.dockerfile }}"
           # generate Docker tags based on the following events/attributes
