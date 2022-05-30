@@ -1,3 +1,6 @@
+# Build and push images to :
+# GitHub Container Registry (ghcr.io)
+# Red Hat Container Registry (quay.io)
 name: "Build Docker Images"
 
 on:
@@ -8,7 +11,7 @@ on:
 
   push:
     paths:
-      - "qhub/template/image/**"
+      - "**"
       - ".github/workflows/image.yaml"
 
     branches: # Only on paths above
@@ -40,27 +43,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Login to GitHub Container Registry
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GH_TOKEN }}
 
-      - name: Login to Quay Container Registry
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v1
-        with:
-          registry: quay.io
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_TOKEN }}
+      # - name: Login to Quay Container Registry
+      #   if: github.event_name != 'pull_request'
+      #   uses: docker/login-action@v1
+      #   with:
+      #     registry: quay.io
+      #     username: ${{ secrets.QUAY_USERNAME }}
+      #     password: ${{ secrets.QUAY_TOKEN }}
 
       - name: Lint Dockerfiles
         uses: jbergstroem/hadolint-gh-action@v1
@@ -75,7 +72,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            "quansight/qhub-${{ matrix.dockerfile }}"
+            "iameskild/nebari-${{ matrix.dockerfile }}"
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
@@ -94,12 +91,10 @@ jobs:
       - name: Build docker
         uses: docker/build-push-action@v2
         with:
-          # context: "./qhub/template/image"
           file: "Dockerfile.${{ matrix.dockerfile }}"
           tags: |
-            ${{ steps.meta.outputs.tags }}
             ghcr.io/${{ steps.meta.outputs.tags }}
-            quay.io/${{ steps.meta.outputs.tags }}
+            # quay.io/${{ steps.meta.outputs.tags }}
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
