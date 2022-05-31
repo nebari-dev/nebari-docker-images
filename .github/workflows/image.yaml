@@ -77,9 +77,8 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v2
         with:
           # list of Docker images to use as base name for tags
-          # FIX ME #
           images: |
-            "iameskild/nebari-${{ matrix.dockerfile }}"
+            "nebari-dev/nebari-${{ matrix.dockerfile }}"
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
