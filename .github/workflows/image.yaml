@@ -87,7 +87,7 @@ jobs:
         id: var
         run: echo ::set-output name=docker_tag::$(echo "${{ steps.meta.outputs.tags }}" | sed -n 1p)
 
-      - name: Build docker
+      - name: Build docker images
         uses: docker/build-push-action@v3
         with:
           context: .
