@@ -37,7 +37,7 @@ jobs:
           - jupyterhub
           - dask-worker
     steps:
-      - name: 'Checkout Infrastructure'
+      - name: 'Checkout Repository'
         uses: actions/checkout@main
 
       - name: Set up Docker Buildx
