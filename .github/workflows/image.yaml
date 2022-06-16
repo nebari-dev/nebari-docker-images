@@ -38,7 +38,7 @@ jobs:
           - dask-worker
     steps:
       - name: 'Checkout Repository'
-        uses: actions/checkout@main
+        uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
