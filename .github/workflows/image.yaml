@@ -27,7 +27,7 @@ permissions:
   security-events: write
 
 jobs:
-  jupyterlab:
+  build-images:
     name: 'Build Docker Images'
     runs-on: ubuntu-latest
     strategy:
