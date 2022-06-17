@@ -1,23 +1,17 @@
-# Build and push images to :
+# Build and push images to:
 # GitHub Container Registry (ghcr.io)
 # Red Hat Container Registry (quay.io)
 name: "Build Docker Images"
 
 on:
-  create: # Branch (so that the Docker image tags exist for a new branch when pushed)
-          # even if nothing on 'paths' below is changed.
-    branches:
-      - '**'
-
   push:
+    branches:
+      - main
     paths:
-      - "**"
+      - "Dockerfile.*"
+      - "*/environment.yaml"
       - ".github/workflows/image.yaml"
-
-    branches: # Only on paths above
-      - '**'
-
-    tags: # Always, regardless of paths above
+    tags:
       - '*'
 
 permissions:
@@ -98,8 +92,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - uses: actions/cache@v2.1.4
+      - name: Enable caching for Trivy
         if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/cache@v2.1.4
         with:
           path: .trivy
           key: ${{ runner.os }}-trivy-${{ github.run_id }}
