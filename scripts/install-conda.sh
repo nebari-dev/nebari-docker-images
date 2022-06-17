@@ -10,7 +10,6 @@ if [ $(sha256sum -c miniconda.checksum | awk '{print $2}') != "OK" ]; then
    exit 1;
 fi
 
-mv Miniconda3-$CONDA_VERSION-Linux-x86_64.sh miniconda.sh
 sh ./miniconda.sh -b -p /opt/conda
 rm miniconda.sh miniconda.checksum
 
