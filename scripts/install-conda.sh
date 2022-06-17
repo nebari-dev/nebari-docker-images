@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -xe
 # Requires environment CONDA_SHA256, CONDA_VERSION, and DEFAULT_ENV
-wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-$CONDA_VERSION-Linux-x86_64.sh
+wget --quiet -O miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-$CONDA_VERSION-Linux-x86_64.sh
 
 echo "${CONDA_SHA256}  Miniconda3-$CONDA_VERSION-Linux-x86_64.sh" > miniconda.checksum
 
