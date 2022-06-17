@@ -3,7 +3,7 @@ set -xe
 # Requires environment CONDA_SHA256, CONDA_VERSION, and DEFAULT_ENV
 wget --quiet -O miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-$CONDA_VERSION-Linux-x86_64.sh
 
-echo "${CONDA_SHA256}  Miniconda3-$CONDA_VERSION-Linux-x86_64.sh" > miniconda.checksum
+echo "${CONDA_SHA256} miniconda.sh" > miniconda.checksum
 
 if [ $(sha256sum -c miniconda.checksum | awk '{print $2}') != "OK" ]; then
    echo Error when testing checksum
