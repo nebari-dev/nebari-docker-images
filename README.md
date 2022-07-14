@@ -9,7 +9,7 @@ This repo contains the source code for Docker (container) images used by the Neb
 GitHub Container Registry (ghcr.io)
 - [`nebari-jupyterlab`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-jupyterlab)
 - [`nebari-jupyterhub`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-jupyterhub)
-- [nebari-dask-worker](https://github.com/orgs/nebari-dev/packages/container/package/nebari-dask-worker)
+- [`nebari-dask-worker`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-dask-worker)
 
 Quay Container Registry (quay.io)
 - [`nebari-jupyterlab`](https://quay.io/repository/nebari/nebari-jupyterlab)
@@ -21,13 +21,13 @@ Quay Container Registry (quay.io)
 
 Whether you want to contribute to this project or simply wish use these images, to get started, fork this repo and then clone the forked repo onto your local machine.
 
-### pre-requisite
+### Pre-requisites
  
 Currently the only pre-requisite is that you have [`docker` installed](https://docs.docker.com/get-docker/) on your local machine. 
 
 ### Building Dockerfile
 
-Assuming you are in the repos root folder, you can build these images locally by running the listed commands. 
+Assuming you are in the repo's root folder, you can build these images locally by running the listed commands on your terminal.
 
 For JupyterLab 
 ```shell
@@ -44,7 +44,8 @@ For Dask-Worker
 docker build -f Dockerfile.dask-gateway -t qhub-dask-gateway:latest .
 ```
 
-> NOTE: it is extremely important to pin specific packages `dask-gateway` and `distributed` as they need to be running the same version for the dask-workers to work as expected.
+> **NOTE** 
+> It is extremely important to pin specific packages `dask-gateway` and `distributed` as they need to run the same version for the dask-workers to work as expected.
 
 
 ### Reporting an issue
