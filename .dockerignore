@@ -1,0 +1,8 @@
+.tox/
+.venv/
+dist/
+build/
+*.egg-info
+.coverage
+.github/
+README.md
