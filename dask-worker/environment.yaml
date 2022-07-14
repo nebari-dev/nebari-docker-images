@@ -2,5 +2,5 @@ name: base
 channels:
   - conda-forge
 dependencies:
- # dask
- - qhub-dask==0.3.13
+  # dask
+  - qhub-dask==0.3.13

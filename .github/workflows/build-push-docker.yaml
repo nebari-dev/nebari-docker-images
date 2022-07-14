@@ -12,7 +12,7 @@ on:
       - "*/environment.yaml"
       - ".github/workflows/image.yaml"
     tags:
-      - '*'
+      - "*"
 
 permissions:
   contents: read
@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   build-images:
-    name: 'Build Docker Images'
+    name: "Build Docker Images"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,7 +31,7 @@ jobs:
           - jupyterhub
           - dask-worker
     steps:
-      - name: 'Checkout Repository'
+      - name: "Checkout Repository"
         uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
@@ -106,9 +106,9 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ steps.var.outputs.docker_tag }}
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH'
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH"
           ignore-unfixed: true
           cache-dir: .trivy
 
@@ -116,7 +116,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         uses: github/codeql-action/upload-sarif@v1
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: "trivy-results.sarif"
 
       - name: Correct Trivy cache permissions
         if: ${{ github.event_name == 'pull_request' }}
