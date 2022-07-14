@@ -31,13 +31,13 @@ jobs:
           - jupyterhub
           - dask-worker
     steps:
-      - name: "Checkout Repository"
+      - name: "Checkout Repository 🛎️"
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
+      - name: "Set up Docker Buildx 🛠️"
         uses: docker/setup-buildx-action@v2
 
-      - name: Login to GitHub Container Registry
+      - name: "Login to GitHub Container Registry 🔐"
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
@@ -45,7 +45,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GH_TOKEN }}
 
-      - name: Login to Quay Container Registry
+      - name: "Login to Quay Container Registry 🔐"
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
@@ -53,14 +53,14 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_TOKEN }}
 
-      - name: Lint Dockerfiles
+      - name: "Lint Dockerfiles 🔍"
         uses: jbergstroem/hadolint-gh-action@v1
         with:
           dockerfile: Dockerfile.${{ matrix.dockerfile }}
           output_format: tty
           error_level: 0
 
-      - name: Generate Docker images tags
+      - name: "Generate Docker images tags 🏷️"
         id: meta
         uses: docker/metadata-action@v4
         with:
@@ -72,16 +72,16 @@ jobs:
             type=ref,event=tag
             type=sha
 
-      - name: Inspect image dir tree
+      - name: "Inspect image dir tree 🔍"
         run: |
           sudo apt-get install tree
           tree .
 
-      - name: Set tag var
+      - name: "Set tag var 🏷️"
         id: var
         run: echo ::set-output name=docker_tag::$(echo "${{ steps.meta.outputs.tags }}" | sed -n 1p)
 
-      - name: Build docker images
+      - name: "Build docker images 🐳"
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -92,7 +92,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Enable caching for Trivy
+      - name: "Enable caching for Trivy 🗃️"
         if: ${{ github.event_name == 'pull_request' }}
         uses: actions/cache@v2.1.4
         with:
@@ -101,7 +101,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-trivy-
 
-      - name: Run Trivy vulnerability scanner
+      - name: "Run Trivy vulnerability scanner 🔍"
         if: ${{ github.event_name == 'pull_request' }}
         uses: aquasecurity/trivy-action@master
         with:
@@ -112,12 +112,12 @@ jobs:
           ignore-unfixed: true
           cache-dir: .trivy
 
-      - name: Upload Trivy scan results to GitHub Security tab
+      - name: "Upload Trivy scan results to GitHub Security tab 📤"
         if: ${{ github.event_name == 'pull_request' }}
         uses: github/codeql-action/upload-sarif@v1
         with:
           sarif_file: "trivy-results.sarif"
 
-      - name: Correct Trivy cache permissions
+      - name: "Correct Trivy cache permissions 🧹"
         if: ${{ github.event_name == 'pull_request' }}
         run: sudo chown -R $USER:$GROUP .trivy

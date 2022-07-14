@@ -10,6 +10,7 @@
   - [:zap: Getting started](#zap-getting-started)
     - [:computer: Prerequisites](#computer-prerequisites)
     - [:hammer_and_wrench: Building the Docker images](#hammer_and_wrench-building-the-docker-images)
+    - [:broom: Pre-commit hooks](#broom-pre-commit-hooks)
   - [:pencil: Reporting an issue](#pencil-reporting-an-issue)
   - [:raised_hands: Contributions](#raised_hands-contributions)
   - [:page_facing_up: License](#page_facing_up-license)
@@ -63,6 +64,19 @@ docker build -f Dockerfile.dask-gateway \
 
 > **NOTE**
 > It is extremely important to pin specific packages `dask-gateway` and `distributed` as they need to run the same version for the `dask-workers` to work as expected.
+
+### :broom: Pre-commit hooks
+
+This repository uses the `prettier` pre-commit hook to standardize our YAML and markdown structure.
+To install and run it, use these commands from the repository root:
+
+```bash
+# install the pre-commit hooks
+pre-commit install
+
+# run the pre-commit hooks
+pre-commit run --all-files
+```
 
 ## :pencil: Reporting an issue
 
