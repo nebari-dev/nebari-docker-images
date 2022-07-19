@@ -10,7 +10,7 @@ on:
     paths:
       - "Dockerfile.*"
       - "*/environment.yaml"
-      - ".github/workflows/image.yaml"
+      - ".github/workflows/build-push-docker.yaml"
     tags:
       - "*"
 
