@@ -1,25 +1,9 @@
 #!/usr/bin/env bash
 set -xe
-# Requires environment CONDA_SHA256, CONDA_VERSION, and DEFAULT_ENV
-wget --quiet -O miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-$CONDA_VERSION-Linux-x86_64.sh
 
-echo "${CONDA_SHA256} miniconda.sh" > miniconda.checksum
-
-if [ $(sha256sum -c miniconda.checksum | awk '{print $2}') != "OK" ]; then
-   echo Error when testing checksum
-   exit 1;
-fi
-
+curl -sL -o miniconda.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
 sh ./miniconda.sh -b -p /opt/conda
-rm miniconda.sh miniconda.checksum
-
-# install mamba and clean up
-conda install -y -c conda-forge mamba
-mamba clean -afy
-find /opt/conda/ -follow -type f -name '*.a' -delete
-find /opt/conda/ -follow -type f -name '*.js.map' -delete
-
-ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+rm miniconda.sh
 
 mkdir -p /etc/conda
 cat <<EOF > /etc/conda/condarc
