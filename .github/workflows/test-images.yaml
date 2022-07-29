@@ -75,7 +75,7 @@ jobs:
           severity: "CRITICAL,HIGH"
           ignore-unfixed: true
           cache-dir: .trivy
-          timeout: 10m0s
+          timeout: 20m0s
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
