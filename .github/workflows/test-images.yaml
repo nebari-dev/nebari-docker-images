@@ -32,53 +32,53 @@ jobs:
           - dask-worker
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    - name: Lint Dockerfiles
-      uses: jbergstroem/hadolint-gh-action@v1
-      with:
-        dockerfile: ${{ matrix.image }}/Dockerfile
-        output_format: tty
-        error_level: 0
+      - name: Lint Dockerfiles
+        uses: jbergstroem/hadolint-gh-action@v1
+        with:
+          dockerfile: ${{ matrix.image }}/Dockerfile
+          output_format: tty
+          error_level: 0
 
-    - name: Build Image
-      run: |
-        cd ${{ matrix.image }}
-        docker build -t ${DOCKER_ORG}/${{ matrix.image }}:${{ env.GITHUB_SHA }} .
+      - name: Build Image
+        run: |
+          cd ${{ matrix.image }}
+          docker build -t ${DOCKER_ORG}/${{ matrix.image }}:${{ env.GITHUB_SHA }} .
 
-    - name: Save Image
-      run: |
-        docker save ${DOCKER_ORG}/${{ matrix.image }}:${{ env.GITHUB_SHA }} | gzip > ${{ matrix.image }}-${{ env.GITHUB_SHA }}.tar.gz
+      - name: Save Image
+        run: |
+          docker save ${DOCKER_ORG}/${{ matrix.image }}:${{ env.GITHUB_SHA }} | gzip > ${{ matrix.image }}-${{ env.GITHUB_SHA }}.tar.gz
 
-    - name: Upload Image as Artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: ${{ matrix.image }}
-        path: ${{ matrix.image }}-${{ env.GITHUB_SHA }}.tar.gz
+      - name: Upload Image as Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ matrix.image }}
+          path: ${{ matrix.image }}-${{ env.GITHUB_SHA }}.tar.gz
 
-    - name: Enable caching for Trivy
-      uses: actions/cache@v2.1.4
-      with:
-        path: .trivy
-        key: ${{ runner.os }}-trivy-${{ github.run_id }}
-        restore-keys: |
-          ${{ runner.os }}-trivy-
+      - name: Enable caching for Trivy
+        uses: actions/cache@v2.1.4
+        with:
+          path: .trivy
+          key: ${{ runner.os }}-trivy-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-trivy-
 
-    - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
-      with:
-        input: /github/workspace/${{ matrix.image }}-${{ env.GITHUB_SHA }}.tar.gz
-        format: "sarif"
-        output: "trivy-results.sarif"
-        severity: "CRITICAL,HIGH"
-        ignore-unfixed: true
-        cache-dir: .trivy
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          input: /github/workspace/${{ matrix.image }}-${{ env.GITHUB_SHA }}.tar.gz
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH"
+          ignore-unfixed: true
+          cache-dir: .trivy
 
-    - name: Upload Trivy scan results to GitHub Security tab
-      uses: github/codeql-action/upload-sarif@v1
-      with:
-        sarif_file: "trivy-results.sarif"
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: "trivy-results.sarif"
 
-    - name: Correct Trivy cache permissions
-      run: sudo chown -R $USER:$GROUP .trivy
+      - name: Correct Trivy cache permissions
+        run: sudo chown -R $USER:$GROUP .trivy
