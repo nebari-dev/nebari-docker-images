@@ -38,14 +38,13 @@ jobs:
       - name: Lint Dockerfiles
         uses: jbergstroem/hadolint-gh-action@v1
         with:
-          dockerfile: ${{ matrix.image }}/Dockerfile
+          dockerfile: Dockerfile.${{ matrix.dockerfile }}
           output_format: tty
           error_level: 0
 
       - name: Build Image
         run: |
-          cd ${{ matrix.image }}
-          docker build -t ${DOCKER_ORG}/${{ matrix.image }}:${{ env.GITHUB_SHA }} .
+          docker build -t ${DOCKER_ORG}/${{ matrix.image }}:${{ env.GITHUB_SHA }} -f Dockerfile.${{ matrix.dockerfile }} .
 
       - name: Save Image
         run: |
