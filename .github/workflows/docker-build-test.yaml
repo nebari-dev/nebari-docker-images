@@ -16,8 +16,6 @@ on:
       - "scripts/**"
 
   push:
-    branches:
-      - main
     paths:
       - ".github/workflows/docker-build-test.yaml"
 
@@ -40,6 +38,8 @@ concurrency:
 
 jobs:
   docker-build-test:
+    # Avoid running the pipeline twice, if the PR is already merged
+    if: github.event.pull_request.merged == false
     name: 'Build Docker Images'
     runs-on: ubuntu-latest
     strategy:
