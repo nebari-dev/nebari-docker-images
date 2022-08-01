@@ -30,8 +30,8 @@ jobs:
       matrix:
         dockerfile:
           - jupyterlab
-          - jupyterhub
-          - dask-worker
+          # - jupyterhub
+          # - dask-worker
 
     steps:
       - name: Checkout Repository
@@ -80,6 +80,7 @@ jobs:
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
+        if: always()
         with:
           sarif_file: "trivy-results.sarif"
 
