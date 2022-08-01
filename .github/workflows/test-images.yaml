@@ -75,6 +75,7 @@ jobs:
           severity: "CRITICAL,HIGH"
           ignore-unfixed: true
           cache-dir: .trivy
+          security-checks: vuln
           timeout: 30m0s
 
       - name: Upload Trivy scan results to GitHub Security tab
