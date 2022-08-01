@@ -1,5 +1,4 @@
-name:
-description:
+name: Build and Test
 
 on:
   pull_request:
@@ -54,9 +53,21 @@ jobs:
       - name: Checkout Infrastructure ⚡️
         uses: actions/checkout@v3
 
+      - name: Set up Dev environment 📦
+        uses: ./.github/actions/create-run-environment.yaml
+        with:
+          python-version: 3.8
+
       - name: amd64
         uses: ./.github/actions/build-artifact-upload.yaml
         with:
           dockerFile: ./${{ matrix.image }}/Dockerfile.${{ matrix.image }}
           image: ${{ matrix.image }}
           platform: amd64
+
+      - name: load-image amd64
+        uses: ./.github/actions/load-image.yaml
+        with:
+          image: ${{ matrix.image }}
+          platform: amd64
+
