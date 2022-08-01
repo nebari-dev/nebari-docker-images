@@ -1,0 +1,62 @@
+name:
+description:
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/docker-build-test.yaml"
+
+      # We use local reusable workflows to make architecture clean an simple
+      # https://docs.github.com/en/actions/using-workflows/reusing-workflows
+      - ".github/actions/build-artifact-upload.yaml"
+      - ".github/actions/load-image.yaml"
+
+      - "dask-worker/**"
+      - "jupyterlab/**"
+      - "jupyterhub/**"
+      - "scripts/**"
+
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/docker-build-test.yaml"
+
+      - ".github/actions/build-artifact-upload.yaml"
+      - ".github/actions/load-image.yaml"
+
+      - "dask-worker/**"
+      - "jupyterlab/**"
+      - "jupyterhub/**"
+      - "scripts/**"
+
+  workflow_dispatch:
+
+# https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  # only cancel in-progress jobs or runs for the current workflow - matches against branch & tags
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+jobs:
+  docker-build-test:
+    name: 'Build Docker Images'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - jupyterlab
+          - jupyterhub
+          - dask-worker
+
+    steps:
+      - name: Checkout Infrastructure ⚡️
+        uses: actions/checkout@v3
+
+      - name: amd64
+        uses: ./.github/actions/build-artifact-upload.yaml
+        with:
+          dockerFile: ./${{ matrix.image }}/Dockerfile.${{ matrix.image }}
+          image: ${{ matrix.image }}
+          platform: amd64

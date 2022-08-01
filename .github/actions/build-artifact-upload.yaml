@@ -1,0 +1,64 @@
+name: docker-build-artifact-upload
+description: Download parent image, build new one, and upload to GitHub artifacts
+
+inputs:
+  image:
+    description: Image name
+    required: true
+    type: string
+  dockerFile:
+    description: Docker file image name
+  platform:
+    description: Image platform
+    required: false
+    default: amd64
+    type: string
+
+runs:
+  using: composite
+  steps:
+    # - name: Checkout Repo ⚡️
+    #   uses: actions/checkout@v3
+
+    # - name: Set up Python environment 📦
+    #   uses: actions/setup-python@v4
+    #   with:
+    #     python-version: 3.8
+
+    # This will use a new image that will works as a BASE template for the others
+
+    # - name: Load parent built image to Docker 📥
+    #   # if: ${{ inputs.parentImage != '' }}
+    #   uses: ./.github/actions/load-image
+    #   with:
+    #     image: ${{ inputs.parentImage }}
+    #     platform: ${{ inputs.platform }}
+    - name: Set dev image tag ⌛
+      id: tag
+      run: echo ::set-output name=created::${{ inputs.image }}-$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+
+    - name: Build image 🛠
+      run: |
+        docker build --rm --force-rm --tag nebari/${{ steps.tag.outputs.created }} ${{ inputs.image }}/${{ inputs.dockerFile }}
+      env:
+        DOCKER_BUILDKIT: 1
+        # Full logs for CI build
+        BUILDKIT_PROGRESS: plain
+      shell: bash
+
+    - name: Save image as a tar for later use 💾
+      run: docker save nebari/${{ steps.tag.outputs.created }} -o /tmp/${{ inputs.image }}-${{ inputs.platform }}.tar
+      shell: bash
+
+    - name: Upload image as artifact 💾
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.image }}-${{ inputs.platform }}
+        path: /tmp/${{ inputs.image }}-${{ inputs.platform }}.tar
+        retention-days: 3
+
+    - name: Cleanup artifacts 🗑️
+      run: |
+        rm -f /tmp/${{ inputs.image }}-${{ inputs.platform }}.tar
+      shell: bash
+      if: always()
