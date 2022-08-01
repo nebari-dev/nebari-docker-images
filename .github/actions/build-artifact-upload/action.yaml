@@ -8,6 +8,8 @@ inputs:
     type: string
   dockerFile:
     description: Docker file image name
+    required: true
+    type: string
   platform:
     description: Image platform
     required: false
@@ -33,9 +35,13 @@ runs:
     #   with:
     #     image: ${{ inputs.parentImage }}
     #     platform: ${{ inputs.platform }}
+    # ${DOCKER_ORG}/${{ matrix.dockerfile }}:${{ env.GITHUB_SHA }}
     - name: Set dev image tag ⌛
       id: tag
-      run: echo ::set-output name=created::${{ inputs.image }}-$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+      run: |
+        echo "Setting new image tag to: ${{ inputs.image }}"
+        echo ::set-output name=created::"${{ inputs.image }}:$(date +%Y%m%d%H%M%S) "
+      shell: bash
 
     - name: Build image 🛠
       run: |

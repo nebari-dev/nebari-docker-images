@@ -7,8 +7,9 @@ on:
 
       # We use local reusable workflows to make architecture clean an simple
       # https://docs.github.com/en/actions/using-workflows/reusing-workflows
-      - ".github/actions/build-artifact-upload.yaml"
-      - ".github/actions/load-image.yaml"
+      - ".github/actions/build-artifact-upload/**"
+      - ".github/actions/load-image/**"
+      - ".github/actions/create-env-run/**"
 
       - "dask-worker/**"
       - "jupyterlab/**"
@@ -16,13 +17,12 @@ on:
       - "scripts/**"
 
   push:
-    branches:
-      - main
     paths:
       - ".github/workflows/docker-build-test.yaml"
 
-      - ".github/actions/build-artifact-upload.yaml"
-      - ".github/actions/load-image.yaml"
+      - ".github/actions/build-artifact-upload/**"
+      - ".github/actions/load-image/**"
+      - ".github/actions/create-env-run/**"
 
       - "dask-worker/**"
       - "jupyterlab/**"
@@ -30,6 +30,7 @@ on:
       - "scripts/**"
 
   workflow_dispatch:
+
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -40,7 +41,9 @@ concurrency:
 
 jobs:
   docker-build-test:
-    name: 'Build Docker Images'
+    # Avoid running the pipeline twice, if the PR is already merged
+    if: github.event.pull_request.merged == false
+    name: 'Build & test Docker Images'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -54,19 +57,19 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Dev environment 📦
-        uses: ./.github/actions/create-run-environment.yaml
+        uses: ./.github/actions/create-env-run
         with:
           python-version: 3.8
 
       - name: amd64
-        uses: ./.github/actions/build-artifact-upload.yaml
+        uses: ./.github/actions/build-artifact-upload
         with:
           dockerFile: ./${{ matrix.image }}/Dockerfile.${{ matrix.image }}
           image: ${{ matrix.image }}
           platform: amd64
 
       - name: load-image amd64
-        uses: ./.github/actions/load-image.yaml
+        uses: ./.github/actions/load-image
         with:
           image: ${{ matrix.image }}
           platform: amd64
