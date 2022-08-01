@@ -13,11 +13,6 @@ on:
       - ".github/workflows/build-push-docker.yaml"
     tags:
       - "*"
-  pull_request:
-    paths:
-      - "Dockerfile.*"
-      - "*/environment.yaml"
-      - ".github/workflows/build-push-docker.yaml"
 
 permissions:
   contents: read
