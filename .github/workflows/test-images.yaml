@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image:
+        dockerfile:
           - jupyterlab
           - jupyterhub
           - dask-worker
@@ -40,23 +40,23 @@ jobs:
       - name: Lint Dockerfiles
         uses: jbergstroem/hadolint-gh-action@v1
         with:
-          dockerfile: Dockerfile.${{ matrix.image }}
+          dockerfile: Dockerfile.${{ matrix.dockerfile }}
           output_format: tty
           error_level: 0
 
       - name: Build Image
         run: |
-          docker build -t ${DOCKER_ORG}/${{ matrix.image }}:${{ env.GITHUB_SHA }} -f Dockerfile.${{ matrix.image }} .
+          docker build -t ${DOCKER_ORG}/${{ matrix.dockerfile }}:${{ env.GITHUB_SHA }} -f Dockerfile.${{ matrix.dockerfile }} .
 
       - name: Save Image
         run: |
-          docker save ${DOCKER_ORG}/${{ matrix.image }}:${{ env.GITHUB_SHA }} | gzip > ${{ matrix.image }}-${{ env.GITHUB_SHA }}.tar.gz
+          docker save ${DOCKER_ORG}/${{ matrix.dockerfile }}:${{ env.GITHUB_SHA }} | gzip > ${{ matrix.dockerfile }}-${{ env.GITHUB_SHA }}.tar.gz
 
       - name: Upload Image as Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.image }}
-          path: ${{ matrix.image }}-${{ env.GITHUB_SHA }}.tar.gz
+          name: ${{ matrix.dockerfile }}
+          path: ${{ matrix.dockerfile }}-${{ env.GITHUB_SHA }}.tar.gz
 
       - name: Enable caching for Trivy
         uses: actions/cache@v2.1.4
@@ -69,13 +69,13 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          input: /github/workspace/${{ matrix.image }}-${{ env.GITHUB_SHA }}.tar.gz
+          input: /github/workspace/${{ matrix.dockerfile }}-${{ env.GITHUB_SHA }}.tar.gz
           format: "sarif"
           output: "trivy-results.sarif"
           severity: "CRITICAL,HIGH"
           ignore-unfixed: true
           cache-dir: .trivy
-          timeout: 20m0s
+          timeout: 30m0s
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
