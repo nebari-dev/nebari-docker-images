@@ -30,8 +30,8 @@ jobs:
       matrix:
         dockerfile:
           - jupyterlab
-          # - jupyterhub
-          # - dask-worker
+          - jupyterhub
+          - dask-worker
 
     steps:
       - name: Checkout Repository
@@ -47,42 +47,3 @@ jobs:
       - name: Build Image
         run: |
           docker build -t ${DOCKER_ORG}/${{ matrix.dockerfile }}:${{ env.GITHUB_SHA }} -f Dockerfile.${{ matrix.dockerfile }} .
-
-      - name: Save Image
-        run: |
-          docker save ${DOCKER_ORG}/${{ matrix.dockerfile }}:${{ env.GITHUB_SHA }} | gzip > ${{ matrix.dockerfile }}-${{ env.GITHUB_SHA }}.tar.gz
-
-      - name: Upload Image as Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: ${{ matrix.dockerfile }}
-          path: ${{ matrix.dockerfile }}-${{ env.GITHUB_SHA }}.tar.gz
-
-      - name: Enable caching for Trivy
-        uses: actions/cache@v2.1.4
-        with:
-          path: .trivy
-          key: ${{ runner.os }}-trivy-${{ github.run_id }}
-          restore-keys: |
-            ${{ runner.os }}-trivy-
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          input: /github/workspace/${{ matrix.dockerfile }}-${{ env.GITHUB_SHA }}.tar.gz
-          format: "sarif"
-          output: "trivy-results.sarif"
-          severity: "CRITICAL,HIGH"
-          ignore-unfixed: true
-          cache-dir: .trivy
-          security-checks: vuln
-          timeout: 30m0s
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        if: always()
-        with:
-          sarif_file: "trivy-results.sarif"
-
-      - name: Correct Trivy cache permissions
-        run: sudo chown -R $USER:$GROUP .trivy
