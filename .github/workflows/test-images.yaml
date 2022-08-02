@@ -1,17 +1,6 @@
 name: Test Images
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "Dockerfile.*"
-      - "dask-worker"
-      - "jupyterhub"
-      - "jupyterlab"
-      - ".github/workflows/build-push-docker.yaml"
-    tags:
-      - "*"
   pull_request:
     paths:
       - "Dockerfile.*"
@@ -19,8 +8,9 @@ on:
       - "jupyterhub"
       - "jupyterlab"
       - ".github/workflows/build-push-docker.yaml"
+
 env:
-  DOCKER_ORG: nebari-dev
+  DOCKER_ORG: nebari
   GITHUB_SHA: ${{ github.sha }}
 
 jobs:
