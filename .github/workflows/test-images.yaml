@@ -4,9 +4,9 @@ on:
   pull_request:
     paths:
       - "Dockerfile.*"
-      - "dask-worker"
-      - "jupyterhub"
-      - "jupyterlab"
+      - "dask-worker/*"
+      - "jupyterhub/*"
+      - "jupyterlab/*"
       - ".github/workflows/build-push-docker.yaml"
 
 env:
