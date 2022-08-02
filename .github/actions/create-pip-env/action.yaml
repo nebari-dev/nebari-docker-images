@@ -1,4 +1,4 @@
-name: Build environment
+name: Build dev environment
 description: Build runner environment
 
 inputs:
