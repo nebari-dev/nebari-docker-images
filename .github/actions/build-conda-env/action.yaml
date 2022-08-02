@@ -39,20 +39,41 @@ runs:
         echo ::set-output name=environment-name::$(grep name ${{ inputs.environment-path }} | awk '{ print $2}' )
       shell: bash
 
+    - name: Cache conda
+      uses: actions/cache@v2
+      env:
+        # Increase this value to reset cache if etc/example-environment.yml has not changed
+        CACHE_NUMBER: 0
+      with:
+        path: ~/conda_pkgs_dir
+        key:
+          ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
+          hashFiles('${{ inputs.environment-path }}') }}
+
     # Run only if `source-path`files were changed
     - name: Build Conda environment with Micromamba
       if: steps.filter.outputs.source == 'true'
-      uses: mamba-org/provision-with-micromamba@main
+      uses: conda-incubator/setup-miniconda@v2
       with:
-          environment-file: ${{ inputs.environment-path }}
-          cache-downloads: true
-          environment-name: build-${{ steps.environment.outputs.environment-name }}
-          extra-specs: |
-            conda
+        python-version: 3.8
+        environment-file: ${{ inputs.environment-path }}
+        miniforge-variant: Mambaforge
+        miniforge-version: latest
+        use-mamba: true
+        activate-environment: ${{ steps.environment.outputs.environment-name }}
+        use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
 
-    # Dummy test step to validate env build status
-    - name: Run environment tests
-      if: steps.filter.outputs.source == 'true'
-      run: |
-        conda activate ${{ steps.environment.outputs.environment-name }}
-      shell: bash -l {0}
+      # uses: mamba-org/provision-with-micromamba@main
+      # with:
+      #     environment-file: ${{ inputs.environment-path }}
+      #     cache-downloads: true
+      #     environment-name: build-${{ steps.environment.outputs.environment-name }}
+
+    # # Dummy test step to validate env build status
+    # - name: Run environment tests
+    #   if: steps.filter.outputs.source == 'true'
+    #   run: |
+    #     source /home/runner/micromamba-root//home/runner/micromamba-root/etc/profile.d/micromamba.sh
+
+    #     conda activate build-${{ steps.environment.outputs.environment-name }}
+    #   shell: bash -l {0}
