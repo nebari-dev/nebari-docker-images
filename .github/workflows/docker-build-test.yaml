@@ -9,7 +9,9 @@ on:
       # https://docs.github.com/en/actions/using-workflows/reusing-workflows
       - ".github/actions/build-artifact-upload/**"
       - ".github/actions/load-image/**"
-      - ".github/actions/create-env-run/**"
+      - ".github/actions/create-pip-env/**"
+      - ".github/actions/build-conda-env/**"
+      - ".github/actions/lint-docker-files/**"
 
       - "dask-worker/**"
       - "jupyterlab/**"
@@ -22,7 +24,9 @@ on:
 
       - ".github/actions/build-artifact-upload/**"
       - ".github/actions/load-image/**"
-      - ".github/actions/create-env-run/**"
+      - ".github/actions/create-pip-env/**"
+      - ".github/actions/build-conda-env/**"
+      - ".github/actions/lint-docker-files/**"
 
       - "dask-worker/**"
       - "jupyterlab/**"
@@ -42,7 +46,7 @@ concurrency:
 jobs:
   lint-docker-files:
     if: github.event.pull_request.merged == false
-    name: 'Build & test Docker Images'
+    name: 'Lint Docker files'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -57,11 +61,11 @@ jobs:
       - name: Lint docker file
         uses: ./.github/actions/lint-docker-files
         with:
-          file-path: ${{ matrix.image }}/Dockerfile.${{ matrix.image }}
+          file-path: "${{ matrix.image }}/Dockerfile.${{ matrix.image }}"
 
   validate-conda-environment:
     if: github.event.pull_request.merged == false
-    name: 'Build & test Docker Images'
+    name: 'Build & validate conda environment'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -96,19 +100,17 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Dev environment 📦
-        uses: ./.github/actions/create-env-run
+        uses: ./.github/actions/create-pip-env
         with:
           python-version: 3.8
 
-      # - name: build-amd64
-      #   uses: ./.github/actions/build-artifact-upload
-      #   with:
-      #     dockerFile: Dockerfile.${{ matrix.image }}
-      #     image: ${{ matrix.image }}
-      #     platform: amd64
+      - name: Linux-amd64
+        uses: ./.github/actions/build-artifact-upload
+        with:
+          dockerFile: Dockerfile.${{ matrix.image }}
+          image: ${{ matrix.image }}
+          platform: amd64
 
-      # - name: load-image amd64
-      #   uses: ./.github/actions/load-image
-      #   with:
-      #     image: ${{ matrix.image }}
-      #     platform: amd64
+      # - name: Run tests ✅
+      #   run: python3 -m tests.run_tests --short-image-name ${{ matrix.image }}
+      #   shell: bash

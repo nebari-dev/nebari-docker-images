@@ -27,7 +27,7 @@ runs:
     - name: Terminate if file not updated
       if: steps.filter.outputs.source == 'false'
       run: |
-        echo "No changes detected, skipping build"
+        echo -e "\e[1;32m No changes detected, skipping build \e[0m \u2705"
         exit 0
       shell: bash
 
@@ -36,6 +36,6 @@ runs:
       if: steps.filter.outputs.source == 'true'
       uses: jbergstroem/hadolint-gh-action@v1
       with:
-        dockerfile: Dockerfile.${{ matrix.dockerfile }}
+        dockerfile: ${{ inputs.file-path }}
         output_format: tty
         error_level: 0
