@@ -1,0 +1,39 @@
+name: Test Images
+
+on:
+  pull_request:
+    paths:
+      - "Dockerfile.*"
+      - "dask-worker"
+      - "jupyterhub"
+      - "jupyterlab"
+      - ".github/workflows/build-push-docker.yaml"
+
+env:
+  DOCKER_ORG: nebari
+  GITHUB_SHA: ${{ github.sha }}
+
+jobs:
+  build-test-images:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dockerfile:
+          - jupyterlab
+          - jupyterhub
+          - dask-worker
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Lint Dockerfiles
+        uses: jbergstroem/hadolint-gh-action@v1
+        with:
+          dockerfile: Dockerfile.${{ matrix.dockerfile }}
+          output_format: tty
+          error_level: 0
+
+      - name: Build Image
+        run: |
+          docker build -t ${DOCKER_ORG}/${{ matrix.dockerfile }}:${{ env.GITHUB_SHA }} -f Dockerfile.${{ matrix.dockerfile }} .
