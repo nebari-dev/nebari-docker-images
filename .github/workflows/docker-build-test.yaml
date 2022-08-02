@@ -61,7 +61,7 @@ jobs:
       - name: Lint docker file
         uses: ./.github/actions/lint-docker-files
         with:
-          file-path: ${{ matrix.image }}/Dockerfile.${{ matrix.image }}
+          file-path: "${{ matrix.image }}/Dockerfile.${{ matrix.image }}"
 
   validate-conda-environment:
     if: github.event.pull_request.merged == false
