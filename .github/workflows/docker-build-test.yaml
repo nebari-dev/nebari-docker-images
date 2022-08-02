@@ -7,8 +7,9 @@ on:
 
       # We use local reusable workflows to make architecture clean an simple
       # https://docs.github.com/en/actions/using-workflows/reusing-workflows
-      - ".github/actions/build-artifact-upload.yaml"
-      - ".github/actions/load-image.yaml"
+      - ".github/actions/build-artifact-upload/**"
+      - ".github/actions/load-image/**"
+      - ".github/actions/create-env-run/**"
 
       - "dask-worker/**"
       - "jupyterlab/**"
@@ -19,8 +20,9 @@ on:
     paths:
       - ".github/workflows/docker-build-test.yaml"
 
-      - ".github/actions/build-artifact-upload.yaml"
-      - ".github/actions/load-image.yaml"
+      - ".github/actions/build-artifact-upload/**"
+      - ".github/actions/load-image/**"
+      - ".github/actions/create-env-run/**"
 
       - "dask-worker/**"
       - "jupyterlab/**"
