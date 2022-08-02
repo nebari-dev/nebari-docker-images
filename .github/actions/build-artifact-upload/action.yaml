@@ -45,7 +45,7 @@ runs:
 
     - name: Build image 🛠
       run: |
-        docker build --rm --force-rm --tag nebari/${{ steps.tag.outputs.created }} ${{ inputs.image }}/${{ inputs.dockerFile }}
+        docker build --rm --force-rm --tag nebari/${{ steps.tag.outputs.created }} -f ./${{ inputs.image }}/${{ inputs.dockerFile }} .
       env:
         DOCKER_BUILDKIT: 1
         # Full logs for CI build

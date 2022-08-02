@@ -64,7 +64,7 @@ jobs:
       - name: amd64
         uses: ./.github/actions/build-artifact-upload
         with:
-          dockerFile: ./${{ matrix.image }}/Dockerfile.${{ matrix.image }}
+          dockerFile: Dockerfile.${{ matrix.image }}
           image: ${{ matrix.image }}
           platform: amd64
 
