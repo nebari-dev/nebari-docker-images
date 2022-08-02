@@ -31,14 +31,6 @@ runs:
         exit 0
       shell: bash
 
-    # Run only if `source-path`files were changed
-    - name: Build Conda environment with Micromamba
-      if: steps.filter.outputs.source == 'true'
-      uses: mamba-org/provision-with-micromamba@main
-      with:
-          environment-file: ${{ inputs.environment-path }}
-          cache-downloads: true
-
     - name: Get environment name from file
       if: steps.filter.outputs.source == 'true'
       id: environment
@@ -47,9 +39,20 @@ runs:
         echo ::set-output name=environment-name::$(grep name ${{ inputs.environment-path }} | awk '{ print $2}' )
       shell: bash
 
+    # Run only if `source-path`files were changed
+    - name: Build Conda environment with Micromamba
+      if: steps.filter.outputs.source == 'true'
+      uses: mamba-org/provision-with-micromamba@main
+      with:
+          environment-file: ${{ inputs.environment-path }}
+          cache-downloads: true
+          environment-name: build-${{ steps.environment.outputs.environment-name }}
+          extra-specs: |
+            conda
+
     # Dummy test step to validate env build status
     - name: Run environment tests
       if: steps.filter.outputs.source == 'true'
       run: |
-        conda activate {{ steps.environment.outputs.environment-name }}
-      shell: bash
+        conda activate ${{ steps.environment.outputs.environment-name }}
+      shell: bash -l {0}
