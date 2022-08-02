@@ -52,5 +52,5 @@ runs:
     - name: Run environment tests
       if: steps.filter.outputs.source == 'true'
       run: |
-        conda activate {{ steps.environment.outputs.environment-name }}
+        mamba activate {{ steps.environment.outputs.environment-name }}
       shell: bash -l {0}
