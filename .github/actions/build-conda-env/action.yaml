@@ -46,7 +46,7 @@ runs:
       with:
           environment-file: ${{ inputs.environment-path }}
           cache-downloads: true
-          evironment-name: build-${{ steps.environment.outputs.environment-name }}
+          environment-name: build-${{ steps.environment.outputs.environment-name }}
 
     # Dummy test step to validate env build status
     - name: Run environment tests
