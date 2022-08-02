@@ -1,0 +1,41 @@
+name: Linter for Dockerfiles
+description: Linter for modified docker files
+
+inputs:
+  file-path:
+    description: Source path to docker image
+    required: true
+    type: string
+
+outputs:
+  status:
+    description: Linter status
+    value: ${{ steps.filter.outputs.value }}
+
+runs:
+  using: composite
+
+  steps:
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          source:
+            - '${{ inputs.file-path }}'
+
+    # Run only if docker files weren't changed
+    - name: Terminate if file not updated
+      if: steps.filter.outputs.source == 'false'
+      run: |
+        echo "No changes detected, skipping build"
+        exit 0
+      shell: bash
+
+    # Run only if docker files were changed
+    - name: Lint Dockerfiles
+      if: steps.filter.outputs.source == 'true'
+      uses: jbergstroem/hadolint-gh-action@v1
+      with:
+        dockerfile: Dockerfile.${{ matrix.dockerfile }}
+        output_format: tty
+        error_level: 0
