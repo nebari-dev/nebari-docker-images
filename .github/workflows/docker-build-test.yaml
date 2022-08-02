@@ -104,15 +104,13 @@ jobs:
         with:
           python-version: 3.8
 
-      # - name: build-amd64
-      #   uses: ./.github/actions/build-artifact-upload
-      #   with:
-      #     dockerFile: Dockerfile.${{ matrix.image }}
-      #     image: ${{ matrix.image }}
-      #     platform: amd64
+      - name: Linux-amd64
+        uses: ./.github/actions/build-artifact-upload
+        with:
+          dockerFile: Dockerfile.${{ matrix.image }}
+          image: ${{ matrix.image }}
+          platform: amd64
 
-      # - name: load-image amd64
-      #   uses: ./.github/actions/load-image
-      #   with:
-      #     image: ${{ matrix.image }}
-      #     platform: amd64
+      # - name: Run tests ✅
+      #   run: python3 -m tests.run_tests --short-image-name ${{ matrix.image }}
+      #   shell: bash
