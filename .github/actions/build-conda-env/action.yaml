@@ -40,6 +40,7 @@ runs:
           cache-downloads: true
 
     - name: Get environment name from file
+      if: steps.filter.outputs.source == 'true'
       id: environment
       run: |
         echo "Getting environment name from file"
@@ -48,6 +49,7 @@ runs:
 
     # Dummy test step to validate env build status
     - name: Run environment tests
+      if: steps.filter.outputs.source == 'true'
       run: |
         conda activate {{ steps.environment.outputs.environment-name }}
       shell: bash
