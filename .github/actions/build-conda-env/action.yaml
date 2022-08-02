@@ -53,4 +53,4 @@ runs:
       if: steps.filter.outputs.source == 'true'
       run: |
         conda activate {{ steps.environment.outputs.environment-name }}
-      shell: bash
+      shell: bash -l {0}
