@@ -46,7 +46,7 @@ concurrency:
 jobs:
   lint-docker-files:
     if: github.event.pull_request.merged == false
-    name: 'Build & test Docker Images'
+    name: 'Lint Docker files'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -65,7 +65,7 @@ jobs:
 
   validate-conda-environment:
     if: github.event.pull_request.merged == false
-    name: 'Build & test Docker Images'
+    name: 'Build & validate conda environment'
     runs-on: ubuntu-latest
     strategy:
       matrix:
