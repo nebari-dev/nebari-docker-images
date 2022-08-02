@@ -35,7 +35,9 @@ runs:
     #     platform: ${{ inputs.platform }}
     - name: Set dev image tag ⌛
       id: tag
-      run: echo ::set-output name=created::${{ inputs.image }}-$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+      run: |
+        echo ::set-output name=created::${{ inputs.image }}-$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+      shell: bash
 
     - name: Build image 🛠
       run: |
