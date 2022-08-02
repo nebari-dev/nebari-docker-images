@@ -9,9 +9,9 @@ on:
       - main
     paths:
       - "Dockerfile.*"
-      - "dask-worker"
-      - "jupyterhub"
-      - "jupyterlab"
+      - "dask-worker/*"
+      - "jupyterhub/*"
+      - "jupyterlab/*"
       - ".github/workflows/build-push-docker.yaml"
     tags:
       - "*"
