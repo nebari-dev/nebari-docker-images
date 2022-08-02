@@ -1,0 +1,53 @@
+name: Build conda environment & test
+description: Builds conda environment for the docker images
+
+inputs:
+  environment-path:
+    description: Source path to environment file
+    required: true
+    type: string
+
+outputs:
+  status:
+    description: Validate if the environment is valid
+    value: ${{ steps.filter.outputs.value }}
+
+runs:
+  using: composite
+
+  steps:
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          source:
+            - '${{ inputs.environment-path }}'
+
+    # Run only if `source-path`files weren't changed
+    - name: Terminate if file not updated
+      if: steps.filter.outputs.source == 'false'
+      run: |
+        echo "No changes detected, skipping build"
+        exit 0
+      shell: bash
+
+    # Run only if `source-path`files were changed
+    - name: Build Conda environment with Micromamba
+      if: steps.filter.outputs.source == 'true'
+      uses: mamba-org/provision-with-micromamba@main
+      with:
+          environment-file: ${{ inputs.environment-path }}
+          cache-downloads: true
+
+    - name: Get environment name from file
+      id: environment
+      run: |
+        echo "Getting environment name from file"
+        echo ::set-output name=environment-name::$(grep name ${{ inputs.environment-path }} | awk '{ print $2}' )
+      shell: bash
+
+    # Dummy test step to validate env build status
+    - name: Run environment tests
+      run: |
+        conda activate {{ steps.environment.outputs.environment-name }}
+      shell: bash

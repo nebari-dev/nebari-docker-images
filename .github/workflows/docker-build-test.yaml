@@ -40,11 +40,50 @@ concurrency:
 
 
 jobs:
+  lint-docker-files:
+    if: github.event.pull_request.merged == false
+    name: 'Build & test Docker Images'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - jupyterlab
+          - jupyterhub
+          - dask-worker
+    steps:
+      - name: Checkout Infrastructure ⚡️
+        uses: actions/checkout@v3
+
+      - name: Lint docker file
+        uses: ./.github/actions/lint-docker-files
+        with:
+          file-path: ${{ matrix.image }}/Dockerfile.${{ matrix.image }}
+
+  validate-conda-environment:
+    if: github.event.pull_request.merged == false
+    name: 'Build & test Docker Images'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - jupyterlab
+          - jupyterhub
+          - dask-worker
+    steps:
+      - name: Checkout Infrastructure ⚡️
+        uses: actions/checkout@v3
+
+      - name: Build environment
+        uses: ./.github/actions/build-conda-env
+        with:
+          environment-path: ${{ matrix.image }}/environment.yaml
+
   docker-build-test:
     # Avoid running the pipeline twice, if the PR is already merged
     if: github.event.pull_request.merged == false
     name: 'Build & test Docker Images'
     runs-on: ubuntu-latest
+    needs: [lint-docker-files, validate-conda-environment]
     strategy:
       matrix:
         image:
@@ -61,16 +100,15 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: amd64
-        uses: ./.github/actions/build-artifact-upload
-        with:
-          dockerFile: Dockerfile.${{ matrix.image }}
-          image: ${{ matrix.image }}
-          platform: amd64
+      # - name: build-amd64
+      #   uses: ./.github/actions/build-artifact-upload
+      #   with:
+      #     dockerFile: Dockerfile.${{ matrix.image }}
+      #     image: ${{ matrix.image }}
+      #     platform: amd64
 
-      - name: load-image amd64
-        uses: ./.github/actions/load-image
-        with:
-          image: ${{ matrix.image }}
-          platform: amd64
-
+      # - name: load-image amd64
+      #   uses: ./.github/actions/load-image
+      #   with:
+      #     image: ${{ matrix.image }}
+      #     platform: amd64
