@@ -47,6 +47,8 @@ runs:
           environment-file: ${{ inputs.environment-path }}
           cache-downloads: true
           environment-name: build-${{ steps.environment.outputs.environment-name }}
+          extra-specs: |
+            conda
 
     # Dummy test step to validate env build status
     - name: Run environment tests
