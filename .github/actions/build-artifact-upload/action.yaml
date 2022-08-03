@@ -16,11 +16,6 @@ inputs:
     default: amd64
     type: string
 
-outputs:
-  status:
-    description: Linter status
-    value: ${{ steps.filter.outputs.value }}
-
 runs:
   using: composite
   steps:
@@ -34,24 +29,6 @@ runs:
     #     platform: ${{ inputs.platform }}
     # ${DOCKER_ORG}/${{ matrix.dockerfile }}:${{ env.GITHUB_SHA }}
 
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        # Detect changes against the most recent commit on the same branch before the push
-        base: ${{ github.ref }}
-        filters: |
-          source:
-            - '${{ inputs.image }}/${{ inputs.dockerFile }}'
-
-
-    # Run only if docker files weren't changed
-    - name: Terminate if file not updated
-      if: steps.filter.outputs.source == 'false'
-      run: |
-        echo -e "\e[1;32m No changes detected, skipping build \e[0m \u2705"
-        exit 0
-      shell: bash
-
     - name: Set dev image tag ⌛
       id: tag
       run: |
@@ -61,7 +38,6 @@ runs:
 
     # Run only if docker files were changed
     - name: Build image 🛠
-      if: steps.filter.outputs.source == 'true'
       run: |
         docker build --rm --force-rm --tag nebari/${{ steps.tag.outputs.created }} -f ./${{ inputs.image }}/${{ inputs.dockerFile }} .
       env:
@@ -71,12 +47,11 @@ runs:
       shell: bash
 
     - name: Save image as a tar for later use 💾
-      if: steps.filter.outputs.source == 'true' && success()
       run: docker save nebari/${{ steps.tag.outputs.created }} -o /tmp/${{ inputs.image }}-${{ inputs.platform }}.tar
       shell: bash
 
     - name: Upload image as artifact 💾
-      if: steps.filter.outputs.source == 'true' && success()
+      if: success()
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.image }}-${{ inputs.platform }}

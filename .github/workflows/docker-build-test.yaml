@@ -78,13 +78,14 @@ jobs:
         uses: actions/checkout@v3
 
       - uses: dorny/paths-filter@v2
-        id: filter
         with:
           # Detect changes against the most recent commit on the same branch before the push
           base: ${{ github.ref }}
           filters: |
             source:
               - '${{ matrix.image }}/environment.yaml'
+        id: filter
+
 
       # Run only if `source-path`files weren't changed
       - name: Terminate if file not updated
@@ -100,6 +101,7 @@ jobs:
         uses: ./.github/actions/build-conda-env
         with:
           environment-path: ${{ matrix.image }}/environment.yaml
+
 
   docker-build-test:
     # Avoid running the pipeline twice, if the PR is already merged
@@ -123,7 +125,28 @@ jobs:
         with:
           python-version: 3.8
 
+      - uses: dorny/paths-filter@v2
+        with:
+          # Detect changes against the most recent commit on the same branch before the push
+          base: ${{ github.ref }}
+          filters: |
+            source:
+              - 'scripts/**'
+              - '${{ matrix.image }}/**'
+        id: filter
+
+
+      # Run only if docker files weren't changed
+      - name: Terminate if file not updated
+        if: steps.filter.outputs.source == 'false'
+        run: |
+          echo -e "\e[1;32m No changes detected, skipping build \e[0m \u2705"
+          exit 0
+        shell: bash
+
+      # Run only if docker files changed
       - name: Linux-amd64
+        if: steps.filter.outputs.source == 'true'
         uses: ./.github/actions/build-artifact-upload
         with:
           dockerFile: Dockerfile.${{ matrix.image }}
