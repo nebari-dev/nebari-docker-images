@@ -51,3 +51,5 @@ RUN /opt/jupyterlab/postBuild
 ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib64
 ENV NVIDIA_PATH=/usr/local/nvidia/bin
 ENV PATH="$NVIDIA_PATH:$PATH"
+
+RUN echo "Trivial changes"

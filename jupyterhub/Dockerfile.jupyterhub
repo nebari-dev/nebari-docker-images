@@ -30,3 +30,5 @@ WORKDIR /srv/jupyterhub
 RUN fix-permissions /srv/jupyterhub
 
 CMD ["jupyterhub", "--config", "/usr/local/etc/jupyterhub/jupyterhub_config.py"]
+
+RUN echo "Trivial changes"

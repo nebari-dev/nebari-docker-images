@@ -29,3 +29,5 @@ ENV PATH="$NVIDIA_PATH:$PATH"
 
 COPY dask-worker /opt/dask-worker
 RUN /opt/dask-worker/postBuild
+
+RUN echo "Trivial changes"
