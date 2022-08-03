@@ -13,6 +13,9 @@ on:
 env:
   DOCKER_ORG: nebari
   GITHUB_SHA: ${{ github.sha }}
+  GPU_BASE_IMAGE: nvidia/cuda:11.7.0-base-ubuntu20.04
+  GPU_IMAGE_SUFFIX: gpu
+  BASE_IMAGE: ubuntu:20.04
 
 jobs:
   build-test-images:
@@ -23,7 +26,13 @@ jobs:
           - jupyterlab
           - jupyterhub
           - dask-worker
-
+        platform:
+          - gpu
+          - cpu
+        exclude:
+          # excludes JupyterHub/GPU
+          - dockerfile: jupyterhub
+            platform: gpu
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -35,6 +44,15 @@ jobs:
           output_format: tty
           error_level: 0
 
+      - name: "Set BASE_IMAGE and Image Suffix 📷"
+        if: ${{ matrix.platform == 'gpu' }}
+        run: |
+          echo "GPU Platform Matrix"
+          echo "BASE_IMAGE=$GPU_BASE_IMAGE" >> $GITHUB_ENV
+          echo "IMAGE_SUFFIX=-$GPU_IMAGE_SUFFIX" >> $GITHUB_ENV
+
       - name: Build Image
         run: |
-          docker build -t ${DOCKER_ORG}/${{ matrix.dockerfile }}:${{ env.GITHUB_SHA }} -f Dockerfile.${{ matrix.dockerfile }} .
+          docker build -t ${DOCKER_ORG}/${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}:${{ env.GITHUB_SHA }} \
+          --build-arg BASE_IMAGE=$BASE_IMAGE \
+          -f Dockerfile.${{ matrix.dockerfile }} .
