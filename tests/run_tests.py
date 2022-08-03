@@ -57,6 +57,8 @@ if __name__ == "__main__":
         help="Specify if the logs should be retained as CI artifacts",
     )
 
+    args = arg_parser.parse_args()
+
     # Run tests based on the image name
     run_test(
         image_name = args.image_name,
