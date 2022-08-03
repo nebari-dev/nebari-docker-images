@@ -159,6 +159,6 @@ jobs:
           image: ${{ matrix.image }}
           platform: amd64
 
-      # - name: Run tests ✅
-      #   run: python3 -m tests.run_tests --short-image-name ${{ matrix.image }}
-      #   shell: bash
+      - name: Run tests ✅
+        run: python3 -m tests.run_tests --image-name ${{ matrix.image }}
+        shell: bash
