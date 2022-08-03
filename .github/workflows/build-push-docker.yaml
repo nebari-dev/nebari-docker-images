@@ -12,6 +12,7 @@ on:
       - "dask-worker/*"
       - "jupyterhub/*"
       - "jupyterlab/*"
+      - "scripts/*"
       - ".github/workflows/build-push-docker.yaml"
     tags:
       - "*"
