@@ -6,74 +6,43 @@ inputs:
     description: Source path to environment file
     required: true
     type: string
-
-outputs:
-  status:
-    description: Validate if the environment is valid
-    value: ${{ steps.filter.outputs.value }}
+  # Increase this value to reset cache manually
+  cache-number:
+    description: Number add to the cache key name
+    required: false
+    default: 0
+    type: string
 
 runs:
   using: composite
 
   steps:
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          source:
-            - '${{ inputs.environment-path }}'
-
-    # Run only if `source-path`files weren't changed
-    - name: Terminate if file not updated
-      if: steps.filter.outputs.source == 'false'
-      run: |
-        echo -e "\e[1;32m No changes detected, skipping build \e[0m \u2705"
-        exit 0
-      shell: bash
-
     - name: Get environment name from file
-      if: steps.filter.outputs.source == 'true'
       id: environment
       run: |
         echo "Getting environment name from file"
         echo ::set-output name=environment-name::$(grep name ${{ inputs.environment-path }} | awk '{ print $2}' )
       shell: bash
 
-    - name: Cache conda
-      uses: actions/cache@v2
-      env:
-        # Increase this value to reset cache if etc/example-environment.yml has not changed
-        CACHE_NUMBER: 0
+    - name: Set cache date
+      run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+      shell: bash
+
+    # Cache action can't be modularized as a custom action, so we need to run it explicitly
+    - uses: actions/cache@v3
       with:
         path: ~/conda_pkgs_dir
-        key:
-          ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
-          hashFiles('${{ inputs.environment-path }}') }}
+        key: ${{ runner.os }}-conda-${{ steps.environment.outputs.environment-name }}-${{ env.DATE }}-${{ inputs.cache-number }}
 
-    # Run only if `source-path`files were changed
-    - name: Build Conda environment with Micromamba
-      if: steps.filter.outputs.source == 'true'
+    - name: Setup Mambaforge
       uses: conda-incubator/setup-miniconda@v2
       with:
-        python-version: 3.8
-        environment-file: ${{ inputs.environment-path }}
         miniforge-variant: Mambaforge
         miniforge-version: latest
         use-mamba: true
         activate-environment: ${{ steps.environment.outputs.environment-name }}
-        use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
 
-      # uses: mamba-org/provision-with-micromamba@main
-      # with:
-      #     environment-file: ${{ inputs.environment-path }}
-      #     cache-downloads: true
-      #     environment-name: build-${{ steps.environment.outputs.environment-name }}
-
-    # # Dummy test step to validate env build status
-    # - name: Run environment tests
-    #   if: steps.filter.outputs.source == 'true'
-    #   run: |
-    #     source /home/runner/micromamba-root//home/runner/micromamba-root/etc/profile.d/micromamba.sh
-
-    #     conda activate build-${{ steps.environment.outputs.environment-name }}
-    #   shell: bash -l {0}
+    # Update the environment according to its environment file, using cached dependencies if available
+    - name: Setup Mambaforge
+      run: mamba env update -n ${{ steps.environment.outputs.environment-name }} -f ${{ inputs.environment-path }}
+      shell: bash -l {0}

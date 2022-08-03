@@ -19,6 +19,8 @@ runs:
     - uses: dorny/paths-filter@v2
       id: filter
       with:
+        # Detect changes against the most recent commit on the same branch before the push
+        base: ${{ github.ref }}
         filters: |
           source:
             - '${{ inputs.file-path }}'

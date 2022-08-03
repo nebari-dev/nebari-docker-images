@@ -77,7 +77,26 @@ jobs:
       - name: Checkout Infrastructure ⚡️
         uses: actions/checkout@v3
 
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          # Detect changes against the most recent commit on the same branch before the push
+          base: ${{ github.ref }}
+          filters: |
+            source:
+              - '${{ matrix.image }}/environment.yaml'
+
+      # Run only if `source-path`files weren't changed
+      - name: Terminate if file not updated
+        if: steps.filter.outputs.source == 'false'
+        run: |
+          echo -e "\e[1;32m No changes detected, skipping build \e[0m \u2705"
+          exit 0
+        shell: bash
+
+      # Run only if `source-path`files were changed
       - name: Build environment
+        if: steps.filter.outputs.source == 'true'
         uses: ./.github/actions/build-conda-env
         with:
           environment-path: ${{ matrix.image }}/environment.yaml
