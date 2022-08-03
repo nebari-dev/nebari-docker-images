@@ -46,7 +46,7 @@ if __name__ == "__main__":
     arg_parser.add_argument(
         "--timeout",
         required=False,
-        default=1600
+        default=1600,
         help="Specify the timeout for the test",
     )
 
@@ -56,8 +56,6 @@ if __name__ == "__main__":
         default=False,
         help="Specify if the logs should be retained as CI artifacts",
     )
-
-    args = arg_parser.parse_args()
 
     # Run tests based on the image name
     run_test(
