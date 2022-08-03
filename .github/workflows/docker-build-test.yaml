@@ -160,5 +160,6 @@ jobs:
           platform: amd64
 
       - name: Run tests ✅
+        if: steps.filter.outputs.source == 'true'
         run: python3 -m tests.run_tests --image-name ${{ matrix.image }}
         shell: bash
