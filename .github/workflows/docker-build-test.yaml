@@ -17,6 +17,7 @@ on:
       - "jupyterlab/**"
       - "jupyterhub/**"
       - "scripts/**"
+      - "tests/**"
 
   push:
     paths:
@@ -32,6 +33,7 @@ on:
       - "jupyterlab/**"
       - "jupyterhub/**"
       - "scripts/**"
+      - "tests/**"
 
   workflow_dispatch:
 
@@ -143,7 +145,7 @@ jobs:
 
 
       # Run only if docker files weren't changed
-      - name: Terminate if file not updated
+      - name: Terminate if file not updated 🚧
         if: steps.filter.outputs.source == 'false'
         run: |
           echo -e "\e[1;32m No changes detected, skipping build \e[0m \u2705"
@@ -151,7 +153,7 @@ jobs:
         shell: bash
 
       # Run only if docker files changed
-      - name: Linux-amd64
+      - name: Linux-amd64 🚀
         if: steps.filter.outputs.source == 'true'
         uses: ./.github/actions/build-artifact-upload
         with:
