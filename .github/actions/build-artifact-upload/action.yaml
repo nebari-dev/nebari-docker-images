@@ -16,6 +16,7 @@ inputs:
     default: amd64
     type: string
 
+
 runs:
   using: composite
   steps:
@@ -36,30 +37,65 @@ runs:
         echo ::set-output name=created::"${{ inputs.image }}:$(date +%Y%m%d%H%M%S) "
       shell: bash
 
-    # Run only if docker files were changed
+    - name: Extract branch name
+      id: extract_branch
+      run: |
+        echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      shell: bash
+
+    - name: Set cache date
+      run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Set Docker cache 💾
+      id: cache-docker
+      uses: actions/cache@v3
+      with:
+        path: /tmp/docker-registry
+        key: ${{ inputs.image }}-${{ steps.extract_branch.outputs.branch }}-$GITHUB_SHA
+        restore-keys: ${{ inputs.image }}-${{ steps.extract_branch.outputs.branch }}-
+
+    - name: Run local registry 📦
+      run: |
+        echo "Running local Docker registry"
+        docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
+      shell: bash
+
     - name: Build image 🛠
       run: |
-        docker build --rm --force-rm --tag nebari/${{ steps.tag.outputs.created }} -f ./${{ inputs.image }}/${{ inputs.dockerFile }} .
+        docker build --rm --force-rm \
+          --build-arg BUILDKIT_INLINE_CACHE=1 \
+          --cache-from localhost:5000/${{ inputs.image }} \
+          --tag localhost:5000/${{ inputs.image }} \
+          -f ./${{ inputs.image }}/${{ inputs.dockerFile }} .
       env:
         DOCKER_BUILDKIT: 1
         # Full logs for CI build
         BUILDKIT_PROGRESS: plain
       shell: bash
 
-    - name: Save image as a tar for later use 💾
-      run: docker save nebari/${{ steps.tag.outputs.created }} -o /tmp/${{ inputs.image }}-${{ inputs.platform }}.tar
-      shell: bash
-
-    - name: Upload image as artifact 💾
-      if: success()
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ inputs.image }}-${{ inputs.platform }}
-        path: /tmp/${{ inputs.image }}-${{ inputs.platform }}.tar
-        retention-days: 3
-
-    - name: Cleanup artifacts 🗑️
+    - name: Push image to Local Registry 🚚
+      if: steps.cache.outputs.cache-hit != 'true'
       run: |
-        rm -f /tmp/${{ inputs.image }}-${{ inputs.platform }}.tar || true
+        echo "Pushing image to local registry"
+        docker push localhost:5000/${{ inputs.image}} || true
       shell: bash
-      if: always()
+
+
+    # - name: Save image as a tar for later use 💾
+    #   run: docker save nebari/${{ steps.tag.outputs.created }} -o /tmp/${{ inputs.image }}-${{ inputs.platform }}.tar
+    #   shell: bash
+
+    # - name: Upload image as artifact 💾
+    #   if: success()
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: ${{ inputs.image }}-${{ inputs.platform }}
+    #     path: /tmp/${{ inputs.image }}-${{ inputs.platform }}.tar
+    #     retention-days: 3
+
+    # - name: Cleanup artifacts 🗑️
+    #   run: |
+    #     rm -f /tmp/${{ inputs.image }}-${{ inputs.platform }}.tar || true
+    #   shell: bash
+    #   if: always()
