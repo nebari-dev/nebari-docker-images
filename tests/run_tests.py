@@ -7,7 +7,7 @@ import pytest
 _LOGGER = log.getLogger(__name__)
 
 
-def run_test(image: str, ex_timeout: str, retention_logs: list) -> NoReturn:
+def run_test(image_name: str, ex_timeout: str, retention_logs: list) -> NoReturn:
     """
     Runs a test module based on the provided image name.
 
@@ -20,14 +20,14 @@ def run_test(image: str, ex_timeout: str, retention_logs: list) -> NoReturn:
         Termination process code.
     """
 
-    _LOGGER.info(f"Testing image: {image}")
+    _LOGGER.info(f"Testing image: {image_name}")
 
     ret_code = pytest.main([
         "--numprocesses",
         "auto",
         "-m",
         "not info",
-        f"tests/{image}",
+        f"tests/{image_name}",
     ])
 
     return sys.exit(ret_code)
