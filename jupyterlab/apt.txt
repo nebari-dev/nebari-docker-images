@@ -15,6 +15,7 @@ unzip
 git
 openssh-client
 tmux
+xvfb
 
 # editors
 nano
