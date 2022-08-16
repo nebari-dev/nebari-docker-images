@@ -13,7 +13,7 @@ ENV MAMBAFORGE_VERSION 4.13.0-1
 ENV MAMBAFORGE_SHA256 412b79330e90e49cf7e39a7b6f4752970fcdb8eb54b1a45cc91afe6777e8518c
 SHELL ["/bin/bash", "-c"]
 ENV CONDA_DIR=/opt/conda \
-    DEFAULT_ENV=default
+    DEFAULT_ENV=global
 # Set timezone
 ENV TZ=America/Chicago
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
