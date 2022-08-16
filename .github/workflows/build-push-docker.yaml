@@ -16,9 +16,6 @@ on:
       - ".github/workflows/build-push-docker.yaml"
     tags:
       - "*"
-  pull_request:
-    paths:
-      - ".github/workflows/build-push-docker.yaml"
 
 env:
   DOCKER_ORG: nebari
