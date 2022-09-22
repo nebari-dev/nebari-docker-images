@@ -6,7 +6,7 @@ name: "Build Docker Images"
 on:
   push:
     branches:
-      - *
+      - main
     paths:
       - "Dockerfile.*"
       - "dask-worker/*"
@@ -16,6 +16,7 @@ on:
       - ".github/workflows/build-push-docker.yaml"
     tags:
       - "*"
+  pull_request:
 
 env:
   DOCKER_ORG: nebari
