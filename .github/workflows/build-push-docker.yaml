@@ -6,7 +6,7 @@ name: "Build Docker Images"
 on:
   push:
     branches:
-      - main
+      - *
     paths:
       - "Dockerfile.*"
       - "dask-worker/*"
