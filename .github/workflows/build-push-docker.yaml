@@ -4,7 +4,7 @@
 name: "Build Docker Images"
 
 on:
-  push:
+  pull_request:
     paths:
       - "Dockerfile.*"
       - "dask-worker/*"
@@ -12,8 +12,6 @@ on:
       - "jupyterlab/*"
       - "scripts/*"
       - ".github/workflows/build-push-docker.yaml"
-    tags:
-      - "*"
 
 env:
   DOCKER_ORG: nebari
