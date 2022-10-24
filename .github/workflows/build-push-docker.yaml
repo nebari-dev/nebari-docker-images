@@ -71,9 +71,9 @@ jobs:
       - name: "Set BASE_IMAGE and Image Suffix 📷"
         if: ${{ matrix.platform == 'gpu' }}
         run: |
-            echo "GPU Platform Matrix"
-            echo "BASE_IMAGE=$GPU_BASE_IMAGE" >> $GITHUB_ENV
-            echo "IMAGE_SUFFIX=-$GPU_IMAGE_SUFFIX" >> $GITHUB_ENV
+          echo "GPU Platform Matrix"
+          echo "BASE_IMAGE=$GPU_BASE_IMAGE" >> $GITHUB_ENV
+          echo "IMAGE_SUFFIX=-$GPU_IMAGE_SUFFIX" >> $GITHUB_ENV
 
       - name: "Generate Docker images tags 🏷️"
         id: meta
@@ -94,8 +94,7 @@ jobs:
 
       - name: "Set tag var 🏷️"
         id: var
-        run: echo ::set-output name=docker_tag::$(echo "${{ steps.meta.outputs.tags }}" | sed -n 1p)
-
+        run: echo "docker_tag=$(echo '${{ steps.meta.outputs.tags }}'' | sed -n 1p)"  >> $GITHUB_OUTPUT
 
       - name: "Build docker images 🐳"
         uses: docker/build-push-action@v3

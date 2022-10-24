@@ -1,3 +1,13 @@
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/nebari-dev/nebari-design/main/logo-mark/horizontal/Nebari-Logo-Horizontal-Lockup.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nebari-dev/nebari-design/main/logo-mark/horizontal/Nebari-Logo-Horizontal-Lockup-White-text.svg">
+  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://raw.githubusercontent.com/nebari-dev/nebari-design/main/logo-mark/horizontal/Nebari-Logo-Horizontal-Lockup-White-text.svg" width="50%"/>
+</picture>
+</p>
+
+---
+
 # Nebari base Docker images
 
 | Information | Links                                                                                                                                                                                                                                                                                                                                                                |
@@ -7,13 +17,13 @@
 | CI          | ![Build Docker Images - GitHub action status badge](https://github.com/nebari-dev/nebari-docker-images/actions/workflows/build-push-docker.yaml/badge.svg)                                                                                                                                                                                                           |
 
 - [Nebari base Docker images](#nebari-base-docker-images)
-  - [:zap: Getting started](#zap-getting-started)
-    - [:computer: Prerequisites](#computer-prerequisites)
-    - [:hammer_and_wrench: Building the Docker images](#hammer_and_wrench-building-the-docker-images)
-    - [:broom: Pre-commit hooks](#broom-pre-commit-hooks)
-  - [:pencil: Reporting an issue](#pencil-reporting-an-issue)
-  - [:raised_hands: Contributions](#raised_hands-contributions)
-  - [:page_facing_up: License](#page_facing_up-license)
+  - [Getting started ⚡️](#getting-started-️)
+    - [Prerequisites 💻](#prerequisites-)
+    - [Building the Docker images 🛠](#building-the-docker-images-)
+    - [Pre-commit hooks 🧹](#pre-commit-hooks-)
+  - [Reporting an issue 📝](#reporting-an-issue-)
+  - [Contributions 🤝](#contributions-)
+  - [License 📄](#license-)
 
 This repository contains the source code for Docker (container) images used by the [Nebari platform][nebari-docs]. It also contains an automated means of building and pushing these images to public container registries through [GitHub actions][nebari-docker-actions]. Currently, these images are built and pushed to the following registries:
 
@@ -29,43 +39,50 @@ This repository contains the source code for Docker (container) images used by t
 - [`nebari-jupyterhub`](https://quay.io/repository/nebari/nebari-jupyterhub)
 - [`nebari-dask-worker`](https://quay.io/repository/nebari/nebari-dask-worker)
 
-## :zap: Getting started
+## Getting started ⚡️
 
 Whether you want to contribute to this project or whether you wish use these images, to get started, fork this repo and then clone the forked repo onto your local machine.
 
-### :computer: Prerequisites
+### Prerequisites 💻
 
-Currently, the only prerequisite is that you have [`docker` installed](https://docs.docker.com/get-docker/) on your local machine.
+- [`docker`](https://docs.docker.com/get-docker/), make sure to read the [Docker official documentation on how to install Docker on your machine](https://docs.docker.com/get-docker/).
+- [pre-commit](https://pre-commit.com/), which can be installed with:
 
-### :hammer_and_wrench: Building the Docker images
+  ```bash
+  pip install pre-commit
+  # or using conda
+  conda install -c conda-forge pre-commit
+  ```
 
-Assuming you are in the repo's root folder, you can build these images locally by running the listed commands on your terminal.
+### Building the Docker images 🛠
+
+From the repository's root folder, you can build these images locally by running the listed commands on your terminal.
 
 - For [JupyterLab](Dockerfile.jupyterlab):
 
-```shell
-docker build -f Dockerfile.jupyterlab \
-    -t qhub-jupyterlab:latest .
-```
+  ```shell
+  docker build -f Dockerfile.jupyterlab \
+      -t qhub-jupyterlab:latest .
+  ```
 
 - For [JupyterHub](Dockerfile.jupyterhub):
 
-```shell
-docker build -f Dockerfile.dask-worker \
-    -t qhub-dask-worker:latest .
-```
+  ```shell
+  docker build -f Dockerfile.dask-worker \
+      -t qhub-dask-worker:latest .
+  ```
 
 - For [Dask-Worker](Dockerfile.dask-worker):
 
-```shell
-docker build -f Dockerfile.dask-gateway \
-    -t qhub-dask-gateway:latest .
-```
+  ```shell
+  docker build -f Dockerfile.dask-gateway \
+      -t qhub-dask-gateway:latest .
+  ```
 
 > **NOTE**
 > It is extremely important to pin specific packages `dask-gateway` and `distributed` as they need to run the same version for the `dask-workers` to work as expected.
 
-### :broom: Pre-commit hooks
+### Pre-commit hooks 🧹
 
 This repository uses the `prettier` pre-commit hook to standardize our YAML and markdown structure.
 To install and run it, use these commands from the repository root:
@@ -78,16 +95,16 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-## :pencil: Reporting an issue
+## Reporting an issue 📝
 
 If you encounter an issue or want to make suggestions on how we can make this project better, feel free to [open an issue on this repository's issue tracker](https://github.com/nebari-dev/nebari-docker-images/issues/new/choose).
 
-## :raised_hands: Contributions
+## Contributions 🤝
 
 Thinking about contributing to this repository or any other in the Nebari org? Check out our
-[Contribution Guidelines](https://github.com/nebari-dev/nebari/blob/main/CONTRIBUTING.md).
+[Contribution Guidelines](https://nebari.dev/community).
 
-## :page_facing_up: License
+## License 📄
 
 [Nebari is BSD3 licensed](LICENSE).
 

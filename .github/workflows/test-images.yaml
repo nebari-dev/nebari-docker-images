@@ -34,10 +34,10 @@ jobs:
           - dockerfile: jupyterhub
             platform: gpu
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repository 🛎
         uses: actions/checkout@v3
 
-      - name: Lint Dockerfiles
+      - name: Lint Dockerfiles 🔍
         uses: jbergstroem/hadolint-gh-action@v1
         with:
           dockerfile: Dockerfile.${{ matrix.dockerfile }}
@@ -51,7 +51,7 @@ jobs:
           echo "BASE_IMAGE=$GPU_BASE_IMAGE" >> $GITHUB_ENV
           echo "IMAGE_SUFFIX=-$GPU_IMAGE_SUFFIX" >> $GITHUB_ENV
 
-      - name: Build Image
+      - name: Build Image 🛠
         run: |
           docker build -t ${DOCKER_ORG}/${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}:${{ env.GITHUB_SHA }} \
           --build-arg BASE_IMAGE=$BASE_IMAGE \
