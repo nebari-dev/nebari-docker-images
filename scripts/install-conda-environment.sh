@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
+# Copyright (c) Nebari Development Team.
+# Distributed under the terms of the Modified BSD License.
+
 set -xe
-ENV_FILE="${1}"; shift # path to environment yaml or lock file
-NEW_ENV="${1}"; shift # true or false indicating whether env update should occur
+ENV_FILE="${1}"
+shift # path to environment yaml or lock file
+NEW_ENV="${1}"
+shift # true or false indicating whether env update should occur
 
 # Capture last optional arg or set a ENV_NAME. This can be changed but be
 # careful... setting the path for both the dockerfile and runtime container
@@ -9,7 +14,8 @@ NEW_ENV="${1}"; shift # true or false indicating whether env update should occur
 if [[ -z "${1+x}" ]] || [[ "${1}" == "" ]]; then
     ENV_NAME=default
 else
-    ENV_NAME="${1}"; shift
+    ENV_NAME="${1}"
+    shift
 fi
 
 # Set a default value for skipping the conda solve (using a lock file).
@@ -17,8 +23,8 @@ fi
 
 # ==== install conda dependencies ====
 
-if ! ${NEW_ENV};then
-    if [[ $(basename "${ENV_FILE}") =~ "*lock*" ]];then
+if ! ${NEW_ENV}; then
+    if [[ $(basename "${ENV_FILE}") =~ "*lock*" ]]; then
         echo "${ENV_FILE} should not be a lock file as this is not  supported when \
             only updating the conda environment. Consider setting NEW_ENV to yes."
         exit 1
@@ -27,9 +33,9 @@ if ! ${NEW_ENV};then
     mamba env update -f "${ENV_FILE}"
 
 # Env not being updated... create one now:
-elif [[ "${SKIP_CONDA_SOLVE}" == "no" ]];then
+elif [[ "${SKIP_CONDA_SOLVE}" == "no" ]]; then
     mamba env create --prefix=/opt/conda/envs/${ENV_NAME} -f "${ENV_FILE}"
-elif [[ "${SKIP_CONDA_SOLVE}" == "yes" ]];then
+elif [[ "${SKIP_CONDA_SOLVE}" == "yes" ]]; then
     mamba create --prefix=/opt/conda/envs/${ENV_NAME} --file "${ENV_FILE}"
 
     # This needs to be set using the ENV directive in the docker file

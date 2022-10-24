@@ -1,4 +1,7 @@
 #!/bin/bash
+# Copyright (c) Nebari Development Team.
+# Distributed under the terms of the Modified BSD License.
+
 # uses find to avoid touching files that already have the right permissions
 # right permissions are:
 # world rX, we have no guarantees of uids or gids upon
@@ -7,6 +10,6 @@
 set -e
 for d in "$@"; do
   find "$d" \
-    ! -perm -o+rX  \
+    ! -perm -o+rX \
     -exec chmod o+rX {} \;
 done

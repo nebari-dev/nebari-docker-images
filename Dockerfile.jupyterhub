@@ -1,5 +1,5 @@
 FROM ubuntu:20.04
-LABEL MAINTAINER="Quansight"
+LABEL MAINTAINER="Nebari development team"
 
 COPY scripts/install-apt-minimal.sh /opt/scripts/install-apt-minimal.sh
 RUN /opt/scripts/install-apt-minimal.sh
