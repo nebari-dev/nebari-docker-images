@@ -93,7 +93,7 @@ jobs:
             "ghcr.io/${{ github.repository_owner }}/nebari-${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}"
           tags: |
             # branch event -> e.g. `main-f0f6994-20221001`
-            type=ref,event=branch, suffix={{sha}}-{{date 'YYYYMMDD'}}
+            type=ref,event=branch, suffix=-{{sha}}-{{date 'YYYYMMDD'}}
             # on tag push -> e.g. `main-f0f6994-2022.10.1`
             type=ref,event=tag, prefix={{branch}}-{{sha}}-
 
