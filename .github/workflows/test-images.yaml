@@ -1,4 +1,4 @@
-name: Test Images
+name: Test Docker images
 
 on:
   pull_request:
@@ -9,6 +9,7 @@ on:
       - "jupyterlab/*"
       - "scripts/*"
       - ".github/workflows/build-push-docker.yaml"
+      - ".github/workflows/test-images.yaml"
 
 env:
   DOCKER_ORG: nebari

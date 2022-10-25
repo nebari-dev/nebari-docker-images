@@ -62,21 +62,21 @@ From the repository's root folder, you can build these images locally by running
 
   ```shell
   docker build -f Dockerfile.jupyterlab \
-      -t qhub-jupyterlab:latest .
+      -t nebari-jupyterlab:latest .
   ```
 
 - For [JupyterHub](Dockerfile.jupyterhub):
 
   ```shell
-  docker build -f Dockerfile.dask-worker \
-      -t qhub-dask-worker:latest .
+  docker build -f Dockerfile.jupyterhub \
+      -t nebari-jupyterhub:latest .
   ```
 
 - For [Dask-Worker](Dockerfile.dask-worker):
 
   ```shell
   docker build -f Dockerfile.dask-gateway \
-      -t qhub-dask-gateway:latest .
+      -t nebari-dask-gateway:latest .
   ```
 
 > **NOTE**
