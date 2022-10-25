@@ -1,5 +1,13 @@
+# Copyright (c) Nebari Development Team.
+# Distributed under the terms of the Modified BSD License.
+# Usage:
+# ------
+#
+# To make a local build of the container, from the root directory:
+# docker build -f Dockerfile.jupyterhub -t nebari-jupyterhub:latest .
+
 FROM ubuntu:20.04
-LABEL MAINTAINER="Quansight"
+LABEL MAINTAINER="Nebari development team"
 
 COPY scripts/install-apt-minimal.sh /opt/scripts/install-apt-minimal.sh
 RUN /opt/scripts/install-apt-minimal.sh

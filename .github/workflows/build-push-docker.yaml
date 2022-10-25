@@ -9,10 +9,13 @@ on:
       - main
     paths:
       - "Dockerfile.*"
+
       - "dask-worker/*"
       - "jupyterhub/*"
       - "jupyterlab/*"
+
       - "scripts/*"
+
       - ".github/workflows/build-push-docker.yaml"
     tags:
       - "*"
@@ -28,6 +31,12 @@ permissions:
   packages: write
   id-token: write
   security-events: write
+
+# https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  # only cancel in-progress jobs or runs for the current workflow - matches against branch & tags
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-images:
@@ -71,9 +80,9 @@ jobs:
       - name: "Set BASE_IMAGE and Image Suffix 📷"
         if: ${{ matrix.platform == 'gpu' }}
         run: |
-            echo "GPU Platform Matrix"
-            echo "BASE_IMAGE=$GPU_BASE_IMAGE" >> $GITHUB_ENV
-            echo "IMAGE_SUFFIX=-$GPU_IMAGE_SUFFIX" >> $GITHUB_ENV
+          echo "GPU Platform Matrix"
+          echo "BASE_IMAGE=$GPU_BASE_IMAGE" >> $GITHUB_ENV
+          echo "IMAGE_SUFFIX=-$GPU_IMAGE_SUFFIX" >> $GITHUB_ENV
 
       - name: "Generate Docker images tags 🏷️"
         id: meta
@@ -83,19 +92,15 @@ jobs:
             "quay.io/${{ env.DOCKER_ORG }}/nebari-${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}"
             "ghcr.io/${{ github.repository_owner }}/nebari-${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}"
           tags: |
-            type=ref,event=branch
-            type=ref,event=tag
-            type=sha
+            # branch event -> e.g. `main-f0f6994-20221001`
+            type=ref,event=branch, suffix={{sha}}-{{date 'YYYYMMDD'}}
+            # on tag push -> e.g. `main-f0f6994-2022.10.1`
+            type=ref,event=tag, prefix={{branch}}-{{sha}}-
 
       - name: "Inspect image dir tree 🔍"
         run: |
           sudo apt-get install tree
           tree .
-
-      - name: "Set tag var 🏷️"
-        id: var
-        run: echo ::set-output name=docker_tag::$(echo "${{ steps.meta.outputs.tags }}" | sed -n 1p)
-
 
       - name: "Build docker images 🐳"
         uses: docker/build-push-action@v3

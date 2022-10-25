@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
+# Copyright (c) Nebari Development Team.
+# Distributed under the terms of the Modified BSD License.
+
 set -xe
-DEFAULT_PREFIX="${1}"; shift # path to environment yaml or lock file
+DEFAULT_PREFIX="${1}"
+shift # path to environment yaml or lock file
 CODE_SERVER_VERSION=4.5.1
 
 mkdir -p ${DEFAULT_PREFIX}/code-server
@@ -10,7 +14,7 @@ cd ${DEFAULT_PREFIX}/code-server
 wget --quiet https://raw.githubusercontent.com/coder/code-server/326a1d1862872955cec062030df2bd103799a1eb/install.sh
 expected_sum=ed18563871beb535130019b6c5b62206cc4a60c8bf4256aae96ce737951fc253
 
-if [[ ! $(sha256sum install.sh) == "${expected_sum}  install.sh" ]];then
+if [[ ! $(sha256sum install.sh) == "${expected_sum}  install.sh" ]]; then
     echo Unexpected hash from code-server install script
     exit 1
 fi

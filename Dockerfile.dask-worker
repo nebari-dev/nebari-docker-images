@@ -1,6 +1,14 @@
+# Copyright (c) Nebari Development Team.
+# Distributed under the terms of the Modified BSD License.
+# Usage:
+# ------
+#
+# To make a local build of the container, from the root directory:
+# docker build -f Dockerfile.dask-worker -t nebari-dask-worker:latest .
+
 ARG BASE_IMAGE=ubuntu:20.04
 FROM $BASE_IMAGE
-LABEL MAINTAINER="Quansight"
+LABEL MAINTAINER="Nebari development team"
 
 COPY scripts/install-apt-minimal.sh /opt/scripts/install-apt-minimal.sh
 RUN /opt/scripts/install-apt-minimal.sh
