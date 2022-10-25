@@ -94,8 +94,10 @@ jobs:
           tags: |
             # branch event -> e.g. `main-f0f6994-20221001`
             type=ref,event=branch, suffix=-{{sha}}-{{date 'YYYYMMDD'}}
-            # on tag push -> e.g. `main-f0f6994-2022.10.1`
-            type=ref,event=tag, prefix={{branch}}-{{sha}}-
+            # needed for integration tests
+            type=ref, event=branch
+            # on tag push -> e.g. `2022.10.1`
+            type=ref,event=tag
 
       - name: "Inspect image dir tree 🔍"
         run: |
