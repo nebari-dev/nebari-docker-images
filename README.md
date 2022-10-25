@@ -30,14 +30,18 @@ This repository contains the source code for Docker (container) images used by t
 **GitHub Container Registry (ghcr.io)**
 
 - [`nebari-jupyterlab`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-jupyterlab)
+- [`nebari-jupyterlab-gpu`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-jupyterlab-gpu)
 - [`nebari-jupyterhub`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-jupyterhub)
 - [`nebari-dask-worker`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-dask-worker)
+- [`nebari-dask-worker-gpu`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-dask-worker-gpu)
 
 **Quay Container Registry (quay.io)**
 
 - [`nebari-jupyterlab`](https://quay.io/repository/nebari/nebari-jupyterlab)
+- [`nebari-jupyterlab-gpu`](https://quay.io/repository/nebari/nebari-jupyterlab-gpu)
 - [`nebari-jupyterhub`](https://quay.io/repository/nebari/nebari-jupyterhub)
 - [`nebari-dask-worker`](https://quay.io/repository/nebari/nebari-dask-worker)
+- [`nebari-dask-worker-gpu`](https://quay.io/repository/nebari/nebari-dask-worker-gpu)
 
 ## Getting started ⚡️
 
