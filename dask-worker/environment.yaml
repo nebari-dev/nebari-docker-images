@@ -6,4 +6,4 @@ channels:
   - conda-forge
 dependencies:
   # dask
-  - qhub-dask==0.3.13
+  - nebari-dask
