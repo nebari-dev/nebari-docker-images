@@ -41,6 +41,7 @@ dependencies:
   - param
   - python-graphviz
   - plotly >=5.0
+  - ipympl
 
   # testing, docs, linting
   - pytest
