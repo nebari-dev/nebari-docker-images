@@ -56,4 +56,3 @@ dependencies:
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
-      - jupyterlab-conda-store
