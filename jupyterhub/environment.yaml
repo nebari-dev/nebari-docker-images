@@ -10,5 +10,5 @@ dependencies:
   - cdsdashboards==0.6.3
   - jupyterhub-idle-culler==1.0
   - pip:
-      - nebari-jupyterhub-theme
+      - nebari-jupyterhub-theme==2022.10.1
       - python-keycloak==0.26.1
