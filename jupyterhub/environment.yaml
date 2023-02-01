@@ -11,5 +11,5 @@ dependencies:
   - jupyterhub-idle-culler==1.0
   - sqlalchemy==1.4.46
   - pip:
-      - nebari-jupyterhub-theme==2023.1.1
+      - nebari-jupyterhub-theme
       - python-keycloak==0.26.1
