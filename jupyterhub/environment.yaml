@@ -9,6 +9,7 @@ dependencies:
   - escapism==1.0.1
   - cdsdashboards==0.6.3
   - jupyterhub-idle-culler==1.0
+  - sqlalchemy==1.4.46
   - pip:
-      - nebari-jupyterhub-theme==2022.10.1
+      - nebari-jupyterhub-theme
       - python-keycloak==0.26.1
