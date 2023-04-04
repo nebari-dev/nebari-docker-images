@@ -32,6 +32,8 @@ dependencies:
   - jupyter-resource-usage >=0.6.0
   - nbgitpuller
   - jupyterlab_code_formatter
+  - jupyterlab-spellchecker >= 0.7.3
+  - jupyterlab_execute_time >= 2.3.1
 
   # cds dashboards
   - cdsdashboards-singleuser >=0.6.3
