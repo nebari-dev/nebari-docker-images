@@ -5,4 +5,4 @@ dependencies:
   - python=3.10
   - pip
   - pip:
-    - admission-controller==0.1.0
+    - nebari-workflow-controller
