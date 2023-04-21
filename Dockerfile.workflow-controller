@@ -4,7 +4,7 @@
 # ------
 #
 # To make a local build of the container, from the root directory:
-# docker build -f Dockerfile.admsn-ctrl -t balast/admsn:latest .
+# docker build -f Dockerfile.workflow-controller -t balast/admsn:latest .
 
 ARG BASE_IMAGE=ubuntu:20.04
 FROM $BASE_IMAGE
@@ -36,24 +36,24 @@ ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/bin:/opt/conda/bin:${PATH}:/opt/scripts
 COPY scripts/install-conda.sh /opt/scripts/install-conda.sh
 RUN echo "${SHELL}"; env; cat ~/.bashrc; cat ~/.profile ; /opt/scripts/install-conda.sh
 
-# ========== admission-controller install ============
+# ========== nebari-workflow-controller install ============
 COPY scripts/install-apt.sh /opt/scripts/install-apt.sh
-COPY admission-controller/apt.txt /opt/admission-controller/apt.txt
-RUN /opt/scripts/install-apt.sh /opt/admission-controller/apt.txt
+COPY nebari-workflow-controller/apt.txt /opt/nebari-workflow-controller/apt.txt
+RUN /opt/scripts/install-apt.sh /opt/nebari-workflow-controller/apt.txt
 
 ARG SKIP_CONDA_SOLVE=yes
 COPY scripts/install-conda-environment.sh /opt/scripts/install-conda-environment.sh
-COPY admission-controller/environment.yaml /opt/admission-controller/environment.yaml
-COPY admission-controller/conda-linux-64.lock /opt/admission-controller/conda-linux-64.lock
+COPY nebari-workflow-controller/environment.yaml /opt/nebari-workflow-controller/environment.yaml
+COPY nebari-workflow-controller/conda-linux-64.lock /opt/nebari-workflow-controller/conda-linux-64.lock
 RUN \
     if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
-    ENV_FILE=/opt/admission-controller/conda-linux-64.lock ; \
+    ENV_FILE=/opt/nebari-workflow-controller/conda-linux-64.lock ; \
     else  \
-    ENV_FILE=/opt/admission-controller/environment.yaml ; \
+    ENV_FILE=/opt/nebari-workflow-controller/environment.yaml ; \
     fi ; \
     /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
 
-COPY admission-controller /opt/admission-controller
-RUN /opt/admission-controller/postBuild
+COPY nebari-workflow-controller /opt/nebari-workflow-controller
+RUN /opt/nebari-workflow-controller/postBuild
 
-CMD ["conda", "run", "-n", "default", "python", "/opt/admission-controller/main.py"]
+CMD ["conda", "run", "-n", "default", "python", "/opt/nebari-workflow-controller/main.py"]
