@@ -49,6 +49,7 @@ jobs:
           - jupyterlab
           - jupyterhub
           - dask-worker
+          - workflow-controller
         platform:
           - gpu
           - cpu
