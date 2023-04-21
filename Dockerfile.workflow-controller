@@ -4,7 +4,7 @@
 # ------
 #
 # To make a local build of the container, from the root directory:
-# docker build -f Dockerfile.workflow-controller -t balast/admsn:latest .
+# docker build -f Dockerfile.workflow-controller -t nebari-workflow-controller:latest .
 
 ARG BASE_IMAGE=ubuntu:20.04
 FROM $BASE_IMAGE
@@ -39,12 +39,14 @@ RUN echo "${SHELL}"; env; cat ~/.bashrc; cat ~/.profile ; /opt/scripts/install-c
 # ========== nebari-workflow-controller install ============
 COPY scripts/install-apt.sh /opt/scripts/install-apt.sh
 COPY nebari-workflow-controller/apt.txt /opt/nebari-workflow-controller/apt.txt
-RUN /opt/scripts/install-apt.sh /opt/nebari-workflow-controller/apt.txt
+RUN /opt/scripts/install-apt.sh
 
-ARG SKIP_CONDA_SOLVE=yes
+# uncomment to install dev dependencies
+# RUN /opt/scripts/install-apt.sh /opt/nebari-workflow-controller/apt.txt  
+
+ARG SKIP_CONDA_SOLVE=no
 COPY scripts/install-conda-environment.sh /opt/scripts/install-conda-environment.sh
 COPY nebari-workflow-controller/environment.yaml /opt/nebari-workflow-controller/environment.yaml
-COPY nebari-workflow-controller/conda-linux-64.lock /opt/nebari-workflow-controller/conda-linux-64.lock
 RUN \
     if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
     ENV_FILE=/opt/nebari-workflow-controller/conda-linux-64.lock ; \
@@ -54,6 +56,5 @@ RUN \
     /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
 
 COPY nebari-workflow-controller /opt/nebari-workflow-controller
-RUN /opt/nebari-workflow-controller/postBuild
 
-CMD ["conda", "run", "-n", "default", "python", "/opt/nebari-workflow-controller/main.py"]
+CMD ["python", "-m", "nebari_workflow_controller"]
