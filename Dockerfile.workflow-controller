@@ -53,16 +53,7 @@ RUN \
     fi ; \
     /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
 
-# ========== code-server install ============
-# ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
-# COPY scripts/install-code-server.sh /opt/scripts/install-code-server.sh
-
 COPY admission-controller /opt/admission-controller
 RUN /opt/admission-controller/postBuild
 
 CMD ["conda", "run", "-n", "default", "python", "/opt/admission-controller/main.py"]
-
-# ========== Setup GPU Paths ============
-# ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib64
-# ENV NVIDIA_PATH=/usr/local/nvidia/bin
-# ENV PATH="$NVIDIA_PATH:$PATH"
