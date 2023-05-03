@@ -103,8 +103,8 @@ jobs:
             type=ref, event=branch
             # on tag push -> e.g. `2022.10.1`
             type=ref, event=tag
-            # on event_dispach
-            type=ref, event=dispatch, suffix=-{{sha}}-{{date 'YYYYMMDD'}}
+            # on event_dispach -> e.g. `main-f0f6994-20221001`
+            type=ref, event=workflow_dispatch, suffix=-{{sha}}-{{date 'YYYYMMDD'}}
 
       - name: "Inspect image dir tree 🔍"
         run: |
