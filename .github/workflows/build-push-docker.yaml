@@ -4,6 +4,7 @@
 name: "Build Docker Images"
 
 on:
+  workflow_dispatch: null
   push:
     branches:
       - main
