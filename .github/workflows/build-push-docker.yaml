@@ -115,7 +115,7 @@ jobs:
         with:
           context: .
           file: "Dockerfile.${{ matrix.dockerfile }}"
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: jupyter_scheduler_test
           push: true
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
