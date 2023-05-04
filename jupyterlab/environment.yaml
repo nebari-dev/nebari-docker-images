@@ -33,6 +33,7 @@ dependencies:
   - nbgitpuller
   - jupyterlab_code_formatter
   - jupyterlab-spellchecker >= 0.7.3
+  - jupyter_scheduler
 
   # cds dashboards
   - cdsdashboards-singleuser >=0.6.3
