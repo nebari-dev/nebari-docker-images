@@ -13,6 +13,7 @@ htop
 tree
 zip
 unzip
+espeak
 
 # development utilities
 git
