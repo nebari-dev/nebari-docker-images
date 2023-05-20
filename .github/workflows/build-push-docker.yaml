@@ -49,18 +49,7 @@ jobs:
       matrix:
         dockerfile:
           - jupyterlab
-          - jupyterhub
-          - dask-worker
-          - workflow-controller
-        platform:
-          - gpu
-          - cpu
-        exclude:
-          # excludes JupyterHub/GPU, Workflow Controller/GPU
-          - dockerfile: jupyterhub
-            platform: gpu
-          - dockerfile: workflow-controller
-            platform: gpu
+
 
     steps:
       - name: "Checkout Repository 🛎️"
