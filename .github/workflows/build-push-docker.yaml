@@ -97,9 +97,7 @@ jobs:
           images: |
             "quay.io/${{ env.DOCKER_ORG }}/nebari-${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}"
             "ghcr.io/${{ github.repository_owner }}/nebari-${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}"
-          tags: |
-            # branch event -> e.g. `main-f0f6994-20221001`
-            type=ref, event=branch, suffix=-{{sha}}-{{date 'YYYYMMDD'}}
+          tags: awe
 
 
       - name: "Inspect image dir tree 🔍"
