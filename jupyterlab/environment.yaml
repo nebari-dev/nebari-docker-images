@@ -62,3 +62,4 @@ dependencies:
       - jupyter-tensorboard
       - jupyterlab_nvdashboard
       - git+https://github.com/nebari-dev/argo-workflows-executor.git
+      - jupyter_scheduler
