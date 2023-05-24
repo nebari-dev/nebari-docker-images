@@ -19,6 +19,7 @@ git
 openssh-client
 tmux
 xvfb
+zsh
 
 # editors
 nano
