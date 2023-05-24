@@ -35,7 +35,6 @@ dependencies:
   - jupyterlab-spellchecker >= 0.7.3
   - jupyterlab_execute_time >= 2.3.1
   
-
   # cds dashboards
   - cdsdashboards-singleuser >=0.6.3
   - jhsingle-native-proxy >=0.7.6
