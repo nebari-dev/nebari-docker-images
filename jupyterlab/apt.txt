@@ -24,6 +24,7 @@ xvfb
 nano
 vim
 emacs
+neovim
 
 # conda prerequisites for GUI packages
 # See https://docs.anaconda.com/anaconda/install/linux/
