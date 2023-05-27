@@ -13,5 +13,3 @@ dependencies:
   - pip:
       - nebari-jupyterhub-theme
       - python-keycloak==0.26.1
-      - git+https://github.com/nebari-dev/argo-workflows-executor.git
-      - jupyter_scheduler
