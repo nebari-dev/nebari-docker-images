@@ -20,6 +20,7 @@ dependencies:
   - nbconvert
   - nbval
   - retrolab
+  - ipykernel
 
   # jupyterlab extensions
   - dask_labextension >= 5.3.0
