@@ -2,7 +2,7 @@ name: default
 channels:
   - conda-forge
 dependencies:
-  - pip
   - python=3.10
+  - pip
   - pip:
     - git+https://github.com/nebari-dev/nebari-workflow-controller.git@20230531eae
