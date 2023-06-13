@@ -97,7 +97,7 @@ jobs:
           images: |
             "quay.io/${{ env.DOCKER_ORG }}/nebari-${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}"
             "ghcr.io/${{ github.repository_owner }}/nebari-${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}"
-          tags: awe23
+          tags: awe24
 
 
       - name: "Inspect image dir tree 🔍"
