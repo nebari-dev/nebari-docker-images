@@ -60,6 +60,13 @@ COPY scripts/install-code-server.sh /opt/scripts/install-code-server.sh
 COPY jupyterlab /opt/jupyterlab
 RUN /opt/jupyterlab/postBuild
 
+# ========== pyvista setup ============
+RUN pip uninstall vtk -y
+RUN pip install --no-cache-dir https://github.com/pyvista/pyvista-wheels/raw/main/vtk_osmesa-9.2.5-cp39-cp39-linux_x86_64.whl
+# allow jupyterlab for ipyvtk
+ENV JUPYTER_ENABLE_LAB=yes
+ENV PYVISTA_TRAME_SERVER_PROXY_PREFIX='/proxy/'
+
 # ========== Setup GPU Paths ============
 ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib64
 ENV NVIDIA_PATH=/usr/local/nvidia/bin
