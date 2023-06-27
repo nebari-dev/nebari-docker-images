@@ -77,3 +77,4 @@ dependencies:
       - trame-server>=2.7.1
       - trame-vtk>=2.4.0
       - trimesh
+      - vtk
