@@ -5,14 +5,15 @@ dependencies:
   - pip==21.1.2
   - jupyterhub==3.1.1
   - jupyterhub-kubespawner==4.2.0# ==1.1.0
-  - oauthenticator==14.1.0
+  - oauthenticator==15.1.0
   - escapism==1.0.1
+  - kubernetes_asyncio
   # - cdsdashboards==0.6.3
   - jupyterhub-idle-culler==1.2.1
   - sqlalchemy==1.4.46
   - pip:
-      - nebari-jupyterhub-theme
-      - python-keycloak==0.26.1
+        - nebari-jupyterhub-theme
+        - python-keycloak==0.26.1
 
 # from Z2JH chart hub image
 # > pip freeze | grep -iE 'pip|jupy|oath|escap|cds|sqlalch|keycloak'
