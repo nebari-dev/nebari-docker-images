@@ -7,16 +7,17 @@ dependencies:
   - jupyterhub-kubespawner==4.2.0# ==1.1.0
   - oauthenticator==15.1.0
   - escapism==1.0.1
+  - python-kubernetes
   - kubernetes_asyncio
   # - cdsdashboards==0.6.3
   - jupyterhub-idle-culler==1.2.1
   - sqlalchemy==1.4.46
   - pip:
-        - nebari-jupyterhub-theme
-        - python-keycloak==0.26.1
+    - nebari-jupyterhub-theme
+    - python-keycloak==0.26.1
 
 # from Z2JH chart hub image
-# > pip freeze | grep -iE 'pip|jupy|oath|escap|cds|sqlalch|keycloak'
+# > pip freeze | grep -iE 'pip|jupy|oauth|escap|cds|sqlalch|keycloak'
 # escapism==1.0.1
 # jupyter-telemetry==0.1.0
 # jupyterhub==3.0.0
@@ -29,11 +30,12 @@ dependencies:
 # jupyterhub-nativeauthenticator==1.1.0
 # jupyterhub-tmpauthenticator==0.6
 # sqlalchemy-cockroachdb==1.4.3
+# oauthenticator==15.1.0
 # SQLAlchemy==1.4.41
 
 
 # from conda install "jupyterhub=3" in a fresh env on 2023/06/29
-# > conda list | grep -E 'pip|jupy|oath|escap|cds|sqlalch|keycloak'
+# > conda list | grep -E 'pip|jupy|oauth|escap|cds|sqlalch|keycloak'
 # jupyter_telemetry         0.1.0              pyhd8ed1ab_1    conda-forge
 # jupyterhub                3.1.1              pyh2a2186d_0    conda-forge
 # jupyterhub-base           3.1.1              pyh2a2186d_0    conda-forge
