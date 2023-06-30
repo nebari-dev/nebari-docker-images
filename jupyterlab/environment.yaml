@@ -27,7 +27,7 @@ dependencies:
   - jupyterlab >=3
   - jupyter_client
   - jupyter_console
-  - jupyterhub==3.0.0
+  - jupyterhub==3.1.1
   - nbconvert
   - nbval
   - retrolab
@@ -46,8 +46,8 @@ dependencies:
   - jupyterlab-spellchecker >= 0.7.3
 
   # cds dashboards
-  - cdsdashboards-singleuser >=0.6.3
-  - jhsingle-native-proxy >=0.7.6
+  # - cdsdashboards-singleuser >=0.6.3
+  # - jhsingle-native-proxy >=0.7.6
 
   # viz tools
   - param
