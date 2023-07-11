@@ -32,6 +32,7 @@ dependencies:
   - jupyter-resource-usage >=0.6.0
   - nbgitpuller
   - jupyterlab_code_formatter
+  - jupyterlab-spellchecker >= 0.7.3
 
   # cds dashboards
   - cdsdashboards-singleuser >=0.6.3
@@ -42,6 +43,7 @@ dependencies:
   - python-graphviz
   - plotly >=5.0
   - ipympl
+  - bokeh <3.0.0
 
   # testing, docs, linting
   - pytest
@@ -57,4 +59,6 @@ dependencies:
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
-      - jupyterlab-conda-store >=0.2.4
+      - jupyterlab-conda-store >=0.2.7
+      - jupyter-tensorboard
+      - jupyterlab_nvdashboard
