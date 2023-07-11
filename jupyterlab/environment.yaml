@@ -54,7 +54,7 @@ dependencies:
   - black
   - isort
   - importnb
-  - jupyterlab-myst
+  - jupyterlab-myst==2.0
 
   - pip:
       # vscode jupyterlab launcher
