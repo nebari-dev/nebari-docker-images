@@ -19,11 +19,13 @@ git
 openssh-client
 tmux
 xvfb
+zsh
 
 # editors
 nano
 vim
 emacs
+neovim
 
 # conda prerequisites for GUI packages
 # See https://docs.anaconda.com/anaconda/install/linux/
@@ -36,3 +38,6 @@ libxcomposite1
 libasound2
 libxi6
 libxtst6
+libfontconfig1
+libxrender1
+libosmesa6
