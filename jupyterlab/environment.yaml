@@ -61,3 +61,4 @@ dependencies:
       - jupyterlab-conda-store >=0.2.7
       - jupyter-tensorboard
       - jupyterlab_nvdashboard
+      - argo-jupyter-scheduler==2023.7.1rc1
