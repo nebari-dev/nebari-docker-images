@@ -5,4 +5,4 @@ dependencies:
   - pip
   - python=3.10
   - pip:
-    - git+https://github.com/nebari-dev/nebari-workflow-controller.git@20230531eae
+      - nebari-workflow-controller==2023.7.1rc1
