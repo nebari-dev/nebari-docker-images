@@ -21,6 +21,7 @@ on:
       - ".github/workflows/build-push-docker.yaml"
     tags:
       - "*"
+  pull_request:
 
 env:
   DOCKER_ORG: nebari
@@ -115,7 +116,7 @@ jobs:
           context: .
           file: "Dockerfile.${{ matrix.dockerfile }}"
           tags: ${{ steps.meta.outputs.tags }}
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
