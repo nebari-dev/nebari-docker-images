@@ -12,11 +12,11 @@ dependencies:
   - nb_conda_kernels
   - ipython > 7
   - jupyter-server-proxy
-  - "jupyter_server>=1.15.6 | <1.15"
+  - "jupyter_server>=1.18.1"
   - jupyterlab >=3
   - jupyter_client
   - jupyter_console
-  - jupyterhub==1.5.0
+  - jupyterhub==3.1.1
   - nbconvert
   - nbval
   - retrolab
@@ -33,10 +33,6 @@ dependencies:
   - nbgitpuller
   - jupyterlab_code_formatter
   - jupyterlab-spellchecker >= 0.7.3
-
-  # cds dashboards
-  - cdsdashboards-singleuser >=0.6.3
-  - jhsingle-native-proxy >=0.7.6
 
   # viz tools
   - param

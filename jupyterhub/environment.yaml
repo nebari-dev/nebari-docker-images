@@ -3,13 +3,14 @@ channels:
   - conda-forge
 dependencies:
   - pip==21.1.2
-  - jupyterhub==1.5.0
-  - jupyterhub-kubespawner==1.1.0
-  - oauthenticator==14.1.0
+  - jupyterhub==3.1.1
+  - jupyterhub-kubespawner==4.2.0
+  - oauthenticator==15.1.0
   - escapism==1.0.1
-  - cdsdashboards==0.6.3
-  - jupyterhub-idle-culler==1.0
+  - python-kubernetes
+  - kubernetes_asyncio
+  - jupyterhub-idle-culler==1.2.1
   - sqlalchemy==1.4.46
   - pip:
-      - nebari-jupyterhub-theme
-      - python-keycloak==0.26.1
+    - nebari-jupyterhub-theme
+    - python-keycloak==0.26.1
