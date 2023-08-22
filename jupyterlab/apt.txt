@@ -38,3 +38,6 @@ libxcomposite1
 libasound2
 libxi6
 libxtst6
+libfontconfig1
+libxrender1
+libosmesa6

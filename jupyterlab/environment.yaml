@@ -1,17 +1,6 @@
 # Copyright (c) Nebari Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-# jovyan@ce568d131ea5:~$ pip freeze | grep -iE "jupyter|ipywidgets"
-# jupyter-core==4.11.1
-# jupyter-server==1.18.1
-# jupyter-telemetry==0.1.0
-# jupyter_client==7.3.5
-# jupyterhub==3.0.0
-# jupyterlab==3.4.6
-# jupyterlab-pygments==0.2.2
-# jupyterlab_server==2.15.1
-
-
 name: default
 channels:
   - conda-forge
@@ -45,10 +34,6 @@ dependencies:
   - jupyterlab_code_formatter
   - jupyterlab-spellchecker >= 0.7.3
 
-  # cds dashboards
-  # - cdsdashboards-singleuser >=0.6.3
-  # - jhsingle-native-proxy >=0.7.6
-
   # viz tools
   - param
   - python-graphviz
@@ -72,13 +57,4 @@ dependencies:
       - jupyterlab-conda-store >=0.2.7
       - jupyter-tensorboard
       - jupyterlab_nvdashboard
-
-# jovyan@ce568d131ea5:~$ pip freeze | grep -iE "jupyter|ipywidgets"
-# jupyter-core==4.11.1
-# jupyter-server==1.18.1
-# jupyter-telemetry==0.1.0
-# jupyter_client==7.3.5
-# jupyterhub==3.0.0
-# jupyterlab==3.4.6
-# jupyterlab-pygments==0.2.2
-# jupyterlab_server==2.15.1
+      - argo-jupyter-scheduler==2023.7.1
