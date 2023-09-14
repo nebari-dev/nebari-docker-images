@@ -5,6 +5,7 @@ name: "Build Docker Images"
 
 on:
   workflow_dispatch: null
+  pull_request:
   push:
     branches:
       - main
@@ -115,7 +116,7 @@ jobs:
           context: .
           file: "Dockerfile.${{ matrix.dockerfile }}"
           tags: ${{ steps.meta.outputs.tags }}
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
