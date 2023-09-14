@@ -98,12 +98,7 @@ jobs:
             "quay.io/${{ env.DOCKER_ORG }}/nebari-${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}"
             "ghcr.io/${{ github.repository_owner }}/nebari-${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}"
           tags: |
-            # branch event -> e.g. `main-f0f6994-20221001`
-            type=ref, event=branch, suffix=-{{sha}}-{{date 'YYYYMMDD'}}
-            # needed for integration tests
-            type=ref, event=branch
-            # on tag push -> e.g. `2022.10.1`
-            type=ref, event=tag
+            20230914
 
       - name: "Inspect image dir tree 🔍"
         run: |
