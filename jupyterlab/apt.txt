@@ -41,3 +41,7 @@ libxtst6
 libfontconfig1
 libxrender1
 libosmesa6
+
+# gpg
+gnupg
+pinentry-curses
