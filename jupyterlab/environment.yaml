@@ -50,6 +50,7 @@ dependencies:
   - black
   - isort
   - importnb
+  - git-lfs
 
   - pip:
       # vscode jupyterlab launcher
