@@ -15,6 +15,7 @@ dependencies:
   - flask
   - panel
   - bokeh
+  - jupyterlab_pioneer
   - pip:
     - nebari-jupyterhub-theme
     - python-keycloak==0.26.1

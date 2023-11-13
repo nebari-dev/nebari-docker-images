@@ -63,6 +63,8 @@ dependencies:
   - streamlit
   - traitlets
 
+  - jupyterlab_pioneer
+
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
