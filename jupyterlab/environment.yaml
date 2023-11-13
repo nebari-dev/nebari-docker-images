@@ -33,7 +33,6 @@ dependencies:
   - nbgitpuller
   - jupyterlab_code_formatter
   - jupyterlab-spellchecker >= 0.7.3
-  - jupyter_ai
 
   # viz tools
   - param
@@ -60,3 +59,4 @@ dependencies:
       - jupyter-tensorboard
       - jupyterlab_nvdashboard
       - argo-jupyter-scheduler==2023.7.1
+      - jupyter_ai
