@@ -56,7 +56,7 @@ dependencies:
   - bokeh-root-cmd
   - jhsingle-native-proxy
   - panel
-  - voila
+  # - voila
   - dash
   - streamlit
   - traitlets
