@@ -63,8 +63,6 @@ dependencies:
   - streamlit
   - traitlets
 
-  - jupyterlab_pioneer
-
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
@@ -74,3 +72,4 @@ dependencies:
       - argo-jupyter-scheduler==2023.7.1
       - gradio
       - git+https://github.com/nebari-dev/jhub-apps.git@fd5a71ccdcc625d3e4f894c9c506ebb6dce6f35a
+      - jupyterlab_pioneer
