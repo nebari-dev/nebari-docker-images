@@ -59,3 +59,4 @@ dependencies:
       - jupyter-tensorboard
       - jupyterlab_nvdashboard
       - argo-jupyter-scheduler==2023.7.1
+      - jupyter_ai
