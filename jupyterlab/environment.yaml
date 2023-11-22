@@ -69,5 +69,5 @@ dependencies:
       # - jupyterlab_nvdashboard
       - argo-jupyter-scheduler==2023.7.1
       - gradio
-      - git+https://github.com/nebari-dev/jhub-apps.git@098bd8f73fc48940f7312ef51ef62ca565aa3024
+      - git+https://github.com/nebari-dev/jhub-apps.git@0d41114210d9b5b69e896bcb2e13ef7082ba0395
       - jupyterlab_pioneer
