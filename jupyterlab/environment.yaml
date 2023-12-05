@@ -56,6 +56,4 @@ dependencies:
       - jupyterlab-conda-store==2023.10.1
       - argo-jupyter-scheduler==2023.7.1
       - jupyter_ai
-      - gradio
-      - git+https://github.com/nebari-dev/jhub-apps.git@0d41114210d9b5b69e896bcb2e13ef7082ba0395
       - jupyterlab_pioneer
