@@ -50,23 +50,10 @@ dependencies:
   - importnb
   - git-lfs
 
-  # JHub Apps dependencies
-  - flask
-  - plotlydash-tornado-cmd
-  - bokeh-root-cmd
-  - jhsingle-native-proxy
-  - panel
-  # - voila
-  - dash
-  - streamlit
-  - traitlets
-
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
       - jupyterlab-conda-store==2023.10.1
-      # - jupyter-tensorboard
-      # - jupyterlab_nvdashboard
       - argo-jupyter-scheduler==2023.7.1
       - jupyter_ai
       - gradio
