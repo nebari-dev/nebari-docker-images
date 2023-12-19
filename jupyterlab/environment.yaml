@@ -31,7 +31,7 @@ dependencies:
   - nbgitpuller
   - jupyterlab_code_formatter
   - jupyterlab-spellchecker >= 0.7.3
-  - jupyterlab_pioneer
+  - jupyterlab-pioneer
 
   # viz tools
   - param
