@@ -31,6 +31,7 @@ dependencies:
   - nbgitpuller
   - jupyterlab_code_formatter
   - jupyterlab-spellchecker >= 0.7.3
+  - jupyterlab_pioneer
 
   # viz tools
   - param
@@ -56,4 +57,3 @@ dependencies:
       - jupyterlab-conda-store==2023.10.1
       - argo-jupyter-scheduler==2023.7.1
       - jupyter_ai
-      - jupyterlab_pioneer
