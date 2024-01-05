@@ -12,11 +12,11 @@ dependencies:
   - jupyterhub-idle-culler==1.2.1
   - sqlalchemy==1.4.46
   # JHub Apps dependencies
-  - flask
+  - fastapi
   - panel
   - bokeh
   - pip:
     - nebari-jupyterhub-theme
     - python-keycloak==0.26.1
-    - git+https://github.com/nebari-dev/jhub-apps.git@0d41114210d9b5b69e896bcb2e13ef7082ba0395
+    - git+https://github.com/nebari-dev/jhub-apps.git@31f28e805c5517f5bc9e50b3bafcb5d0b3fef9d3
     - jupyterlab_pioneer
