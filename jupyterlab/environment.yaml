@@ -56,6 +56,8 @@ dependencies:
   - bokeh-root-cmd
   - jhsingle-native-proxy
   - panel
+  - uvicorn
+  - fastapi
   # - voila
   - dash
   - streamlit
