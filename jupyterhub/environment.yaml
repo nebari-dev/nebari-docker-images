@@ -16,6 +16,7 @@ dependencies:
   - panel
   - bokeh
   - uvicorn
+  - python-multipart
   - pip:
     - nebari-jupyterhub-theme
     - python-keycloak==0.26.1

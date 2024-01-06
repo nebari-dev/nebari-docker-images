@@ -58,6 +58,7 @@ dependencies:
   - panel
   - uvicorn
   - fastapi
+  - python-multipart
   # - voila
   - dash
   - streamlit
