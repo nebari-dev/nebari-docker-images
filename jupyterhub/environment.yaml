@@ -14,5 +14,4 @@ dependencies:
   - pip:
     - nebari-jupyterhub-theme
     - python-keycloak==0.26.1
-    - git+https://github.com/nebari-dev/jhub-apps.git@585a3fbf9c03bbfb690762ddfda203957c0a1d42
-    - jupyterlab_pioneer
+    - git+https://github.com/nebari-dev/jhub-apps.git@3c614c8af92d5936f5b24beaac02fedc4ae1f754
