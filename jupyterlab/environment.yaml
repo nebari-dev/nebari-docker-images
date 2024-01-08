@@ -60,3 +60,5 @@ dependencies:
       - jupyterlab_nvdashboard
       - argo-jupyter-scheduler==2023.7.1
       - jupyter_ai
+      # TODO: Replace with the latest released version
+      - git+https://github.com/nebari-dev/jhub-apps.git@448b735e8f99c8898b669d7d8e2286d990e2ec55
