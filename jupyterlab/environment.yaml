@@ -12,18 +12,20 @@ dependencies:
   - nb_conda_kernels
   - ipython > 7
   - jupyter-server-proxy
-  - "jupyter_server>=2.4.0"
-  - jupyterlab >=4
+  - "jupyter_server>=1.18.1"
+  - jupyterlab >=3
   - jupyter_client
   - jupyter_console
   - jupyterhub==3.1.1
   - nbconvert
   - nbval
+  - retrolab
 
   # jupyterlab extensions
   - dask_labextension >= 5.3.0
   - jupyterlab-git >=0.30.0
   - sidecar >=0.5.0
+  - jupyter-videochat >=0.5.0
   - ipywidgets >= 8.0.0
   - ipyleaflet >=0.13.5
   - pyviz_comms >=2.0.1
@@ -50,28 +52,11 @@ dependencies:
   - importnb
   - git-lfs
 
-  # JHub Apps dependencies
-  - flask
-  - plotlydash-tornado-cmd
-  - bokeh-root-cmd
-  - jhsingle-native-proxy
-  - panel
-  - uvicorn
-  - fastapi
-  - python-multipart
-  # - voila
-  - dash
-  - streamlit
-  - traitlets
-
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
       - jupyterlab-conda-store==2023.10.1
-      # - jupyter-tensorboard
-      # - jupyterlab_nvdashboard
+      - jupyter-tensorboard
+      - jupyterlab_nvdashboard
       - argo-jupyter-scheduler==2023.7.1
       - jupyter_ai
-      - gradio
-      - git+https://github.com/nebari-dev/jhub-apps.git@585a3fbf9c03bbfb690762ddfda203957c0a1d42
-      - jupyterlab_pioneer
