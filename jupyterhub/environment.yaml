@@ -15,4 +15,4 @@ dependencies:
     - nebari-jupyterhub-theme
     - python-keycloak==0.26.1
     # TODO: Replace with the latest released version
-    - git+https://github.com/nebari-dev/jhub-apps.git@47631601fd2854c67d797a0a274107fa95b1e706
+    - git+https://github.com/nebari-dev/jhub-apps.git@b0877f98be033a06af161dc01df9e4b595b508db
