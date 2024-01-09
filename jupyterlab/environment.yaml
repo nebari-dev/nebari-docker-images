@@ -54,6 +54,5 @@ dependencies:
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
-      - jupyterlab-conda-store==2023.10.1
       - argo-jupyter-scheduler==2023.7.1
       - jupyter_ai
