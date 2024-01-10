@@ -11,8 +11,7 @@ dependencies:
   - kubernetes_asyncio
   - jupyterhub-idle-culler==1.2.1
   - sqlalchemy==1.4.46
+  - jhub-apps==2024.1.2
   - pip:
     - nebari-jupyterhub-theme
     - python-keycloak==0.26.1
-    # TODO: Replace with the latest released version
-    - git+https://github.com/nebari-dev/jhub-apps.git@3c614c8af92d5936f5b24beaac02fedc4ae1f754
