@@ -20,6 +20,9 @@ dependencies:
   - nbconvert
   - nbval
 
+  # jupyterhub extension
+  - jhub-apps==2024.1.1
+
   # jupyterlab extensions
   - dask_labextension >= 5.3.0
   - jupyterlab-git >=0.30.0
@@ -56,5 +59,3 @@ dependencies:
       - git+https://github.com/betatim/vscode-binder
       - argo-jupyter-scheduler==2023.7.1
       - jupyter_ai
-      # TODO: Move it above as soon as released on conda-forge
-      - jhub-apps==2024.1.1

@@ -11,8 +11,7 @@ dependencies:
   - kubernetes_asyncio
   - jupyterhub-idle-culler==1.2.1
   - sqlalchemy==1.4.46
+  - jhub-apps==2024.1.1
   - pip:
     - nebari-jupyterhub-theme
     - python-keycloak==0.26.1
-    # TODO: Move it above as soon as released on conda-forge
-    - jhub-apps==2024.1.1
