@@ -51,7 +51,7 @@ dependencies:
   - isort
   - importnb
   - git-lfs
-  - jhub-apps==2024.1.1  
+  - jhub-apps==2024.1.2
 
   - pip:
       # vscode jupyterlab launcher
