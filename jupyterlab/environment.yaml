@@ -51,6 +51,7 @@ dependencies:
   - isort
   - importnb
   - git-lfs
+  - jhub-apps==2024.1.1  
 
   - pip:
       # vscode jupyterlab launcher
@@ -60,5 +61,3 @@ dependencies:
       - jupyterlab_nvdashboard
       - argo-jupyter-scheduler==2023.7.1
       - jupyter_ai
-      # TODO: Replace with the latest released version
-      - jhub-apps==2024.1.1
