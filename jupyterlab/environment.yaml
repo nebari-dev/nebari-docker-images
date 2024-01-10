@@ -56,3 +56,5 @@ dependencies:
       - git+https://github.com/betatim/vscode-binder
       - argo-jupyter-scheduler==2023.7.1
       - jupyter_ai
+      # TODO: Move it above as soon as released on conda-forge
+      - jhub-apps==2024.1.1
