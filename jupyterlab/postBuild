@@ -2,6 +2,9 @@
 set -euo pipefail
 set -x
 
+# install classic notebook extensions
+jupyter nbextension enable --py widgetsnbextension --sys-prefix
+
 # install code-server extension
 sh /opt/scripts/install-code-server.sh "/opt/conda/envs/${DEFAULT_ENV}/share"
 
