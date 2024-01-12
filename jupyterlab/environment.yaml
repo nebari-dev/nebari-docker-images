@@ -1,3 +1,37 @@
+# Copyright (c) Nebari Development Team.
+# Distributed under the terms of the Modified BSD License.
+
+name: default
+channels:
+  - conda-forge
+dependencies:
+  # general
+  - pip
+
+  # jupyterhub/jupyterlab
+  - nb_conda_kernels
+  - ipython > 7
+  - jupyter-server-proxy
+  - "jupyter_server>=1.18.1"
+  - jupyterlab >=3
+  - jupyter_client
+  - jupyter_console
+  - jupyterhub==3.1.1
+  - nbconvert
+  - nbval
+  - retrolab
+
+  # jupyterlab extensions
+  - dask_labextension >= 5.3.0
+  - jupyterlab-git >=0.30.0
+  - sidecar >=0.5.0
+  - jupyter-videochat >=0.5.0
+  - ipywidgets >= 8.0.0
+  - ipyleaflet >=0.13.5
+  - pyviz_comms >=2.0.1
+  - jupyter-resource-usage >=0.6.0
+  - nbgitpuller
+  - jupyterlab_code_formatter
   - jupyterlab-spellchecker >= 0.7.3
 
   # viz tools
@@ -21,6 +55,9 @@
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
+      - jupyterlab-conda-store==2023.10.1
+      - jupyter-tensorboard
+      - jupyterlab_nvdashboard
       - argo-jupyter-scheduler==2023.7.1
       - jupyter_ai
       - jhub-apps==2024.1.2
