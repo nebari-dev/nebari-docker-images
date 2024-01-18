@@ -14,7 +14,7 @@ if [[ ! $(sha256sum script.deb.sh) == "${expected_sum}  script.deb.sh" ]]; then
 fi
 
 # Install packagecloud's repository signing key and add repository to apt
-bash ./script.deb.sh
+sh ./script.deb.sh
 
 # Install git-lfs
 apt-get install -y --no-install-recommends git-lfs
