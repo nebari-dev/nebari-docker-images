@@ -21,6 +21,7 @@ dependencies:
   - nbval
 
   # jupyterhub extension
+  - jhub-apps==2024.1.5
 
   # jupyterlab extensions
   - dask_labextension >= 5.3.0
