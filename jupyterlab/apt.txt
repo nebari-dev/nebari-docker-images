@@ -45,3 +45,6 @@ libosmesa6
 # gpg
 gnupg
 pinentry-curses
+
+# extras
+git-lfs
