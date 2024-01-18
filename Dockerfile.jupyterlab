@@ -15,6 +15,10 @@ RUN chmod -R a-w ~
 COPY scripts/install-apt-minimal.sh /opt/scripts/install-apt-minimal.sh
 RUN /opt/scripts/install-apt-minimal.sh
 
+# Install extra packages (require custom package repository)
+COPY scripts/install-gitlfs.sh /opt/scripts/install-gitlfs.sh
+RUN /opt/scripts/install-gitlfs.sh
+
 COPY scripts/fix-permissions /opt/scripts/fix-permissions
 
 ENV MAMBAFORGE_VERSION 4.13.0-1
