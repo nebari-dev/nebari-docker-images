@@ -34,6 +34,7 @@ dependencies:
   - jupyterlab_code_formatter
   - jupyterlab-spellchecker >= 0.7.3
   - jupyterlab-pioneer
+  - jupyter-ai
 
   # viz tools
   - param
@@ -57,5 +58,4 @@ dependencies:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
       - argo-jupyter-scheduler==2024.1.3
-      - jupyter_ai
       - jhub-apps==2024.1.6
