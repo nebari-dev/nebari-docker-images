@@ -14,5 +14,5 @@ dependencies:
     - nebari-jupyterhub-theme
     - python-keycloak==0.26.1
     - jhub-apps==2024.1.6
-    - https://github.com/jupyterhub/jupyterhub/archive/4.0.2-patch.zip
+    - https://github.com/Quansight/jupyterhub/archive/4.0.2-patch.zip
 
