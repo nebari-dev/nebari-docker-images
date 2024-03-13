@@ -35,6 +35,7 @@ dependencies:
   - jupyterlab-spellchecker >= 0.7.3
   - jupyterlab-pioneer
   - jupyter-ai
+  - jupyterlab-favorites >=3.2.1
 
   # viz tools
   - param
