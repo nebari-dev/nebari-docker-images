@@ -5,7 +5,6 @@ dependencies:
   - pip==21.1.2
   - jupyterhub==4.0.2
   - jupyterhub-kubespawner==4.2.0
-  - oauthenticator==15.1.0
   - escapism==1.0.1
   - python-kubernetes
   - kubernetes_asyncio
@@ -15,3 +14,4 @@ dependencies:
     - nebari-jupyterhub-theme
     - python-keycloak==0.26.1
     - jhub-apps==2024.2.1rc1
+    - git+https://github.com/jupyterhub/oauthenticator.git
