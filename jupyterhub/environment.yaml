@@ -5,7 +5,7 @@ dependencies:
   - pip==21.1.2
   - jupyterhub==4.0.2
   - jupyterhub-kubespawner==4.2.0
-  - oauthenticator==15.1.0
+  - oauthenticator==16.2.1
   - escapism==1.0.1
   - python-kubernetes
   - kubernetes_asyncio
