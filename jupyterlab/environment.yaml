@@ -36,6 +36,7 @@ dependencies:
   - jupyterlab-pioneer
   - jupyter-ai
   - jupyterlab-favorites >=3.2.1
+  - jupyter-scheduler >=2.5.2
 
   # viz tools
   - param
