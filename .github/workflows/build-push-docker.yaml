@@ -119,3 +119,4 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
+          platforms: linux/amd64,linux/arm64
