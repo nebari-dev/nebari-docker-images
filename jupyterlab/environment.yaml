@@ -16,7 +16,6 @@ dependencies:
   - jupyterlab >=4
   - jupyter_client
   - jupyter_console
-  - jupyterhub==4.1.5
   - nbconvert
   - nbval
 
@@ -64,3 +63,4 @@ dependencies:
       - jupyterlab-nebari-mode==0.3.0
       - jupyterlab-conda-store==2024.3.1
       - jupyterlab-new-launcher==0.3.0
+      - jupyterhub==5.0.0b1
