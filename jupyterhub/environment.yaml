@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - pip==21.1.2
+  - jupyterhub==5.0.0
   - jupyterhub-kubespawner==4.2.0
   - oauthenticator==16.3.0
   - escapism==1.0.1
@@ -14,4 +15,3 @@ dependencies:
     - nebari-jupyterhub-theme==2024.5.1
     - python-keycloak==0.26.1
     - jhub-apps==2024.4.1
-    - jupyterhub==5.0.0b2
