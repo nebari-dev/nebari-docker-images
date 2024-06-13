@@ -60,7 +60,7 @@ dependencies:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
       - argo-jupyter-scheduler==2024.6.1rc1
-      - jhub-apps==2024.6.1rc2
+      - jhub-apps==2024.6.1
       - jupyterlab-nebari-mode==0.3.0
       - jupyterlab-conda-store==2024.3.1
       - jupyterlab-new-launcher==0.4.2
