@@ -63,5 +63,5 @@ dependencies:
       - jhub-apps==2024.6.1
       - jupyterlab-nebari-mode==0.3.0
       - jupyterlab-conda-store==2024.3.1
-      - jupyterlab-new-launcher==0.4.2
+      - jupyterlab-new-launcher==0.5.0
       - jupyterlab-gallery==0.2.1
