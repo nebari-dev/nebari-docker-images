@@ -6,7 +6,7 @@ set -xe
 
 # Adding the packagecloud repository for git-lfs installation
 wget --quiet -O script.deb.sh https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh
-expected_sum=5fc673f9a72b94c011b13eb5caedc3aa4541b5c5506b95d013cb7ba0f1cf66cf
+expected_sum=8c4d07257b8fb6d612b6085f68ad33c34567b00d0e4b29ed784b2a85380f727b
 
 if [[ ! $(sha256sum script.deb.sh) == "${expected_sum}  script.deb.sh" ]]; then
     echo Unexpected hash from git-lfs install script
