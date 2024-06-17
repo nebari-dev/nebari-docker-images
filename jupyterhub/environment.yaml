@@ -8,7 +8,7 @@ dependencies:
   - oauthenticator==16.3.0
   - escapism==1.0.1
   - python-kubernetes
-  - kubernetes_asyncio
+  - kubernetes_asyncio==29.0.0
   - jupyterhub-idle-culler==1.2.1
   - sqlalchemy==1.4.46
   - pip:
