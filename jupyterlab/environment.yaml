@@ -44,6 +44,7 @@ dependencies:
   - plotly >=5.0
   - ipympl
   - bokeh >=3.0
+  - panel
 
   # testing, docs, linting
   - pytest
@@ -66,3 +67,4 @@ dependencies:
       - jupyterlab-conda-store==2024.3.1
       - jupyterlab-launchpad==1.0.1
       - jupyterlab-gallery==0.2.1
+      - anywidget==0.9.13
