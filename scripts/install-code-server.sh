@@ -24,3 +24,6 @@ sh ./install.sh --method standalone --prefix /opt/tmpdir --version ${CODE_SERVER
 
 mv /opt/tmpdir/lib/code-server-${CODE_SERVER_VERSION}/* ${DEFAULT_PREFIX}/code-server
 rm -rf /opt/tmpdir
+
+# install default extensions
+code-server --install-extension ms-python.python
