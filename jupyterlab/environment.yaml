@@ -11,7 +11,7 @@ dependencies:
   # jupyterhub/jupyterlab
   - nb_conda_kernels
   - ipython > 7
-  - jupyter-server-proxy >=4.2.0
+  #- jupyter-server-proxy >=4.2.0
   - "jupyter_server>=2.13.0"
   - jupyterlab >=4
   - jupyter_client
@@ -59,10 +59,11 @@ dependencies:
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
+      - git+https://github.com/krassowski/jupyter-server-proxy@sse-stream-support
       - jupyterlab_nvdashboard==0.11.0
       - argo-jupyter-scheduler==2024.6.1
       - jhub-apps==2024.6.1
       - jupyterlab-nebari-mode==0.3.0
       - jupyterlab-conda-store==2024.3.1
       - jupyterlab-launchpad==1.0.1
-      - jupyterlab-gallery==0.6.2
+      - jupyterlab-gallery==0.6.3
