@@ -11,12 +11,12 @@ dependencies:
   # jupyterhub/jupyterlab
   - nb_conda_kernels
   - ipython > 7
-  - jupyter-server-proxy >=4.2.0
+  - jupyter-server-proxy >=4.4.0
   - "jupyter_server>=2.13.0"
   - jupyterlab >=4
   - jupyter_client
   - jupyter_console
-  - jupyterhub==5.0.0
+  - jupyterhub==5.1.0
   - nbconvert
   - nbval
 
@@ -28,7 +28,7 @@ dependencies:
   - sidecar >=0.5.0
   - ipywidgets >= 8.0.0
   - ipyleaflet >=0.13.5
-  - pyviz_comms >=2.0.1
+  - pyviz_comms >=3.0.3
   - jupyter-resource-usage >=0.6.0
   - nbgitpuller
   - jupyterlab_code_formatter
@@ -43,7 +43,7 @@ dependencies:
   - python-graphviz
   - plotly >=5.0
   - ipympl
-  - bokeh >=3.0
+  - bokeh >=3.5.2
 
   # testing, docs, linting
   - pytest
@@ -61,8 +61,8 @@ dependencies:
       - git+https://github.com/betatim/vscode-binder
       - jupyterlab_nvdashboard==0.11.0
       - argo-jupyter-scheduler==2024.6.1
-      - jhub-apps==2024.6.1
+      - jhub-apps==2024.8.1
       - jupyterlab-nebari-mode==0.3.0
       - jupyterlab-conda-store==2024.3.1
       - jupyterlab-launchpad==1.0.1
-      - jupyterlab-gallery==0.3.3
+      - jupyterlab-gallery==0.6.3
