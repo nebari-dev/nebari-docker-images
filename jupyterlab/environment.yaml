@@ -13,7 +13,7 @@ dependencies:
   - ipython > 7
   - jupyter-server-proxy >=4.4.0
   - "jupyter_server>=2.13.0"
-  - jupyterlab >=4
+  - jupyterlab==4.2.5
   - jupyter_client
   - jupyter_console
   - jupyterhub==5.1.0
