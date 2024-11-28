@@ -61,8 +61,9 @@ dependencies:
       - git+https://github.com/betatim/vscode-binder
       - jupyterlab_nvdashboard==0.11.0
       - argo-jupyter-scheduler==2024.6.1
-      - jhub-apps==2024.10.1
+      - jhub-apps==2024.11.1
       - jupyterlab-nebari-mode==0.3.0
       - jupyterlab-conda-store==2024.10.1
-      - jupyterlab-launchpad==1.0.2
+      - jupyterlab-launchpad==1.0.3
       - jupyterlab-gallery==0.6.3
+      - jupyterlab-jhub-apps==0.3.1
