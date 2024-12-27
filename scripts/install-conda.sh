@@ -5,8 +5,17 @@
 set -xe
 
 # Requires environment MAMBAFORGE_SHA256, MINIFORGE_VERSION, and DEFAULT_ENV
-wget --quiet -O mambaforge.sh https://github.com/conda-forge/miniforge/releases/download/$MAMBAFORGE_VERSION/Mambaforge-Linux-x86_64.sh
-echo "${MAMBAFORGE_SHA256} mambaforge.sh" >mambaforge.checksum
+arch=$(uname -i)
+wget --quiet -O mambaforge.sh https://github.com/conda-forge/miniforge/releases/download/$MAMBAFORGE_VERSION/Mambaforge-Linux-$arch.sh
+
+if [[ $arch == "aarch64" ]]; then
+    echo "${MAMBAFORGE_AARCH64_SHA256} mambaforge.sh" >mambaforge.checksum
+elif [[ $arch == "x86_64" ]]; then
+    echo "${MAMBAFORGE_X86_64_SHA256} mambaforge.sh" >mambaforge.checksum
+else
+    echo "Unsupported architecture: $arch"
+    exit 1
+fi
 
 echo $(sha256sum -c mambaforge.checksum)
 
