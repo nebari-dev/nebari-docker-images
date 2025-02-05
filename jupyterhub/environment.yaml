@@ -15,4 +15,3 @@ dependencies:
     - nebari-jupyterhub-theme==2024.7.1
     - python-keycloak==0.26.1
     - jhub-apps==2024.12.1
-    - jupyterhub-fancy-profiles==0.4.0
