@@ -48,6 +48,8 @@ else
     exit 1
 fi
 
+mamba run --live-stream -n ${ENV_NAME} -m pip check || exit 1
+
 # ========= list dependencies ========
 /opt/conda/bin/conda list
 

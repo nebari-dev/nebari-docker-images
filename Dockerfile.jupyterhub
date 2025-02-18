@@ -28,8 +28,7 @@ RUN /opt/scripts/install-conda.sh
 # ========== jupyterhub install ===========
 COPY jupyterhub/environment.yaml /opt/jupyterhub/environment.yaml
 COPY scripts/install-conda-environment.sh /opt/scripts/install-conda-environment.sh
-RUN /opt/scripts/install-conda-environment.sh /opt/jupyterhub/environment.yaml 'false' && \
-    pip check || exit 1
+RUN /opt/scripts/install-conda-environment.sh /opt/jupyterhub/environment.yaml 'false'
 
 COPY jupyterhub /opt/jupyterhub
 RUN /opt/jupyterhub/postBuild
