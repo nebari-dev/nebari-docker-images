@@ -30,7 +30,8 @@ RUN /opt/scripts/install-conda.sh
 # ========== dask-worker install ===========
 COPY dask-worker/environment.yaml /opt/dask-worker/environment.yaml
 COPY scripts/install-conda-environment.sh /opt/scripts/install-conda-environment.sh
-RUN /opt/scripts/install-conda-environment.sh /opt/dask-worker/environment.yaml 'false'
+RUN /opt/scripts/install-conda-environment.sh /opt/dask-worker/environment.yaml 'false' && \
+    pip check || exit 1
 
 # ========== Setup GPU Paths ============
 ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib64

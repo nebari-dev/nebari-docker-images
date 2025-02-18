@@ -55,7 +55,8 @@ RUN \
     else  \
     ENV_FILE=/opt/jupyterlab/environment.yaml ; \
     fi ; \
-    /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
+    /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true' && \ 
+    pip check || exit 1
 
 # ========== code-server install ============
 ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
