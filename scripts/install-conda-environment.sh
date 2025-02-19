@@ -48,7 +48,7 @@ else
     exit 1
 fi
 
-mamba run --live-stream -n /opt/conda/envs/${ENV_NAME} python -m pip check || exit 1
+mamba run --live-stream --prefix /opt/conda/envs/${ENV_NAME} python -m pip check || exit 1
 
 # ========= list dependencies ========
 /opt/conda/bin/conda list
