@@ -60,6 +60,7 @@ dependencies:
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
+      - git+https://github.com/nebari-dev/nebari-jupyter-ai
       - jupyterlab_nvdashboard==0.11.0
       - argo-jupyter-scheduler==2024.6.1
       - jhub-apps==2024.12.1
@@ -68,4 +69,3 @@ dependencies:
       - jupyterlab-launchpad==1.0.3
       - jupyterlab-gallery==0.6.3
       - jupyterlab-jhub-apps==0.3.1
-      - git+https://github.com/nebari-dev/nebari-jupyter-ai
