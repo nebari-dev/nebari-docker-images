@@ -6,7 +6,7 @@ set -xe
 
 # Requires environment MAMBAFORGE_SHA256, MINIFORGE_VERSION, and DEFAULT_ENV
 arch=$(uname -i)
-wget --quiet -O mambaforge.sh https://github.com/conda-forge/miniforge/releases/download/$MAMBAFORGE_VERSION/Mambaforge-Linux-$arch.sh
+wget --quiet -O mambaforge.sh https://github.com/conda-forge/miniforge/releases/download/$MAMBAFORGE_VERSION/Miniforge3-Linux-$arch.sh
 
 if [[ $arch == "aarch64" ]]; then
     echo "${MAMBAFORGE_AARCH64_SHA256} mambaforge.sh" >mambaforge.checksum
