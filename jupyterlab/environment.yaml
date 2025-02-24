@@ -69,3 +69,5 @@ dependencies:
       - jupyterlab-launchpad==1.0.3
       - jupyterlab-gallery==0.6.3
       - jupyterlab-jhub-apps==0.3.1
+      # required only to get a consistent solve with conda req's
+      - pydantic>=2.7.4
