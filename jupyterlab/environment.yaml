@@ -63,7 +63,7 @@ dependencies:
       - git+https://github.com/nebari-dev/nebari-jupyter-ai
       - jupyterlab_nvdashboard==0.11.0
       - argo-jupyter-scheduler==2024.6.1
-      - jhub-apps==2024.12.1
+      - jhub-apps==2025.2.1
       - jupyterlab-nebari-mode==0.3.0
       - jupyterlab-conda-store==2024.11.1
       - jupyterlab-launchpad==1.0.3
