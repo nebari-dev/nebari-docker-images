@@ -15,7 +15,7 @@ RUN /opt/scripts/install-apt-minimal.sh
 
 COPY scripts/fix-permissions /opt/scripts/fix-permissions
 
-ENV MAMBAFORGE_VERSION 4.13.0-1
+ENV MAMBAFORGE_VERSION 24.11.3-0
 ENV MAMBAFORGE_AARCH64_SHA256 69e3c90092f61916da7add745474e15317ed0dc6d48bfe4e4c90f359ba141d23
 ENV MAMBAFORGE_X86_64_SHA256 412b79330e90e49cf7e39a7b6f4752970fcdb8eb54b1a45cc91afe6777e8518c
 SHELL ["/bin/bash", "-c"]
