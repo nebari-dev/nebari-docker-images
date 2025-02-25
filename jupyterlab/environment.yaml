@@ -36,10 +36,10 @@ dependencies:
   - jupyterlab-pioneer
   - jupyter-ai
   - langchain-openai # optional jupyter-ai dependency
-  - pydantic==2.10.6
-  - pydantic-core==2.27.2
+  # - "pydantic=2.10.6"
+  # - "pydantic-core=2.27.2"
   - jupyterlab-favorites >=3.2.1
-  - jupyter-scheduler >=2.5.2,<2.6.0
+  # - jupyter-scheduler >=2.5.2,<2.6.0 # problematic
 
   # viz tools
   - param
@@ -72,5 +72,5 @@ dependencies:
       - jupyterlab-gallery==0.6.3
       - jupyterlab-jhub-apps==0.3.1
       # required only to get a consistent solve with conda req's
-      - pydantic==2.10.6
-      - pydantic-core==2.27.2
+      # - pydantic==2.10.6
+      # - pydantic-core==2.27.2

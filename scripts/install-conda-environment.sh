@@ -58,7 +58,6 @@ mamba env list | grep -v '^#' | awk '{print $1}' | while read -r conda_env_name;
     fi
 done
 
-
 # ========== cleanup conda ===========
 /opt/conda/bin/mamba clean -afy
 # remove unnecissary files (statis, js.maps)
