@@ -37,7 +37,7 @@ dependencies:
   - jupyter-ai
   - langchain-openai # optional jupyter-ai dependency
   - jupyterlab-favorites >=3.2.1
-  - jupyter-scheduler >=2.8.0
+  - jupyter-scheduler >=2.8.0,<3.0.0  # >=2.8 due to https://github.com/conda-forge/jupyter_scheduler-feedstock/issues/46
 
   # viz tools
   - param
