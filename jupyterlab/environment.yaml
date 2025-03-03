@@ -36,7 +36,7 @@ dependencies:
   - jupyterlab-pioneer
   - jupyter-ai
   - jupyterlab-favorites >=3.2.1
-  - jupyter-scheduler >=2.5.2,<2.6.0
+  - jupyter-scheduler >=2.8.0,<3.0.0  # >=2.8 due to https://github.com/conda-forge/jupyter_scheduler-feedstock/issues/46
 
   # viz tools
   - param
@@ -61,7 +61,7 @@ dependencies:
       - git+https://github.com/betatim/vscode-binder
       - jupyterlab_nvdashboard==0.11.0
       - argo-jupyter-scheduler==2024.6.1
-      - jhub-apps==2024.12.1
+      - jhub-apps==2025.2.1
       - jupyterlab-nebari-mode==0.3.0
       - jupyterlab-conda-store==2024.11.1
       - jupyterlab-launchpad==1.0.3
