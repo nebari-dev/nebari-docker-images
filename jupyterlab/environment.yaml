@@ -42,7 +42,7 @@ dependencies:
   - param
   - python-graphviz
   - plotly >=5.0
-  - ipympl
+  - ipympl >=0.9.6
   - bokeh >=3.5.2
 
   # testing, docs, linting
