@@ -42,7 +42,7 @@ dependencies:
   - param
   - python-graphviz
   - plotly >=5.0
-  - ipympl
+  - ipympl >=0.9.6
   - bokeh >=3.5.2
 
   # testing, docs, linting
@@ -59,7 +59,7 @@ dependencies:
   - pip:
       # vscode jupyterlab launcher
       - git+https://github.com/betatim/vscode-binder
-      - jupyterlab_nvdashboard==0.11.0
+      - jupyterlab_nvdashboard==0.12.0
       - argo-jupyter-scheduler==2024.6.1
       - jhub-apps==2025.2.1
       - jupyterlab-nebari-mode==0.3.0
