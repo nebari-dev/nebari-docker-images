@@ -48,6 +48,15 @@ else
     exit 1
 fi
 
+# Run pip check for all conda environments
+echo "Running pip check for all conda environments..."
+mamba env list | grep -v '^#' | awk '{print $1}' | while read -r conda_env_name; do
+    if [ ! -z "$conda_env_name" ]; then
+        echo "Checking dependencies for environment: $conda_env_name"
+        mamba run --live-stream -n "$conda_env_name" python -m pip check || exit 1
+    fi
+done
+
 # ========= list dependencies ========
 /opt/conda/bin/conda list
 
