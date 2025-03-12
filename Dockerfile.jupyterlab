@@ -10,12 +10,12 @@ ARG BASE_IMAGE=ubuntu:20.04
 FROM $BASE_IMAGE
 LABEL MAINTAINER="Nebari development team"
 
-COPY jupyterlab /opt/jupyterlab
-COPY scripts /opt/scripts
-
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN chmod -R a-w ~
+COPY scripts/install-apt-minimal.sh /opt/scripts/install-apt-minimal.sh
 RUN /opt/scripts/install-apt-minimal.sh
+
+COPY scripts/fix-permissions /opt/scripts/fix-permissions
 
 SHELL ["/bin/bash", "-c"]
 ENV DEFAULT_ENV=default
@@ -23,9 +23,9 @@ ENV DEFAULT_ENV=default
 ENV TZ=America/Chicago
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Set PATH for Dockerfile so that some useful scripts are
-# available. Any changes intended to propagate to runtime containers should be
-# set in /etc/profile.d (see setup_shell_behavior.sh)
+# Set PATH for Dockerfile so that tools in the pixi env and some useful 
+# scripts are available. Any changes intended to propagate to runtime 
+# containers should be set in /etc/profile.d (see setup_shell_behavior.sh)
 ENV PATH=/opt/jupyterlab/.pixi/envs/${DEFAULT_ENV}/bin:/opt/scripts:${PATH}
 
 # ========== Install Pixi ============
@@ -33,12 +33,17 @@ RUN curl -fsSL https://pixi.sh/install.sh | bash
 ENV PATH=~/.pixi/bin:${PATH}
 
 # ========== jupyterlab install ============
+COPY jupyterlab/apt.txt /opt/jupyterlab/apt.txt
+COPY scripts/install-apt.sh /opt/scripts/install-apt.sh
 RUN /opt/scripts/install-apt.sh /opt/jupyterlab/apt.txt
 
 # Install extra packages (require custom package repository)
+COPY scripts/install-gitlfs.sh /opt/scripts/install-gitlfs.sh
 RUN /opt/scripts/install-gitlfs.sh
 
 # Install environment using Pixi
+COPY jupyterlab/pixi.toml /opt/jupyterlab/pixi.toml
+COPY jupyterlab/pixi.lock /opt/jupyterlab/pixi.lock
 RUN pixi install --manifest-path /opt/jupyterlab/ --locked 
 RUN pixi shell-hook --manifest-path /opt/jupyterlab/ -s bash > /shell-hook
 RUN echo "#!/bin/bash" > /opt/entrypoint.sh
@@ -47,6 +52,9 @@ RUN echo 'exec "$@"' >> /opt/entrypoint.sh
 
 # ========== code-server install ============
 ENV PATH=/opt/jupyterlab/.pixi/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
+COPY scripts/install-code-server.sh /opt/scripts/install-code-server.sh
+
+COPY jupyterlab/postBuild /opt/jupyterlab/postBuild
 RUN /opt/jupyterlab/postBuild
 
 # ========== Setup GPU Paths ============
