@@ -44,11 +44,7 @@ RUN /opt/scripts/install-gitlfs.sh
 # Install environment using Pixi
 COPY jupyterlab/pixi.toml /opt/jupyterlab/pixi.toml
 COPY jupyterlab/pixi.lock /opt/jupyterlab/pixi.lock
-RUN pixi install --manifest-path /opt/jupyterlab/ --locked 
-RUN pixi shell-hook --manifest-path /opt/jupyterlab/ -s bash > /shell-hook
-RUN echo "#!/bin/bash" > /opt/entrypoint.sh
-RUN cat /shell-hook >> /opt/entrypoint.sh
-RUN echo 'exec "$@"' >> /opt/entrypoint.sh
+RUN pixi install --manifest-path /opt/jupyterlab/ --locked
 
 # ========== code-server install ============
 ENV PATH=/opt/jupyterlab/.pixi/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
