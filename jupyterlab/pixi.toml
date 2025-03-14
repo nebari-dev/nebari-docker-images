@@ -6,7 +6,7 @@ platforms = ["linux-64", "linux-aarch64"]
 [dependencies]
 
 # general
-python = "==3.12"
+python = "3.12.*"
 
 # jupyterhub/jupyterlab
 nb_conda_kernels = "*"
