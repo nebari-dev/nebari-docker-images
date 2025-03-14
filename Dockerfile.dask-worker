@@ -27,7 +27,8 @@ ENV PATH=~/.pixi/bin:${PATH}
 # ========== dask-worker install ===========
 COPY dask-worker/pixi.toml /opt/dask-worker/pixi.toml
 COPY dask-worker/pixi.lock /opt/dask-worker/pixi.lock
-RUN pixi install --manifest-path /opt/dask-worker/ --locked
+RUN pixi install --manifest-path /opt/dask-worker/ --locked && \
+    pixi clean --manifest-path /opt/dask-worker/ cache -y
 
 COPY dask-worker/postBuild /opt/dask-worker/postBuild
 RUN /opt/dask-worker/postBuild

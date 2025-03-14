@@ -43,6 +43,7 @@ RUN /opt/scripts/install-apt.sh
 # ========== nebari-workflow-controller install ===========
 COPY nebari-workflow-controller/pixi.toml /opt/nebari-workflow-controller/pixi.toml
 COPY nebari-workflow-controller/pixi.lock /opt/nebari-workflow-controller/pixi.lock
-RUN pixi install --manifest-path /opt/nebari-workflow-controller/ --locked
+RUN pixi install --manifest-path /opt/nebari-workflow-controller/ --locked && \
+    pixi clean --manifest-path /opt/nebari-workflow-controller/ cache -y
 
 CMD ["python", "-m", "nebari_workflow_controller"]

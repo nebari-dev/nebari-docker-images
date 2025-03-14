@@ -26,7 +26,8 @@ ENV PATH=~/.pixi/bin:${PATH}
 # ========== jupyterhub install ===========
 COPY jupyterhub/pixi.toml /opt/jupyterhub/pixi.toml
 COPY jupyterhub/pixi.lock /opt/jupyterhub/pixi.lock
-RUN pixi install --manifest-path /opt/jupyterhub/ --locked
+RUN pixi install --manifest-path /opt/jupyterhub/ --locked && \
+    pixi clean --manifest-path /opt/jupyterhub/ cache -y
 
 COPY jupyterhub/postBuild /opt/jupyterhub/postBuild
 RUN /opt/jupyterhub/postBuild
