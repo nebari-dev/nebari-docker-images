@@ -1,5 +1,5 @@
 ARG BASE_IMAGE=ubuntu:24.04
-FROM $BASE_IMAGE as builder
+FROM $BASE_IMAGE AS builder
 LABEL MAINTAINER="Nebari development team"
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
