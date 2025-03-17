@@ -61,6 +61,9 @@ jobs:
           echo "BASE_IMAGE=$GPU_BASE_IMAGE" >> $GITHUB_ENV
           echo "IMAGE_SUFFIX=-$GPU_IMAGE_SUFFIX" >> $GITHUB_ENV
 
+      - name: "Set up Docker Buildx 🛠️"
+        uses: docker/setup-buildx-action@v2
+
       - name: Build Image 🛠
         uses: docker/build-push-action@v3
         with:
