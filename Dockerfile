@@ -27,7 +27,7 @@ RUN /opt/scripts/install-conda.sh
 FROM builder AS dask-worker
 COPY dask-worker/environment.yaml /opt/dask-worker/environment.yaml
 RUN --mount=type=cache,target=/root/.cache/conda \
-    --mount=type=cache,target=/opt/conda/pkgs \/
+    --mount=type=cache,target=/opt/conda/pkgs \
     /opt/scripts/install-conda-environment.sh /opt/dask-worker/environment.yaml 'false'
 
 ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib64
