@@ -76,7 +76,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 FROM jupyterlab-base AS jupyterlab
 
 COPY jupyterlab/apt.txt /opt/jupyterlab/apt.txt
-RUN /opt/scripts/install-apt.sh /opt/jupyterlab/apt.txt && \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    /opt/scripts/install-apt.sh /opt/jupyterlab/apt.txt && \
     /opt/scripts/install-gitlfs.sh
 
 ARG SKIP_CONDA_SOLVE=no
