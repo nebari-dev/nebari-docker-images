@@ -104,7 +104,7 @@ RUN /opt/jupyterlab/postBuild
 
 
 # ========== nebari-workflow-controller install ============
-FROM jupyterlab-base AS nebari-workflow-controller
+FROM jupyterlab-base AS workflow-controller
 
 COPY nebari-workflow-controller/apt.txt /opt/nebari-workflow-controller/apt.txt
 RUN /opt/scripts/install-apt.sh

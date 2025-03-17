@@ -62,7 +62,14 @@ jobs:
           echo "IMAGE_SUFFIX=-$GPU_IMAGE_SUFFIX" >> $GITHUB_ENV
 
       - name: Build Image 🛠
-        run: |
-          docker build -t ${DOCKER_ORG}/${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}:${{ env.GITHUB_SHA }} \
-          --build-arg BASE_IMAGE=$BASE_IMAGE \
-          -f Dockerfile.${{ matrix.dockerfile }} .
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: "Dockerfile"
+          target: ${{ matrix.dockerfile }}
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
+          platforms: linux/amd64,linux/arm64
+
