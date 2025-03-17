@@ -50,7 +50,7 @@ jobs:
       - name: Lint Dockerfiles 🔍
         uses: jbergstroem/hadolint-gh-action@v1
         with:
-          dockerfile: Dockerfile.${{ matrix.dockerfile }}
+          dockerfile: Dockerfile
           output_format: tty
           error_level: 0
 
