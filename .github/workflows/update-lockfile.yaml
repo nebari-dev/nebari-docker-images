@@ -1,4 +1,4 @@
-name: Update Pixi Lockfile
+name: Update Pixi Lockfiles
 
 on:
   workflow_dispatch: null
@@ -7,9 +7,23 @@ on:
     - "*"
     paths:
     - "*/pixi.toml"
+    - ".github/workflows/update-lockfile.yaml"
 
 jobs:
-  update-lockfile:
+  check-manifests:
+    name: "Check Pixi Manifests"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout Repository 🛎️"
+        uses: actions/checkout@v4
+
+      - name: "Check changed Pixi manifests"
+        uses: tj-actions/changed-files@v46
+        with:
+          files: "*/pixi.toml"
+
+  update-lockfiles:
     name: "Update Pixi Lockfile"
     runs-on: ubuntu-latest
     strategy:
