@@ -1,0 +1,38 @@
+name: Update Pixi Lockfile
+
+on:
+  workflow_dispatch: null
+  push:
+    branches:
+    - "*"
+    paths:
+    - "*/pixi.toml"
+
+jobs:
+  update-lockfile:
+    name: "Update Pixi Lockfile"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment:
+          - jupyterlab
+          - jupyterhub
+          - dask-worker
+          - nebari-workflow-controller
+
+    steps:
+      - name: "Checkout Repository 🛎️"
+        uses: actions/checkout@v4
+
+      - name: "Setup Pixi"
+        uses: prefix-dev/setup-pixi@v0.8.3
+        with:
+          run-install: false
+
+      - name: "Update Pixi Lockfile"
+        run: pixi lock --manifest-path ./${{ matrix.environment }}
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Apply automatic changes to Pixi lockfile for ${{ matrix.environment }} environment"
+          file_pattern: "*/pixi.lock"
