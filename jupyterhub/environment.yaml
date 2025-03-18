@@ -4,7 +4,7 @@ channels:
 dependencies:
   - pip==21.1.2
   - jupyterhub==5.1.0
-  - jupyterhub-kubespawner==4.2.0
+  - jupyterhub-kubespawner==6.2.0
   - oauthenticator==16.3.0
   - escapism==1.0.1
   - python-kubernetes
