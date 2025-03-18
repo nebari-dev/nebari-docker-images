@@ -34,6 +34,8 @@ jobs:
     strategy:
       matrix:
         manifest: ${{ fromJson(needs.check-manifests.outputs.manifests) }}
+    needs:
+      - check-manifests
 
     steps:
       - name: "Checkout Repository 🛎️"
