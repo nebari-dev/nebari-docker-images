@@ -60,7 +60,7 @@ CMD ["jupyterhub", "--config", "/usr/local/etc/jupyterhub/jupyterhub_config.py"]
 
 # ========== jupyterlab base ===========
 FROM builder AS jupyterlab-base
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 \
     CONDA_DIR=/opt/conda \
     DEFAULT_ENV=default
 RUN chmod -R a-w ~
