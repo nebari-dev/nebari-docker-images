@@ -2,9 +2,7 @@ ARG BASE_IMAGE=ubuntu:24.04
 FROM $BASE_IMAGE AS builder
 LABEL MAINTAINER="Nebari development team"
 
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     bzip2 \
     ca-certificates \
@@ -19,18 +17,14 @@ ENV MAMBAFORGE_VERSION=4.13.0-1 \
     PATH=/opt/conda/bin:${PATH}:/opt/scripts
 
 
-RUN --mount=type=cache,target=/root/.cache/conda \
-    --mount=type=cache,target=/opt/conda/pkgs \
-    /opt/scripts/install-conda.sh
+RUN /opt/scripts/install-conda.sh
 
 
 
 # ========== dask-worker install ===========
 FROM builder AS dask-worker
 COPY dask-worker/environment.yaml /opt/dask-worker/environment.yaml
-RUN --mount=type=cache,target=/root/.cache/conda \
-    --mount=type=cache,target=/opt/conda/pkgs \
-    /opt/scripts/install-conda-environment.sh /opt/dask-worker/environment.yaml 'false'
+RUN    /opt/scripts/install-conda-environment.sh /opt/dask-worker/environment.yaml 'false'
 
 ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib64
 ENV NVIDIA_PATH=/usr/local/nvidia/bin
@@ -46,9 +40,7 @@ RUN /opt/dask-worker/postBuild
 # ========== jupyterhub install ===========
 FROM builder AS jupyterhub
 COPY jupyterhub/environment.yaml /opt/jupyterhub/environment.yaml
-RUN --mount=type=cache,target=/root/.cache/conda \
-    --mount=type=cache,target=/opt/conda/pkgs \
-    /opt/scripts/install-conda-environment.sh /opt/jupyterhub/environment.yaml 'false'
+RUN  /opt/scripts/install-conda-environment.sh /opt/jupyterhub/environment.yaml 'false'
 
 COPY jupyterhub /opt/jupyterhub
 RUN /opt/jupyterhub/postBuild
@@ -78,16 +70,12 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 FROM jupyterlab-base AS jupyterlab
 
 COPY jupyterlab/apt.txt /opt/jupyterlab/apt.txt
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    /opt/scripts/install-apt.sh /opt/jupyterlab/apt.txt && \
+RUN    /opt/scripts/install-apt.sh /opt/jupyterlab/apt.txt && \
     /opt/scripts/install-gitlfs.sh
 
 ARG SKIP_CONDA_SOLVE=no
 COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
-RUN --mount=type=cache,target=/root/.cache/conda \
-    --mount=type=cache,target=/opt/conda/pkgs \
-    if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
+RUN if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
     ENV_FILE=/opt/jupyterlab/conda-linux-64.lock ; \
     else  \
     ENV_FILE=/opt/jupyterlab/environment.yaml ; \
@@ -111,18 +99,11 @@ RUN /opt/jupyterlab/postBuild
 FROM jupyterlab-base AS workflow-controller
 
 COPY nebari-workflow-controller/apt.txt /opt/nebari-workflow-controller/apt.txt
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    /opt/scripts/install-apt.sh
-
-# uncomment to install dev dependencies
-# RUN /opt/scripts/install-apt.sh /opt/nebari-workflow-controller/apt.txt  
+RUN /opt/scripts/install-apt.sh
 
 ARG SKIP_CONDA_SOLVE=no
 COPY nebari-workflow-controller/environment.yaml /opt/nebari-workflow-controller/environment.yaml
-RUN --mount=type=cache,target=/root/.cache/conda \
-    --mount=type=cache,target=/opt/conda/pkgs \
-    if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
+RUN if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
     ENV_FILE=/opt/nebari-workflow-controller/conda-linux-64.lock ; \
     else  \
     ENV_FILE=/opt/nebari-workflow-controller/environment.yaml ; \
