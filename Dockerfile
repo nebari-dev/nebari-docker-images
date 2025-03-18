@@ -1,5 +1,4 @@
-ARG BASE_IMAGE=ubuntu:24.04
-FROM $BASE_IMAGE AS builder
+FROM ubuntu:24.04 AS builder
 LABEL MAINTAINER="Nebari development team"
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -62,11 +61,11 @@ CMD ["jupyterhub", "--config", "/usr/local/etc/jupyterhub/jupyterhub_config.py"]
 # ========== jupyterlab base ===========
 FROM builder AS jupyterlab-base
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+    CONDA_DIR=/opt/conda \
+    DEFAULT_ENV=default
 RUN chmod -R a-w ~
 ENV TZ=UTC \
     PATH=/opt/conda/envs/${DEFAULT_ENV}/bin:/opt/conda/bin:${PATH}:/opt/scripts \
-    CONDA_DIR=/opt/conda \
-    DEFAULT_ENV=default
 # Set timezone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
