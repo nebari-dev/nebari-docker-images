@@ -64,7 +64,9 @@ FROM builder AS jupyterlab-base
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN chmod -R a-w ~
 ENV TZ=UTC \
-    PATH=/opt/conda/envs/${DEFAULT_ENV}/bin:/opt/conda/bin:${PATH}:/opt/scripts
+    PATH=/opt/conda/envs/${DEFAULT_ENV}/bin:/opt/conda/bin:${PATH}:/opt/scripts \
+    CONDA_DIR=/opt/conda \
+    DEFAULT_ENV=default
 # Set timezone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
