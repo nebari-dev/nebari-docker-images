@@ -10,16 +10,19 @@ on:
       - "*"
     paths:
       - "Dockerfile.*"
-      - "dask-worker/*"
-      - "jupyterhub/*"
-      - "jupyterlab/*"
-      - "nebari-workflow-controller/*"
+      
+      - "*/apt.txt"
+      - "*/postBuild"
 
       - "scripts/*"
 
       - ".github/workflows/build-push-docker.yaml"
     tags:
       - "*"
+  workflow_run:
+    workflows: ["Update Pixi Lockfiles"]
+    types:
+      - completed
 
 env:
   DOCKER_ORG: nebari
