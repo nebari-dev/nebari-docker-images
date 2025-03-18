@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 AS builder
+FROM ubuntu:20.04 AS builder
 LABEL MAINTAINER="Nebari development team"
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -69,17 +69,52 @@ ENV TZ=UTC \
 # Set timezone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt update && apt install -y --no-install-recommends \
+    locales \
+    libnss-wrapper \
+    htop \
+    tree \
+    zip \
+    unzip \
+    openssh-client \
+    tmux \
+    xvfb \
+    nano \
+    vim \
+    emacs
 
 
 # ========== jupyterlab install ===========
 FROM jupyterlab-base AS jupyterlab
 ENV CONDA_DIR=/opt/conda \
-    DEFAULT_ENV=default
-COPY jupyterlab/apt.txt /opt/jupyterlab/apt.txt
+    DEFAULT_ENV=default \
+    LD_LIBRARY_PATH=/usr/local/nvidia/lib64 \
+    NVIDIA_PATH=/usr/local/nvidia/bin
+
+ENV PATH="$NVIDIA_PATH:$PATH"
+
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    /opt/scripts/install-apt.sh /opt/jupyterlab/apt.txt && \
-    /opt/scripts/install-gitlfs.sh
+    apt update && apt install -y --no-install-recommends \
+    zsh \
+    neovim \
+    libgl1-mesa-glx \
+    libegl1-mesa \
+    libxrandr2 \
+    libxss1 \
+    libxcursor1 \
+    libxcomposite1 \
+    libasound2 \
+    libxi6 \
+    libxtst6 \
+    libfontconfig1 \
+    libxrender1 \
+    libosmesa6 \
+    gnupg \
+    pinentry-curses \
+    git-lfs
 
 ARG SKIP_CONDA_SOLVE=no
 COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
@@ -92,10 +127,7 @@ RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
     /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
 
 # ========== code-server install ============
-ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH} \
-    LD_LIBRARY_PATH=/usr/local/nvidia/lib64 \
-    NVIDIA_PATH=/usr/local/nvidia/bin \
-    PATH="$NVIDIA_PATH:$PATH"
+ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
 
 COPY jupyterlab /opt/jupyterlab
 RUN /opt/jupyterlab/postBuild
@@ -106,12 +138,6 @@ RUN /opt/jupyterlab/postBuild
 
 # ========== nebari-workflow-controller install ============
 FROM jupyterlab-base AS workflow-controller
-
-COPY nebari-workflow-controller/apt.txt /opt/nebari-workflow-controller/apt.txt
-RUN /opt/scripts/install-apt.sh
-
-# uncomment to install dev dependencies
-# RUN /opt/scripts/install-apt.sh /opt/nebari-workflow-controller/apt.txt  
 
 ARG SKIP_CONDA_SOLVE=no
 COPY nebari-workflow-controller/environment.yaml /opt/nebari-workflow-controller/environment.yaml
