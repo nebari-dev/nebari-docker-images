@@ -19,7 +19,9 @@ ENV MAMBAFORGE_VERSION=4.13.0-1 \
     PATH=/opt/conda/bin:${PATH}:/opt/scripts
 
 
-RUN /opt/scripts/install-conda.sh
+RUN --mount=type=cache,target=/root/.cache/conda \
+    --mount=type=cache,target=/opt/conda/pkgs \
+    /opt/scripts/install-conda.sh
 
 
 
@@ -109,7 +111,9 @@ RUN /opt/jupyterlab/postBuild
 FROM jupyterlab-base AS workflow-controller
 
 COPY nebari-workflow-controller/apt.txt /opt/nebari-workflow-controller/apt.txt
-RUN /opt/scripts/install-apt.sh
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    /opt/scripts/install-apt.sh
 
 # uncomment to install dev dependencies
 # RUN /opt/scripts/install-apt.sh /opt/nebari-workflow-controller/apt.txt  
