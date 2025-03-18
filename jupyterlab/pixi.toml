@@ -54,6 +54,8 @@ isort = "*"
 importnb = "*"
 git-lfs = "*"
 
+scipy = "*"
+
 [pypi-dependencies]
 jupyter-vscode-proxy = { git = "https://github.com/betatim/vscode-binder.git" }
 jupyterlab_nvdashboard = "==0.12.0"
