@@ -68,7 +68,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # ========== jupyterlab install ===========
 FROM jupyterlab-base AS jupyterlab
-
+ENV CONDA_DIR=/opt/conda \
+    DEFAULT_ENV=default
 COPY jupyterlab/apt.txt /opt/jupyterlab/apt.txt
 RUN    /opt/scripts/install-apt.sh /opt/jupyterlab/apt.txt && \
     /opt/scripts/install-gitlfs.sh
