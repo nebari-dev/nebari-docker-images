@@ -26,6 +26,7 @@ RUN /opt/scripts/install-conda.sh
 FROM builder AS dask-worker
 COPY dask-worker/environment.yaml /opt/dask-worker/environment.yaml
 RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
+    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     /opt/scripts/install-conda-environment.sh /opt/dask-worker/environment.yaml 'false'
 
 ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib64
@@ -43,6 +44,7 @@ RUN /opt/dask-worker/postBuild
 FROM builder AS jupyterhub
 COPY jupyterhub/environment.yaml /opt/jupyterhub/environment.yaml
 RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
+    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     /opt/scripts/install-conda-environment.sh /opt/jupyterhub/environment.yaml 'false'
 
 COPY jupyterhub /opt/jupyterhub
@@ -119,6 +121,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 ARG SKIP_CONDA_SOLVE=no
 COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
 RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
+    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
     ENV_FILE=/opt/jupyterlab/conda-linux-64.lock ; \
     else  \
@@ -142,6 +145,7 @@ FROM jupyterlab-base AS workflow-controller
 ARG SKIP_CONDA_SOLVE=no
 COPY nebari-workflow-controller/environment.yaml /opt/nebari-workflow-controller/environment.yaml
 RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
+    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
     ENV_FILE=/opt/nebari-workflow-controller/conda-linux-64.lock ; \
     else  \
