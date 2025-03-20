@@ -61,7 +61,7 @@ CMD ["jupyterhub", "--config", "/usr/local/etc/jupyterhub/jupyterhub_config.py"]
 
 
 # ========== jupyterlab base ===========
-FROM builder AS jupyterlab-base
+FROM builder AS intermediate
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 \
     CONDA_DIR=/opt/conda \
     DEFAULT_ENV=default
@@ -73,7 +73,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt update && apt install -y --no-install-recommends \
+    apt-get update && apt-get install -y --no-install-recommends \
     locales \
     libnss-wrapper \
     htop \
@@ -89,7 +89,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 
 # ========== jupyterlab install ===========
-FROM jupyterlab-base AS jupyterlab
+FROM intermediate AS jupyterlab
 ENV CONDA_DIR=/opt/conda \
     DEFAULT_ENV=default \
     LD_LIBRARY_PATH=/usr/local/nvidia/lib64 \
@@ -99,7 +99,7 @@ ENV PATH="$NVIDIA_PATH:$PATH"
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt update && apt install -y --no-install-recommends \
+    apt-get update && apt-get install -y --no-install-recommends \
     zsh \
     neovim \
     libgl1-mesa-glx \
@@ -140,7 +140,7 @@ RUN /opt/jupyterlab/postBuild
 
 
 # ========== nebari-workflow-controller install ============
-FROM jupyterlab-base AS workflow-controller
+FROM intermediate AS workflow-controller
 
 ARG SKIP_CONDA_SOLVE=no
 COPY nebari-workflow-controller/environment.yaml /opt/nebari-workflow-controller/environment.yaml
