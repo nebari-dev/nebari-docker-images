@@ -62,25 +62,39 @@ Whether you want to contribute to this project or whether you wish use these ima
 
 From the repository's root folder, you can build these images locally by running the listed commands on your terminal.
 
-- For [JupyterLab](Dockerfile.jupyterlab):
+- For [JupyterLab](https://github.com/nebari-dev/nebari-docker-images/blob/27f9f8cd14acdd0c028984bffc15fa34c1597ce4/Dockerfile#L63):
 
   ```shell
-  docker build -f Dockerfile.jupyterlab \
-      -t nebari-jupyterlab:latest .
+  make jupyterlab
   ```
 
 - For [JupyterHub](Dockerfile.jupyterhub):
 
   ```shell
-  docker build -f Dockerfile.jupyterhub \
-      -t nebari-jupyterhub:latest .
+  make jupyterhub
   ```
 
 - For [Dask-Worker](Dockerfile.dask-worker):
 
   ```shell
-  docker build -f Dockerfile.dask-gateway \
-      -t nebari-dask-gateway:latest .
+  make dask-worker
+  ```
+
+- For [Workflow-Controller](Dockerfile.dask-worker):
+
+  ```shell
+  make workflow-controller
+  ```
+
+- To build all of the images
+  
+  ```shell
+  make all
+  ```
+- To delete built images
+  
+  ```shell
+  make clean
   ```
 
 > **NOTE**
