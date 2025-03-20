@@ -62,25 +62,25 @@ Whether you want to contribute to this project or whether you wish use these ima
 
 From the repository's root folder, you can build these images locally by running the listed commands on your terminal.
 
-- For [JupyterLab](https://github.com/nebari-dev/nebari-docker-images/blob/27f9f8cd14acdd0c028984bffc15fa34c1597ce4/Dockerfile#L63):
+- To build nebari-jupyterlab
 
   ```shell
   make jupyterlab
   ```
 
-- For [JupyterHub](https://github.com/nebari-dev/nebari-docker-images/blob/27f9f8cd14acdd0c028984bffc15fa34c1597ce4/Dockerfile#L43):
+- To build nebari-jupyterhub
 
   ```shell
   make jupyterhub
   ```
 
-- For [Dask-Worker](https://github.com/nebari-dev/nebari-docker-images/blob/27f9f8cd14acdd0c028984bffc15fa34c1597ce4/Dockerfile#L25):
+- To build nebari-dask-worker
 
   ```shell
   make dask-worker
   ```
 
-- For [Workflow-Controller](https://github.com/nebari-dev/nebari-docker-images/blob/27f9f8cd14acdd0c028984bffc15fa34c1597ce4/Dockerfile#L142):
+- To build nebari-workflow-controller
 
   ```shell
   make workflow-controller
