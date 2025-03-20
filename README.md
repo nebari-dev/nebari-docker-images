@@ -68,19 +68,19 @@ From the repository's root folder, you can build these images locally by running
   make jupyterlab
   ```
 
-- For [JupyterHub](Dockerfile.jupyterhub):
+- For [JupyterHub](https://github.com/nebari-dev/nebari-docker-images/blob/27f9f8cd14acdd0c028984bffc15fa34c1597ce4/Dockerfile#L43):
 
   ```shell
   make jupyterhub
   ```
 
-- For [Dask-Worker](Dockerfile.dask-worker):
+- For [Dask-Worker](https://github.com/nebari-dev/nebari-docker-images/blob/27f9f8cd14acdd0c028984bffc15fa34c1597ce4/Dockerfile#L25):
 
   ```shell
   make dask-worker
   ```
 
-- For [Workflow-Controller](Dockerfile.dask-worker):
+- For [Workflow-Controller](https://github.com/nebari-dev/nebari-docker-images/blob/27f9f8cd14acdd0c028984bffc15fa34c1597ce4/Dockerfile#L142):
 
   ```shell
   make workflow-controller
