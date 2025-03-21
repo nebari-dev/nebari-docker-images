@@ -9,7 +9,7 @@ on:
     branches:
       - "*"
     paths:
-      - "Dockerfile.*"
+      - "Dockerfile"
       - "dask-worker/*"
       - "jupyterhub/*"
       - "jupyterlab/*"
@@ -112,7 +112,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: "Dockerfile.${{ matrix.dockerfile }}"
+          file: "Dockerfile"
+          target: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -50,7 +50,7 @@ jobs:
       - name: Lint Dockerfiles 🔍
         uses: jbergstroem/hadolint-gh-action@v1
         with:
-          dockerfile: Dockerfile.${{ matrix.dockerfile }}
+          dockerfile: Dockerfile
           output_format: tty
           error_level: 0
 
@@ -61,8 +61,18 @@ jobs:
           echo "BASE_IMAGE=$GPU_BASE_IMAGE" >> $GITHUB_ENV
           echo "IMAGE_SUFFIX=-$GPU_IMAGE_SUFFIX" >> $GITHUB_ENV
 
+      - name: "Set up Docker Buildx 🛠️"
+        uses: docker/setup-buildx-action@v2
+
       - name: Build Image 🛠
-        run: |
-          docker build -t ${DOCKER_ORG}/${{ matrix.dockerfile }}${{ env.IMAGE_SUFFIX }}:${{ env.GITHUB_SHA }} \
-          --build-arg BASE_IMAGE=$BASE_IMAGE \
-          -f Dockerfile.${{ matrix.dockerfile }} .
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: "Dockerfile"
+          target: ${{ matrix.dockerfile }}
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
+          platforms: linux/amd64,linux/arm64
+
