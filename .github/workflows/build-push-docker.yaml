@@ -67,19 +67,19 @@ jobs:
       - name: "Set up Docker Buildx 🛠️"
         uses: docker/setup-buildx-action@v2
 
-      - name: "Login to GitHub Container Registry 🔐"
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.BOT_GHCR_TOKEN }}
+      # - name: "Login to GitHub Container Registry 🔐"
+      #   uses: docker/login-action@v2
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.repository_owner }}
+      #     password: ${{ secrets.BOT_GHCR_TOKEN }}
 
-      - name: "Login to Quay Container Registry 🔐"
-        uses: docker/login-action@v2
-        with:
-          registry: quay.io
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_TOKEN }}
+      # - name: "Login to Quay Container Registry 🔐"
+      #   uses: docker/login-action@v2
+      #   with:
+      #     registry: quay.io
+      #     username: ${{ secrets.QUAY_USERNAME }}
+      #     password: ${{ secrets.QUAY_TOKEN }}
 
       - name: "Set BASE_IMAGE and Image Suffix 📷"
         if: ${{ matrix.platform == 'gpu' }}
@@ -107,17 +107,20 @@ jobs:
         run: |
           sudo apt-get install tree
           tree .
+      
+      - name: "Test tag selection"
+        run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0]}}
 
-      - name: "Build docker images 🐳"
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: "Dockerfile"
-          target: ${{ matrix.dockerfile }}
-          tags: ${{ steps.meta.outputs.tags }}
-          push: ${{ github.event_name != 'pull_request' }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
-          platforms: linux/amd64,linux/arm64
+      # - name: "Build docker images 🐳"
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     context: .
+      #     file: "Dockerfile"
+      #     target: ${{ matrix.dockerfile }}
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     push: ${{ github.event_name != 'pull_request' }}
+      #     labels: ${{ steps.meta.outputs.labels }}
+      #     cache-from: type=gha
+      #     cache-to: type=gha,mode=max
+      #     build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
+      #     platforms: linux/amd64,linux/arm64
