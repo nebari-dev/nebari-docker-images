@@ -111,16 +111,32 @@ jobs:
       - name: "Test tag selection"
         run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0]}}
 
-      # - name: "Build docker images 🐳"
-      #   uses: docker/build-push-action@v3
-      #   with:
-      #     context: .
-      #     file: "Dockerfile"
-      #     target: ${{ matrix.dockerfile }}
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     push: ${{ github.event_name != 'pull_request' }}
-      #     labels: ${{ steps.meta.outputs.labels }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
-      #     build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
-      #     platforms: linux/amd64,linux/arm64
+      - name: "Build docker images 🐳"
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: "Dockerfile"
+          target: ${{ matrix.dockerfile }}
+          tags: ${{ steps.meta.outputs.tags }}
+          push: ${{ github.event_name != 'pull_request' }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
+          platforms: linux/amd64,linux/arm64
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ fromJSON(steps.meta.outputs.json).tags[0]}}
+          hide-progress: true
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
