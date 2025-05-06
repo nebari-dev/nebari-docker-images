@@ -131,7 +131,7 @@ jobs:
           image-ref: ${{ fromJSON(steps.meta.outputs.json).tags[0]}}
           hide-progress: true
           format: 'sarif'
-          output: 'trivy-results.sarif'
+          output: 'trivy-${{ matrix.dockerfile }}-${{ matrix.platform }}.sarif'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
           limit-severities-for-sarif: true
@@ -140,5 +140,5 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: 'trivy-${{ matrix.dockerfile }}-${{ matrix.platform }}.sarif'
           category: ${{ matrix.dockerfile }}-${{ matrix.platform }}
