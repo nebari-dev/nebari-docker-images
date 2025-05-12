@@ -107,6 +107,9 @@ jobs:
         run: |
           sudo apt-get install tree
           tree .
+      
+      - name: "Test tag selection"
+        run: echo ${{ fromJSON(steps.meta.outputs.json).tags[0]}}
 
       - name: "Build docker images 🐳"
         uses: docker/build-push-action@v3
@@ -121,3 +124,21 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
           platforms: linux/amd64,linux/arm64
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ fromJSON(steps.meta.outputs.json).tags[0]}}
+          hide-progress: true
+          format: 'sarif'
+          output: 'trivy-${{ matrix.dockerfile }}-${{ matrix.platform }}.sarif'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+          limit-severities-for-sarif: true
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-${{ matrix.dockerfile }}-${{ matrix.platform }}.sarif'
+          category: ${{ matrix.dockerfile }}-${{ matrix.platform }}
