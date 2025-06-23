@@ -49,7 +49,14 @@ else
 fi
 
 # ========= list dependencies ========
-/opt/conda/bin/conda list
+# Run pip check for all conda environments
+echo "Running \"conda list\" for all conda environments..."
+mamba env list | grep -v '^#' | awk '{print $1}' | while read -r conda_env_name; do
+    if [ ! -z "$conda_env_name" ]; then
+        echo "Running \"conda list\" for environment: $conda_env_name"
+        /opt/conda/bin/conda list -n "$conda_env_name"
+    fi
+done
 
 # ========== cleanup conda ===========
 /opt/conda/bin/mamba clean -afy
