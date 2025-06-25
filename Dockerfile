@@ -116,7 +116,15 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     libosmesa6 \
     gnupg \
     pinentry-curses \
-    git-lfs
+    git-lfs \
+    dbus-x11 \
+    xfce4 \
+    xfce4-panel \
+    xfce4-session \
+    xfce4-settings \
+    xorg \
+    xubuntu-icon-theme \
+    tigervnc-standalone-server
 
 ARG SKIP_CONDA_SOLVE=no
 COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
