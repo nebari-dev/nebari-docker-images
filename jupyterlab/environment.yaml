@@ -38,6 +38,7 @@ dependencies:
   - jupyterlab-favorites >=3.2.1
   - jupyter-scheduler >=2.8.0,<3.0.0  # >=2.8 due to https://github.com/conda-forge/jupyter_scheduler-feedstock/issues/46
   - jupyterlab-deck
+  - jupytext
 
   # viz tools
   - param
@@ -68,3 +69,4 @@ dependencies:
       - jupyterlab-gallery==0.6.3
       - jupyterlab-jhub-apps==0.3.1
       - jupyter-remote-desktop-proxy==3.0.1
+      - jupyterlab_myst
