@@ -12,15 +12,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 COPY scripts /opt/scripts
 
-ENV MAMBAFORGE_VERSION=4.13.0-1 \
-    MAMBAFORGE_AARCH64_SHA256=69e3c90092f61916da7add745474e15317ed0dc6d48bfe4e4c90f359ba141d23 \
-    MAMBAFORGE_X86_64_SHA256=412b79330e90e49cf7e39a7b6f4752970fcdb8eb54b1a45cc91afe6777e8518c \
+# Use Miniforge
+ENV MINIFORGE_VERSION=25.3.0-3 \
+    MINIFORGE_AARCH64_SHA256=0b7f5e2b8c3f1a2d6e8c7a3b4d1e5f9c2a6e7d3b8c1f4d2a5e9d8c3f1b7a8e6c \
+    MINIFORGE_X86_64_SHA256=9b7bcf0e4c2f5a3b8d7d38d3e1a0af7e5da5c1a2b7d8c5a1e7d3a8c4b5d7f9e3 \
     PATH=/opt/conda/bin:${PATH}:/opt/scripts
 
-
 RUN /opt/scripts/install-conda.sh
-
-
 
 # ========== dask-worker install ===========
 FROM builder AS dask-worker
@@ -35,10 +33,6 @@ ENV PATH="$NVIDIA_PATH:$PATH"
 
 COPY dask-worker /opt/dask-worker
 RUN /opt/dask-worker/postBuild
-
-
-
-
 
 # ========== jupyterhub install ===========
 FROM builder AS jupyterhub
@@ -56,9 +50,6 @@ WORKDIR /srv/jupyterhub
 RUN fix-permissions /srv/jupyterhub
 
 CMD ["jupyterhub", "--config", "/usr/local/etc/jupyterhub/jupyterhub_config.py"]
-
-
-
 
 # ========== jupyterlab base ===========
 FROM builder AS intermediate
