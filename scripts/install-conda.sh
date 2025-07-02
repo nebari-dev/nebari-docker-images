@@ -33,8 +33,8 @@ fi
 
 rm miniforge.sh miniforge.checksum
 
-conda --version
-conda clean -afy
+mamba --version
+mamba clean -afy
 
 ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 
