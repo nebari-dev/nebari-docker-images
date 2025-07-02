@@ -14,8 +14,8 @@ COPY scripts /opt/scripts
 
 # Use Miniforge
 ENV MINIFORGE_VERSION=25.3.0-3 \
-    MINIFORGE_AARCH64_SHA256=0b7f5e2b8c3f1a2d6e8c7a3b4d1e5f9c2a6e7d3b8c1f4d2a5e9d8c3f1b7a8e6c \
-    MINIFORGE_X86_64_SHA256=9b7bcf0e4c2f5a3b8d7d38d3e1a0af7e5da5c1a2b7d8c5a1e7d3a8c4b5d7f9e3 \
+    MINIFORGE_AARCH64_SHA256=ac89f17b0eec4e98d38a53d1ae688e0f22c77d8ea5b5f008c2455e90ef095339 \
+    MINIFORGE_X86_64_SHA256=1b57f8cb991982063f79b56176881093abb1dc76d73fda32102afde60585b5a1 \
     PATH=/opt/conda/bin:${PATH}:/opt/scripts
 
 RUN /opt/scripts/install-conda.sh
