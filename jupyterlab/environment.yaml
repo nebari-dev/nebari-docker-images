@@ -39,6 +39,7 @@ dependencies:
   - jupyter-scheduler >=2.8.0,<3.0.0  # >=2.8 due to https://github.com/conda-forge/jupyter_scheduler-feedstock/issues/46
   - jupyterlab-deck
   - jupytext
+  - anywidget
 
   # viz tools
   - param
