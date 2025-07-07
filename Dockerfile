@@ -118,7 +118,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     libglx-mesa0 \
     libosmesa6 \
     libopengl0 \
-    libegl1 \
     mesa-utils
 
 ARG GPU_BUILD=no
