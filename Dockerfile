@@ -102,8 +102,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
     zsh \
     neovim \
-    libgl1 \ 
-    libglx-mesa0 \
     libxrandr2 \
     libxss1 \
     libxcursor1 \
@@ -113,10 +111,35 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     libxtst6 \
     libfontconfig1 \
     libxrender1 \
-    libosmesa6 \
     gnupg \
     pinentry-curses \
-    git-lfs
+    git-lfs \
+    libgl1 \
+    libglx-mesa0 \
+    libosmesa6 \
+    libopengl0 \
+    mesa-utils
+
+# Ensure apt is up to date
+RUN apt-get update && \
+    # Install NVIDIA EGL/OpenGL libraries for driver 575
+    apt-get install -y --no-install-recommends \
+        libnvidia-gl-575 \
+        libnvidia-egl-575 \
+        nvidia-egl-icd-575 \
+        libgl1 \
+        libglvnd0 \
+        libglx0 \
+        libegl1 && \
+    # Optionally remove Mesa GLX/EGL ICD to avoid fallback
+    apt-get remove -y --purge libglx-mesa0 libegl-mesa0 libopengl0 || true && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Force VTK to use GPU EGL device 0
+ENV VTK_DEFAULT_EGL_DEVICE_INDEX=0
+ARG GPU_BUILD=no
 
 ARG SKIP_CONDA_SOLVE=no
 COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
