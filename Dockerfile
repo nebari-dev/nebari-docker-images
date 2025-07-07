@@ -102,8 +102,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
     zsh \
     neovim \
-    libgl1 \ 
-    libglx-mesa0 \
     libxrandr2 \
     libxss1 \
     libxcursor1 \
@@ -113,10 +111,16 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     libxtst6 \
     libfontconfig1 \
     libxrender1 \
-    libosmesa6 \
     gnupg \
     pinentry-curses \
     git-lfs
+
+ARG GPU_BUILD=no
+RUN if [ "$GPU_BUILD" = "yes" ]; then \
+        apt-get update && apt-get install -y libnvidia-gl-550 libnvidia-egl-550; \
+    else \
+        apt-get update && apt-get install -y libgl1 libglx-mesa0 libosmesa6; \
+    fi
 
 ARG SKIP_CONDA_SOLVE=no
 COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
