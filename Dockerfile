@@ -113,7 +113,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     libxrender1 \
     gnupg \
     pinentry-curses \
-    git-lfs
+    git-lfs \
     libgl1 \
     libglx-mesa0 \
     libosmesa6 \
