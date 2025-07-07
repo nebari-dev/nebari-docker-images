@@ -114,13 +114,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     gnupg \
     pinentry-curses \
     git-lfs
+    libgl1 \
+    libglx-mesa0 \
+    libosmesa6 \
+    libopengl0 \
+    libegl1
 
 ARG GPU_BUILD=no
-RUN if [ "$GPU_BUILD" = "yes" ]; then \
-        echo "Using GPU build, relying on nvidia-container-runtime for GPU libraries"; \
-    else \
-        apt-get update && apt-get install -y libgl1 libglx-mesa0 libosmesa6; \
-    fi
 
 ARG SKIP_CONDA_SOLVE=no
 COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
