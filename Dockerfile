@@ -117,7 +117,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 ARG GPU_BUILD=no
 RUN if [ "$GPU_BUILD" = "yes" ]; then \
-        apt-get update && apt-get install -y libnvidia-gl-550 libnvidia-egl-550; \
+        echo "Using GPU build, relying on nvidia-container-runtime for GPU libraries"; \
     else \
         apt-get update && apt-get install -y libgl1 libglx-mesa0 libosmesa6; \
     fi
