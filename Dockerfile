@@ -85,7 +85,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     xvfb \
     nano \
     vim \
-    emacs
+    emacs \
+    make \
+    docker.io \
+    awscli
 
 
 # ========== jupyterlab install ===========
