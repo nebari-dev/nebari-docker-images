@@ -131,11 +131,9 @@ RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
     /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
 
 # Setup Custom Docker engine install
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
-   echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-RUN apt install -y docker-ce docker-ce-cli containerd.io
-RUN usermod -aG docker 1000
+RUN curl -fsSL https://get.docker.com -o get-docker.sh
+RUN chmod +x get-docker.sh
+RUN sh ./get-docker.sh --dry-run
 
 # ========== code-server install ============
 ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
