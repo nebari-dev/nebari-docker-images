@@ -85,10 +85,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     xvfb \
     nano \
     vim \
-    emacs \
-    make \
-    docker.io \
-    awscli
+    emacs
 
 
 # ========== jupyterlab install ===========
@@ -119,7 +116,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     libosmesa6 \
     gnupg \
     pinentry-curses \
-    git-lfs
+    git-lfs \
+    make
 
 ARG SKIP_CONDA_SOLVE=no
 COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
