@@ -134,8 +134,8 @@ RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-RUN sudo apt install -y docker-ce docker-ce-cli containerd.io
-RUN sudo usermod -aG docker 1000
+RUN apt install -y docker-ce docker-ce-cli containerd.io
+RUN usermod -aG docker 1000
 
 # ========== code-server install ============
 ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
