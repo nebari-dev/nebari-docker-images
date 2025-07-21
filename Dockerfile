@@ -133,7 +133,7 @@ RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
 # Setup Custom Docker engine install
 RUN curl -fsSL https://get.docker.com -o get-docker.sh
 RUN chmod +x get-docker.sh
-RUN sh ./get-docker.sh --dry-run
+RUN sh ./get-docker.sh
 
 # ========== code-server install ============
 ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
