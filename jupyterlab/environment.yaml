@@ -67,3 +67,4 @@ dependencies:
       - jupyterlab-launchpad==1.0.3
       - jupyterlab-gallery==0.6.3
       - jupyterlab-jhub-apps==0.3.1
+      - jupyter-remote-desktop-proxy==3.0.1
