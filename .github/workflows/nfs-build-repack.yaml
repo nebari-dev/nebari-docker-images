@@ -1,4 +1,3 @@
-# Repack and publish volume-nfs to GHCR + Quay with metadata-action tags
 name: Repack volume-nfs with updated schema
 
 on:
@@ -10,10 +9,9 @@ on:
       - "*"
 
 env:
-  # source image to repack (schema v1 -> v2/OCI)
   SOURCE_IMAGE: gcr.io/google_containers/volume-nfs:0.8
   DOCKER_ORG: nebari
-  IMAGE_SUFFIX: -repack
+  STATIC_TAG: 0.8-repack
   VALID_TYPES: "application/vnd.oci.image.manifest.v1+json application/vnd.docker.distribution.manifest.v2+json"
 
 permissions:
@@ -33,7 +31,7 @@ jobs:
       - name: "Checkout 🛎️"
         uses: actions/checkout@v4
 
-      - name: "Install skopeo+jq 🧰"
+      - name: "Install skopeo + jq 🧰"
         run: |
           sudo apt-get update
           sudo apt-get install -y skopeo jq
@@ -52,59 +50,65 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_TOKEN }}
 
-      - name: "Generate image tags 🏷️"
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            quay.io/${{ env.DOCKER_ORG }}/volume-nfs${{ env.IMAGE_SUFFIX }}
-            ghcr.io/${{ github.repository_owner }}/volume-nfs${{ env.IMAGE_SUFFIX }}
-          tags: |
-            # branch event -> e.g. main-f0f6994-20251020
-            type=ref, event=branch, suffix=-{{sha}}-{{date 'YYYYMMDD'}}
-            # plain branch tag for integration tests -> e.g. main
-            type=ref, event=branch
-            # on tag push -> e.g. 2025.10.1
-            type=ref, event=tag
-
-      - name: "Show target tags to be published 🔎"
+      - name: "Define static destinations 🏷️"
+        id: dests
         run: |
-          echo "Will publish to the following targets:"
-          echo "${{ steps.meta.outputs.tags }}" | sed 's/^/  - /'
+          GHCR_DEST="ghcr.io/${{ github.repository_owner }}/volume-nfs:${STATIC_TAG}"
+          QUAY_DEST="quay.io/${{ env.DOCKER_ORG }}/volume-nfs:${STATIC_TAG}"
+          echo "ghcr=${GHCR_DEST}" >> "$GITHUB_OUTPUT"
+          echo "quay=${QUAY_DEST}" >> "$GITHUB_OUTPUT"
+          echo "Publishing to:"
+          echo "  - ${GHCR_DEST}"
+          echo "  - ${QUAY_DEST}"
 
-      - name: "Repack & Push (skopeo copy -> GHCR/Quay) 🐳"
+      - name: "Repack & Push to GHCR 🐳"
         env:
-          TAGS: ${{ steps.meta.outputs.tags }}
           SRC: ${{ env.SOURCE_IMAGE }}
+          DEST: ${{ steps.dests.outputs.ghcr }}
+          VALID_TYPES: ${{ env.VALID_TYPES }}
         run: |
           set -euo pipefail
-          IFS=$'\n'
-          for DEST in $TAGS; do
-            echo "Repacking: ${SRC}  ==>  ${DEST}"
-            # Convert to OCI manifest (or docker schema v2 if registry chooses) and push
-            skopeo copy \
-              --insecure-policy \
-              --format oci \
-              "docker://${SRC}" \
-              "docker://${DEST}"
+          echo "Repacking: ${SRC}  ==>  ${DEST}"
+          skopeo copy --insecure-policy --format oci "docker://${SRC}" "docker://${DEST}"
 
-            echo "Verifying manifest schema for ${DEST}"
-            MT=$(skopeo inspect --raw "docker://${DEST}" | jq -r '.mediaType // .manifests[0].mediaType')
-            echo "  Detected mediaType: ${MT}"
-
-            ok=false
-            for vt in ${VALID_TYPES}; do
-              if [ "${MT}" = "${vt}" ]; then ok=true; fi
-            done
-
-            if [ "${ok}" != "true" ]; then
-              echo "❌ Image manifest schema is not OCI or Docker schema v2. Got: ${MT}"
-              exit 1
-            fi
-            echo "✅ Schema OK for ${DEST}"
+          echo "Verifying manifest schema for ${DEST}"
+          MT=$(skopeo inspect --raw "docker://${DEST}" | jq -r '.mediaType // .manifests[0].mediaType')
+          echo "  Detected mediaType: ${MT}"
+          ok=false
+          for vt in ${VALID_TYPES}; do
+            if [ "${MT}" = "${vt}" ]; then ok=true; fi
           done
+          if [ "${ok}" != "true" ]; then
+            echo "❌ Image manifest schema is not OCI or Docker schema v2. Got: ${MT}"
+            exit 1
+          fi
+          echo "✅ Schema OK for ${DEST}"
+
+      - name: "Repack & Push to Quay 🐳"
+        env:
+          SRC: ${{ env.SOURCE_IMAGE }}
+          DEST: ${{ steps.dests.outputs.quay }}
+          VALID_TYPES: ${{ env.VALID_TYPES }}
+        run: |
+          set -euo pipefail
+          echo "Repacking: ${SRC}  ==>  ${DEST}"
+          skopeo copy --insecure-policy --format oci "docker://${SRC}" "docker://${DEST}"
+
+          echo "Verifying manifest schema for ${DEST}"
+          MT=$(skopeo inspect --raw "docker://${DEST}" | jq -r '.mediaType // .manifests[0].mediaType')
+          echo "  Detected mediaType: ${MT}"
+          ok=false
+          for vt in ${VALID_TYPES}; do
+            if [ "${MT}" = "${vt}" ]; then ok=true; fi
+          done
+          if [ "${ok}" != "true" ]; then
+            echo "❌ Image manifest schema is not OCI or Docker schema v2. Got: ${MT}"
+            exit 1
+          fi
+          echo "✅ Schema OK for ${DEST}"
 
       - name: "Summary"
         run: |
           echo "Successfully repacked ${SOURCE_IMAGE} to:"
-          echo "${{ steps.meta.outputs.tags }}"
+          echo "  - ghcr.io/${{ github.repository_owner }}/volume-nfs:${STATIC_TAG}"
+          echo "  - quay.io/${{ env.DOCKER_ORG }}/volume-nfs:${STATIC_TAG}"
