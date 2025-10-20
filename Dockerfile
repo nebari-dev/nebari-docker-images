@@ -22,7 +22,9 @@ ARG PIXI_VERSION
 ARG PIXI_AMD64_SHA256
 ARG PIXI_ARM64_SHA256
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
     wget \
     ca-certificates && \
     ARCH=$(dpkg --print-architecture) && \
