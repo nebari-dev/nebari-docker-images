@@ -1,4 +1,3 @@
-LABEL MAINTAINER="Nebari development team"
 # =============================================================================
 # Nebari Docker Images - Hardened Multi-Stage Build
 # =============================================================================
@@ -135,7 +134,8 @@ WORKDIR /home/nebari
 LABEL org.opencontainers.image.base.name="ubuntu" \
   org.opencontainers.image.base.digest="${UBUNTU_DIGEST}" \
   dev.nebari.pixi.version="${PIXI_VERSION}" \
-  dev.nebari.component="dask-worker"
+  dev.nebari.component="dask-worker" \
+  MAINTAINER="Nebari development team"
 
 # =============================================================================
 # Stage 5: JupyterHub Builder
@@ -198,7 +198,8 @@ USER nebari
 LABEL org.opencontainers.image.base.name="ubuntu" \
   org.opencontainers.image.base.digest="${UBUNTU_DIGEST}" \
   dev.nebari.pixi.version="${PIXI_VERSION}" \
-  dev.nebari.component="jupyterhub"
+  dev.nebari.component="jupyterhub" \
+  MAINTAINER="Nebari development team"
 
 CMD ["jupyterhub", "--config", "/usr/local/etc/jupyterhub/jupyterhub_config.py"]
 
@@ -337,7 +338,8 @@ WORKDIR /home/nebari
 LABEL org.opencontainers.image.base.name="ubuntu" \
   org.opencontainers.image.base.digest="${UBUNTU_DIGEST}" \
   dev.nebari.pixi.version="${PIXI_VERSION}" \
-  dev.nebari.component="jupyterlab"
+  dev.nebari.component="jupyterlab" \
+  MAINTAINER="Nebari development team"
 
 # =============================================================================
 # Stage 10: Workflow Controller Builder
@@ -388,6 +390,7 @@ WORKDIR /home/nebari
 LABEL org.opencontainers.image.base.name="ubuntu" \
   org.opencontainers.image.base.digest="${UBUNTU_DIGEST}" \
   dev.nebari.pixi.version="${PIXI_VERSION}" \
-  dev.nebari.component="workflow-controller"
+  dev.nebari.component="workflow-controller" \
+  MAINTAINER="Nebari development team"
 
 CMD ["python", "-m", "nebari_workflow_controller"]
