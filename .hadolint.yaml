@@ -1,2 +1,3 @@
 ignored:
   - DL3048 # style complaint: Invalid Label Key
+  - DL3008 # Pin versions in apt get install - pinning apt versions makes images harder to maintain and rebuild, and conda/pip packages are the primary dependencies
