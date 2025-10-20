@@ -40,9 +40,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  hadolint:
+    name: "Lint Dockerfile with hadolint"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Repository 🛎️"
+        uses: actions/checkout@v3
+
+      - name: "Run hadolint 🔍"
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          config: .hadolint.yaml
+
   build-images:
     name: "Build Docker Images"
     runs-on: ubuntu-latest
+    needs: hadolint
     strategy:
       matrix:
         dockerfile:
