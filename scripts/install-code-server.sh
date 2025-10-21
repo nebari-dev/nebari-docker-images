@@ -28,8 +28,21 @@ rm -rf /opt/tmpdir
 # Create a directory for builtin extensions (read-only, can only be disabled by users)
 mkdir -p /opt/code-server/builtin-extensions
 
-# Install default extensions as builtin extensions
-${DEFAULT_PREFIX}/code-server/bin/code-server --extensions-dir /opt/code-server/builtin-extensions --install-extension ms-python.python
+# Define builtin extensions to install
+BUILTIN_EXTENSIONS=(
+  "ms-python.python"
+)
+
+# Build install flags
+INSTALL_FLAGS=()
+for extension in "${BUILTIN_EXTENSIONS[@]}"; do
+  INSTALL_FLAGS+=(--install-extension "$extension")
+done
+
+# Install all builtin extensions in one command
+${DEFAULT_PREFIX}/code-server/bin/code-server \
+  --extensions-dir /opt/code-server/builtin-extensions \
+  "${INSTALL_FLAGS[@]}"
 
 # Create a wrapper script that adds the --builtin-extensions-dir flag
 mv ${DEFAULT_PREFIX}/code-server/bin/code-server ${DEFAULT_PREFIX}/code-server/bin/code-server-original
