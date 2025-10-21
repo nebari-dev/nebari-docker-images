@@ -25,5 +25,19 @@ sh ./install.sh --method standalone --prefix /opt/tmpdir --version ${CODE_SERVER
 mv /opt/tmpdir/lib/code-server-${CODE_SERVER_VERSION}/* ${DEFAULT_PREFIX}/code-server
 rm -rf /opt/tmpdir
 
-# install default extensions
-code-server --install-extension ms-python.python
+# Create a directory for builtin extensions (read-only, can only be disabled by users)
+mkdir -p /opt/code-server/builtin-extensions
+
+# Install default extensions as builtin extensions
+${DEFAULT_PREFIX}/code-server/bin/code-server --extensions-dir /opt/code-server/builtin-extensions --install-extension ms-python.python
+
+# Create a wrapper script that adds the --builtin-extensions-dir flag
+mv ${DEFAULT_PREFIX}/code-server/bin/code-server ${DEFAULT_PREFIX}/code-server/bin/code-server-original
+
+cat > ${DEFAULT_PREFIX}/code-server/bin/code-server << 'EOF'
+#!/usr/bin/env bash
+# Wrapper script to automatically include builtin extensions
+exec "$(dirname "$0")/code-server-original" --builtin-extensions-dir /opt/code-server/builtin-extensions "$@"
+EOF
+
+chmod +x ${DEFAULT_PREFIX}/code-server/bin/code-server
