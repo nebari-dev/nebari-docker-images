@@ -8,7 +8,7 @@
 
 ---
 
-# Nebari base Docker images
+# Nebari Base Docker Images: A Verse
 
 | Information | Links                                                                                                                                                                                                                                                                                                                                                                |
 | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -16,18 +16,29 @@
 | Community   | [![GH discussions badge](https://img.shields.io/badge/%F0%9F%92%AC%20-Participate%20in%20discussions-gray.svg?colorA=2D2A56&colorB=5936D9&style=flat.svg)][nebari-discussions] [![Open a GH issue badge](https://img.shields.io/badge/%F0%9F%93%9D%20Open-an%20issue-gray.svg?colorA=2D2A56&colorB=5936D9&style=flat.svg)][nebari-docker-issues]                     |
 | CI          | ![Build Docker Images - GitHub action status badge](https://github.com/nebari-dev/nebari-docker-images/actions/workflows/build-push-docker.yaml/badge.svg)                                                                                                                                                                                                           |
 
-- [Nebari base Docker images](#nebari-base-docker-images)
-  - [Getting started ⚡️](#getting-started-️)
-    - [Prerequisites 💻](#prerequisites-)
-    - [Building the Docker images 🛠](#building-the-docker-images-)
-    - [Pre-commit hooks 🧹](#pre-commit-hooks-)
-  - [Reporting an issue 📝](#reporting-an-issue-)
-  - [Contributions 🤝](#contributions-)
-  - [License 📄](#license-)
+## Contents
 
-This repository contains the source code for Docker (container) images used by the [Nebari platform][nebari-docs]. It also contains an automated means of building and pushing these images to public container registries through [GitHub actions][nebari-docker-actions]. Currently, these images are built and pushed to the following registries:
+- [Of Docker Images Base](#of-docker-images-base)
+- [To Start Upon This Journey Fair](#to-start-upon-this-journey-fair)
+  - [What Tools Thou Needs Before Thee Start](#what-tools-thou-needs-before-thee-start)
+  - [To Build These Images With Thine Hands](#to-build-these-images-with-thine-hands)
+  - [Of Hooks That Clean Before Commit](#of-hooks-that-clean-before-commit)
+- [To Tell Us Of A Problem Found](#to-tell-us-of-a-problem-found)
+- [Of Those Who Wish To Contribute](#of-those-who-wish-to-contribute)
+- [The License Under Which We Work](#the-license-under-which-we-work)
 
-**GitHub Container Registry (ghcr.io)**
+## Of Docker Images Base
+
+Within this vault of code there lies the source
+Of Docker images that Nebari employs.
+By automated means and GitHub's force,
+These containers build and push, with little noise,
+To registries where all the world may see
+And pull them down to use in their own way.
+In GitHub's realm and Quay they stored shall be,
+Awaiting those who need them night or day.
+
+**In GitHub's Container Registry:**
 
 - [`nebari-jupyterlab`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-jupyterlab)
 - [`nebari-jupyterlab-gpu`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-jupyterlab-gpu)
@@ -35,7 +46,7 @@ This repository contains the source code for Docker (container) images used by t
 - [`nebari-dask-worker`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-dask-worker)
 - [`nebari-dask-worker-gpu`](https://github.com/orgs/nebari-dev/packages/container/package/nebari-dask-worker-gpu)
 
-**Quay Container Registry (quay.io)**
+**In Quay's Container Registry:**
 
 - [`nebari-jupyterlab`](https://quay.io/repository/nebari/nebari-jupyterlab)
 - [`nebari-jupyterlab-gpu`](https://quay.io/repository/nebari/nebari-jupyterlab-gpu)
@@ -43,14 +54,22 @@ This repository contains the source code for Docker (container) images used by t
 - [`nebari-dask-worker`](https://quay.io/repository/nebari/nebari-dask-worker)
 - [`nebari-dask-worker-gpu`](https://quay.io/repository/nebari/nebari-dask-worker-gpu)
 
-## Getting started ⚡️
+## To Start Upon This Journey Fair
 
-Whether you want to contribute to this project or whether you wish use these images, to get started, fork this repo and then clone the forked repo onto your local machine.
+If thou wouldst join our cause or use these works,
+Then fork this repo first, as is the way,
+And clone it to thy machine where it lurks,
+Upon thy local disk it there shall stay.
 
-### Prerequisites 💻
+### What Tools Thou Needs Before Thee Start
 
-- [`docker`](https://docs.docker.com/get-docker/), make sure to read the [Docker official documentation on how to install Docker on your machine](https://docs.docker.com/get-docker/).
-- [pre-commit](https://pre-commit.com/), which can be installed with:
+Before thou dost begin this noble task,
+Two tools must grace thy system, I do ask:
+
+- [`docker`](https://docs.docker.com/get-docker/) must be installed with care,
+  The docs shall guide thee through this whole affair.
+- [pre-commit](https://pre-commit.com/) hooks must also be in place,
+  Install with pip or conda, take thy space:
 
   ```bash
   pip install pre-commit
@@ -58,52 +77,61 @@ Whether you want to contribute to this project or whether you wish use these ima
   conda install -c conda-forge pre-commit
   ```
 
-### Building the Docker images 🛠
+### To Build These Images With Thine Hands
 
-From the repository's root folder, you can build these images locally by running the listed commands on your terminal.
+From repository root, as thou shalt see,
+These images may be built quite easily.
+Upon thy terminal run commands clear,
+And Docker images shall soon appear.
 
-- To build nebari-jupyterlab
+- To build the lab where Jupyter dwells:
 
   ```shell
   make jupyterlab
   ```
 
-- To build nebari-jupyterhub
+- To build the hub where users come to rest:
 
   ```shell
   make jupyterhub
   ```
 
-- To build nebari-dask-worker
+- To build the workers who compute with speed:
 
   ```shell
   make dask-worker
   ```
 
-- To build nebari-workflow-controller
+- To build the controller of the flow:
 
   ```shell
   make workflow-controller
   ```
 
-- To build all of the images
-  
+- To build them all in one fell swoop complete:
+
   ```shell
   make all
   ```
-- To delete built images
-  
+
+- To cast away what thou hast built before:
+
   ```shell
   make clean
   ```
 
-> **NOTE**
-> It is extremely important to pin specific packages `dask-gateway` and `distributed` as they need to run the same version for the `dask-workers` to work as expected.
+> **HARK! A WARNING MOST IMPORTANT HERE**
+>
+> The packages `dask-gateway` and `distributed` too,
+> Must match in version, this is very clear,
+> Or else thy dask-workers shall not push through.
 
-### Pre-commit hooks 🧹
+### Of Hooks That Clean Before Commit
 
-This repository uses the `prettier` pre-commit hook to standardize our YAML and markdown structure.
-To install and run it, use these commands from the repository root:
+This repository doth employ with pride
+The `prettier` hook to standardize our ways.
+To install and run it, let this be thy guide,
+These commands shall serve thee well through all thy days:
 
 ```bash
 # install the pre-commit hooks
@@ -113,18 +141,26 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-## Reporting an issue 📝
+## To Tell Us Of A Problem Found
 
-If you encounter an issue or want to make suggestions on how we can make this project better, feel free to [open an issue on this repository's issue tracker](https://github.com/nebari-dev/nebari-docker-images/issues/new/choose).
+If thou shouldst find a bug or have a thought
+On how to make this project better still,
+Feel free to tell us what thy mind has wrought,
+And [open up an issue](https://github.com/nebari-dev/nebari-docker-images/issues/new/choose) at thy will.
 
-## Contributions 🤝
+## Of Those Who Wish To Contribute
 
-Thinking about contributing to this repository or any other in the Nebari org? Check out our
-[Contribution Guidelines](https://nebari.dev/community).
+Art thou considering to join our band
+And contribute to Nebari's grand design?
+Then read our [Contribution Guidelines](https://nebari.dev/community) and understand
+The ways in which thy work with ours shall align.
 
-## License 📄
+## The License Under Which We Work
 
-[Nebari is BSD3 licensed](LICENSE).
+[Know that Nebari is BSD3 licensed](LICENSE), friend,
+And under this our code is freely shared,
+That all may use and modify and send
+Improvements back, for which we all have cared.
 
 <!-- Links -->
 
