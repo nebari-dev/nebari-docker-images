@@ -40,9 +40,12 @@ for extension in "${BUILTIN_EXTENSIONS[@]}"; do
 done
 
 # Install all builtin extensions in one command
-${DEFAULT_PREFIX}/code-server/bin/code-server \
+if ! ${DEFAULT_PREFIX}/code-server/bin/code-server \
   --extensions-dir /opt/code-server/builtin-extensions \
-  "${INSTALL_FLAGS[@]}"
+  "${INSTALL_FLAGS[@]}"; then
+  echo "ERROR: Failed to install one or more extensions"
+  exit 1
+fi
 
 # Create a wrapper script that adds the --builtin-extensions-dir flag
 mv ${DEFAULT_PREFIX}/code-server/bin/code-server ${DEFAULT_PREFIX}/code-server/bin/code-server-original
