@@ -147,8 +147,7 @@ RUN apt-get update && apt-get install -y gnupg wget software-properties-common &
     add-apt-repository "deb https://qgis.org/ubuntu noble main" && \
     add-apt-repository "deb https://qgis.org/ubuntu noble main" && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pip qgis python3-qgis python3-qgis-common python3-venv \
-      python3-pytest python3-mock xvfb qttools5-dev-tools pyqt5-dev-tools && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y qgis && \
     apt-get clean
 
 ARG SKIP_CONDA_SOLVE=no
