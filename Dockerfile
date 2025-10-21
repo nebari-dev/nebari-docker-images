@@ -126,6 +126,17 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     xubuntu-icon-theme \
     tigervnc-standalone-server
 
+ARG SKIP_CONDA_SOLVE=no
+COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
+RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
+    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
+    if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
+    ENV_FILE=/opt/jupyterlab/conda-linux-64.lock ; \
+    else  \
+    ENV_FILE=/opt/jupyterlab/environment.yaml ; \
+    fi ; \
+    /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
+
 # Install Firefox
 # Adapted from https://leimao.github.io/blog/Ubuntu-2404-Docker-Firefox-Installation/
 RUN install -d -m 0755 /etc/apt/keyrings && \
@@ -149,17 +160,6 @@ RUN apt-get update && apt-get install -y gnupg wget software-properties-common &
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y qgis && \
     apt-get clean
-
-ARG SKIP_CONDA_SOLVE=no
-COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
-RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
-    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
-    if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
-    ENV_FILE=/opt/jupyterlab/conda-linux-64.lock ; \
-    else  \
-    ENV_FILE=/opt/jupyterlab/environment.yaml ; \
-    fi ; \
-    /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
 
 # ========== code-server install ============
 ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
