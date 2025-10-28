@@ -2,7 +2,7 @@
 # Copyright (c) Nebari Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-# Fix permissions for nebari user (UID 1000, GID 100)
+# Fix permissions for nebari user (UID 1001, GID 100)
 # Sets ownership to nebari:users and ensures group read/execute permissions
 # This allows arbitrary UIDs in the users group to access files
 
@@ -10,21 +10,21 @@ set -e
 
 # If no arguments provided, show usage
 if [ $# -eq 0 ]; then
-    echo "Usage: fix-permissions <directory>..."
-    exit 1
+  echo "Usage: fix-permissions <directory>..."
+  exit 1
 fi
 
 for d in "$@"; do
-    # Set ownership to nebari:users (1000:100)
-    chown -R nebari:users "$d" 2>/dev/null || true
+  # Set ownership to nebari:users (1001:100)
+  chown -R nebari:users "$d" 2>/dev/null || true
 
-    # Ensure group has read/execute permissions
-    find "$d" \
-        ! -perm -g+rX \
-        -exec chmod g+rX {} \; 2>/dev/null || true
+  # Ensure group has read/execute permissions
+  find "$d" \
+    ! -perm -g+rX \
+    -exec chmod g+rX {} \; 2>/dev/null || true
 
-    # Ensure world has read/execute permissions (for compatibility)
-    find "$d" \
-        ! -perm -o+rX \
-        -exec chmod o+rX {} \; 2>/dev/null || true
+  # Ensure world has read/execute permissions (for compatibility)
+  find "$d" \
+    ! -perm -o+rX \
+    -exec chmod o+rX {} \; 2>/dev/null || true
 done

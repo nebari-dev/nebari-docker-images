@@ -26,6 +26,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get update && apt-get install -y --no-install-recommends \
   wget \
+  bzip2 \
   ca-certificates && \
   ARCH=$(dpkg --print-architecture) && \
   if [ "$ARCH" = "amd64" ]; then \
@@ -51,7 +52,7 @@ FROM ubuntu:24.04@${UBUNTU_DIGEST} AS builder
 COPY --from=pixi-installer /usr/local/bin/pixi /usr/local/bin/pixi
 COPY scripts /opt/scripts
 
-RUN useradd -r -m -u 1001 -g 1001 -s /bin/bash nebari && \
+RUN useradd -r -m -u 1001 -g 100 -s /bin/bash nebari && \
   mkdir -p /opt/envs && \
   chown -R nebari:users /home/nebari /opt/envs
 
