@@ -5,9 +5,7 @@
 # Reproducibility: manifest digests, version pins, audit labels
 # Functionality: external env mounting, all current packages preserved
 
-# Manifest digests obtained 2025-10-20
 ARG UBUNTU_DIGEST=sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252
-ARG CUDA_DIGEST=sha256:133c78a0575303be34164d0b90137a042172bdf60696af01a3c424ab402d86e2
 
 # Pixi version and checksums
 ARG PIXI_VERSION=0.32.1
