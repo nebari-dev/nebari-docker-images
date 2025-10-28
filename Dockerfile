@@ -6,11 +6,12 @@
 # Functionality: external env mounting, all current packages preserved
 
 ARG UBUNTU_DIGEST=sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252
+ARG DEFAULT_ENV=default
 
 # Pixi version and checksums
-ARG PIXI_VERSION=0.32.1
-ARG PIXI_AMD64_SHA256=ef5d947c278ec48af20f06f3fb1aaaca0fcb1b62e5e1dee5325f4aa2a32a5924
-ARG PIXI_ARM64_SHA256=dbbf6bf6b16dca31d0756020f998baf7d78963ab44c552e29f595b2213897eb9
+ARG PIXI_VERSION=0.58.0
+ARG PIXI_AMD64_SHA256=1e0b522fb770f170fab78ecabee7d0480e8025bfd951359c442bf47ef7ace09f
+ARG PIXI_ARM64_SHA256=cd2a5d15312936bff4a8ae1856077480034a017c9067670e764745f370323c78
 
 # =============================================================================
 # Stage 1: Secure Pixi Installer
@@ -69,6 +70,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Stage 3: Dask-Worker Builder
 # =============================================================================
 FROM builder AS dask-worker-builder
+ARG DEFAULT_ENV
 
 # Install packages as root
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -83,7 +85,7 @@ WORKDIR /home/nebari
 
 # Install pixi environment
 COPY --chown=nebari:users dask-worker/pixi.toml dask-worker/pixi.lock /opt/dask-worker/
-RUN pixi install --manifest-path /opt/dask-worker/ -e ${DEFAULT_ENV} --locked && \
+RUN pixi install --manifest-path /opt/dask-worker/pixi.toml -e ${DEFAULT_ENV} --locked && \
   pixi clean cache --yes
 
 # Run postBuild as root (creates files in /opt)
@@ -95,6 +97,9 @@ RUN chmod +x /opt/dask-worker/postBuild && /opt/dask-worker/postBuild
 # Stage 4: Dask-Worker Runtime
 # =============================================================================
 FROM ubuntu:24.04@${UBUNTU_DIGEST} AS dask-worker
+ARG UBUNTU_DIGEST
+ARG PIXI_VERSION
+ARG DEFAULT_ENV
 
 # Copy user/group configuration
 COPY --from=builder /etc/passwd /etc/group /etc/shadow /etc/
@@ -144,7 +149,7 @@ WORKDIR /home/nebari
 
 # Install pixi environment
 COPY --chown=nebari:users jupyterhub/pixi.toml jupyterhub/pixi.lock /opt/jupyterhub/
-RUN pixi install --manifest-path /opt/jupyterhub/ -e ${DEFAULT_ENV} --locked && \
+RUN pixi install --manifest-path /opt/jupyterhub/pixi.toml -e ${DEFAULT_ENV} --locked && \
   pixi clean cache --yes
 
 # Run postBuild (if it needs root access, run as root)
@@ -159,6 +164,9 @@ RUN /opt/jupyterhub/postBuild || true
 # Stage 6: JupyterHub Runtime
 # =============================================================================
 FROM ubuntu:24.04@${UBUNTU_DIGEST} AS jupyterhub
+ARG DEFAULT_ENV
+ARG UBUNTU_DIGEST
+ARG PIXI_VERSION
 
 # Copy user/group configuration
 COPY --from=builder /etc/passwd /etc/group /etc/shadow /etc/
@@ -266,8 +274,8 @@ WORKDIR /home/nebari
 
 # Install pixi environment
 COPY --chown=nebari:users jupyterlab/pixi.toml jupyterlab/pixi.lock /opt/jupyterlab/
-RUN pixi install --manifest-path /opt/jupyterlab/ -e ${DEFAULT_ENV} --locked && \
-  pixi clean cache
+RUN pixi install --manifest-path /opt/jupyterlab/pixi.toml -e ${DEFAULT_ENV} --locked && \
+  pixi clean cache --yes
 
 # Run postBuild as root (code-server installation creates /opt/tmpdir)
 USER root
@@ -278,6 +286,9 @@ RUN chmod +x /opt/jupyterlab/postBuild && /opt/jupyterlab/postBuild
 # Stage 9: JupyterLab Runtime
 # =============================================================================
 FROM ubuntu:24.04@${UBUNTU_DIGEST} AS jupyterlab
+ARG DEFAULT_ENV
+ARG UBUNTU_DIGEST
+ARG PIXI_VERSION
 
 # Copy user/group configuration
 COPY --from=builder /etc/passwd /etc/group /etc/shadow /etc/
@@ -344,13 +355,16 @@ WORKDIR /home/nebari
 
 # Install pixi environment
 COPY --chown=nebari:users nebari-workflow-controller/pixi.toml nebari-workflow-controller/pixi.lock /opt/nebari-workflow-controller/
-RUN pixi install --manifest-path /opt/nebari-workflow-controller/ -e ${DEFAULT_ENV} --locked && \
-  pixi clean cache
+RUN pixi install --manifest-path "/opt/nebari-workflow-controller/pixi.toml" -e "${DEFAULT_ENV}" --locked && \
+  pixi clean cache --yes
 
 # =============================================================================
 # Stage 11: Workflow Controller Runtime
 # =============================================================================
 FROM ubuntu:24.04@${UBUNTU_DIGEST} AS workflow-controller
+ARG DEFAULT_ENV
+ARG UBUNTU_DIGEST
+ARG PIXI_VERSION
 
 # Copy user/group configuration
 COPY --from=builder /etc/passwd /etc/group /etc/shadow /etc/
