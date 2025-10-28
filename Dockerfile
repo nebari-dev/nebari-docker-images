@@ -84,10 +84,10 @@ WORKDIR /home/nebari
 # Install pixi environment
 COPY --chown=nebari:users dask-worker/pixi.toml dask-worker/pixi.lock /opt/dask-worker/
 RUN pixi install --manifest-path /opt/dask-worker/ -e ${DEFAULT_ENV} --locked && \
-  pixi clean cache --yes && \
+  pixi clean cache --yes
 
-  # Run postBuild as root (creates files in /opt)
-  USER root
+# Run postBuild as root (creates files in /opt)
+USER root
 COPY dask-worker/postBuild /opt/dask-worker/
 RUN chmod +x /opt/dask-worker/postBuild && /opt/dask-worker/postBuild
 
@@ -145,10 +145,10 @@ WORKDIR /home/nebari
 # Install pixi environment
 COPY --chown=nebari:users jupyterhub/pixi.toml jupyterhub/pixi.lock /opt/jupyterhub/
 RUN pixi install --manifest-path /opt/jupyterhub/ -e ${DEFAULT_ENV} --locked && \
-  pixi clean cache --yes && \
+  pixi clean cache --yes
 
-  # Run postBuild (if it needs root access, run as root)
-  USER root
+# Run postBuild (if it needs root access, run as root)
+USER root
 COPY jupyterhub/postBuild /opt/jupyterhub/
 RUN chmod +x /opt/jupyterhub/postBuild && \
   chown nebari:users /opt/jupyterhub/postBuild
@@ -267,10 +267,10 @@ WORKDIR /home/nebari
 # Install pixi environment
 COPY --chown=nebari:users jupyterlab/pixi.toml jupyterlab/pixi.lock /opt/jupyterlab/
 RUN pixi install --manifest-path /opt/jupyterlab/ -e ${DEFAULT_ENV} --locked && \
-  pixi clean cache --yes && \
+  pixi clean cache
 
-  # Run postBuild as root (code-server installation creates /opt/tmpdir)
-  USER root
+# Run postBuild as root (code-server installation creates /opt/tmpdir)
+USER root
 COPY jupyterlab/postBuild /opt/jupyterlab/
 RUN chmod +x /opt/jupyterlab/postBuild && /opt/jupyterlab/postBuild
 
@@ -345,12 +345,12 @@ WORKDIR /home/nebari
 # Install pixi environment
 COPY --chown=nebari:users nebari-workflow-controller/pixi.toml nebari-workflow-controller/pixi.lock /opt/nebari-workflow-controller/
 RUN pixi install --manifest-path /opt/nebari-workflow-controller/ -e ${DEFAULT_ENV} --locked && \
-  pixi clean cache --yes && \
+  pixi clean cache
 
-  # =============================================================================
-  # Stage 11: Workflow Controller Runtime
-  # =============================================================================
-  FROM ubuntu:24.04@${UBUNTU_DIGEST} AS workflow-controller
+# =============================================================================
+# Stage 11: Workflow Controller Runtime
+# =============================================================================
+FROM ubuntu:24.04@${UBUNTU_DIGEST} AS workflow-controller
 
 # Copy user/group configuration
 COPY --from=builder /etc/passwd /etc/group /etc/shadow /etc/
