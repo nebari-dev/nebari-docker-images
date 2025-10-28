@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 AS builder
+FROM ubuntu:24.04 AS builder
 LABEL MAINTAINER="Nebari development team"
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -91,13 +91,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
     zsh \
     neovim \
-    libgl1-mesa-glx \
-    libegl1-mesa \
+    libgl1 \ 
+    libglx-mesa0 \
     libxrandr2 \
     libxss1 \
     libxcursor1 \
     libxcomposite1 \
-    libasound2 \
+    libasound2t64 \
     libxi6 \
     libxtst6 \
     libfontconfig1 \
