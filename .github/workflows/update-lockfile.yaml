@@ -1,0 +1,56 @@
+name: Update Pixi Lockfiles
+
+on:
+  workflow_dispatch: null
+  push:
+    branches:
+    - "*"
+    paths:
+    - "*/pixi.toml"
+    - ".github/workflows/update-lockfile.yaml"
+
+jobs:
+  check-manifests:
+    name: "Check Pixi Manifests"
+    runs-on: ubuntu-latest
+
+    outputs:
+      manifests: ${{ steps.changed-manifests.outputs.all_changed_files }}
+
+    steps:
+      - name: "Checkout Repository 🛎️"
+        uses: actions/checkout@v4
+
+      - name: "Check changed Pixi manifests"
+        id: changed-manifests
+        uses: tj-actions/changed-files@v46
+        with:
+          files: "*/pixi.toml"
+          matrix: true
+  
+  update-lockfiles:
+    name: "Update Pixi Lockfile"
+    runs-on: ubuntu-latest
+    needs:
+      - check-manifests
+    if: needs.check-manifests.outputs.manifests != '[]'
+    strategy:
+      matrix:
+        manifest: ${{ fromJson(needs.check-manifests.outputs.manifests) }}
+
+    steps:
+      - name: "Checkout Repository 🛎️"
+        uses: actions/checkout@v4
+
+      - name: "Setup Pixi"
+        uses: prefix-dev/setup-pixi@v0.8.3
+        with:
+          run-install: false
+
+      - name: "Update Pixi Lockfile"
+        run: pixi lock --manifest-path ${{ matrix.manifest }}
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Apply automatic changes to Pixi lockfile for ${{ matrix.environment }} environment"
+          file_pattern: "*/pixi.lock"

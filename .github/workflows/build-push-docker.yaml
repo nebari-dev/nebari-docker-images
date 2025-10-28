@@ -20,6 +20,10 @@ on:
       - ".github/workflows/build-push-docker.yaml"
     tags:
       - "*"
+  workflow_run:
+    workflows: ["Update Pixi Lockfiles"]
+    types:
+      - completed
 
 env:
   DOCKER_ORG: nebari
