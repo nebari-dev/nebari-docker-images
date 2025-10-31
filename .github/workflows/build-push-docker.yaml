@@ -87,6 +87,7 @@ jobs:
           echo "GPU Platform Matrix"
           echo "BASE_IMAGE=$GPU_BASE_IMAGE" >> $GITHUB_ENV
           echo "IMAGE_SUFFIX=-$GPU_IMAGE_SUFFIX" >> $GITHUB_ENV
+          echo "GPU=true" >> $GITHUB_ENV
 
       - name: "Generate Docker images tags 🏷️"
         id: meta
@@ -119,5 +120,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: BASE_IMAGE=${{ env.BASE_IMAGE }}
+          build-args: |
+            BASE_IMAGE=${{ env.BASE_IMAGE }}
+            GPU=${{ env.GPU }}
           platforms: linux/amd64,linux/arm64
