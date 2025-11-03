@@ -51,7 +51,8 @@ FROM ubuntu:24.04@${UBUNTU_DIGEST} AS builder
 COPY --from=pixi-installer /usr/local/bin/pixi /usr/local/bin/pixi
 COPY scripts /opt/scripts
 
-RUN useradd -r -m -u 1001 -g 100 -s /bin/bash nebari && \
+RUN userdel -r ubuntu 2>/dev/null || true && \
+  useradd -m -u 1000 -g 100 -s /bin/bash nebari && \
   mkdir -p /opt/envs && \
   chown -R nebari:users /home/nebari /opt/envs
 
