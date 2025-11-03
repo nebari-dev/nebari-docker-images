@@ -72,12 +72,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 FROM builder AS dask-worker-builder
 ARG DEFAULT_ENV
 
-# Install packages as root
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt-get update && apt-get install -y --no-install-recommends \
-  git-lfs && \
-  rm -rf /var/lib/apt/lists/*
+# Note: git-lfs moved to pixi (no additional apt packages needed for builder)
 
 # Switch to nebari for environment creation
 USER nebari
@@ -109,10 +104,10 @@ COPY --from=pixi-installer /usr/local/bin/pixi /usr/local/bin/pixi
 COPY --from=builder /opt/scripts/fix-permissions /usr/local/bin/
 
 # Install only runtime libraries
+# Note: git-lfs moved to pixi
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get update && apt-get install -y --no-install-recommends \
-  git-lfs \
   ca-certificates && \
   rm -rf /var/lib/apt/lists/*
 
@@ -221,20 +216,13 @@ ENV LANG=C.UTF-8 \
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install common packages for jupyterlab and workflow-controller
+# Note: htop, tree, zip, unzip, openssh, tmux, nano, vim moved to pixi
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get update && apt-get install -y --no-install-recommends \
   locales \
   libnss-wrapper \
-  htop \
-  tree \
-  zip \
-  unzip \
-  openssh-client \
-  tmux \
   xvfb \
-  nano \
-  vim \
   emacs && \
   rm -rf /var/lib/apt/lists/*
 
@@ -243,13 +231,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # =============================================================================
 FROM intermediate AS jupyterlab-builder
 
-# Install jupyterlab-specific packages (including wget/curl for code-server installation)
+# Install jupyterlab-specific packages
+# Note: zsh, neovim, git-lfs, wget, curl moved to pixi
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get update && apt-get install -y --no-install-recommends \
-  zsh \
-  neovim \
-  libgl1 \ 
+  libgl1 \
   libglx-mesa0 \
   libxrandr2 \
   libxss1 \
@@ -262,10 +249,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   libxrender1 \
   libosmesa6 \
   gnupg \
-  pinentry-curses \
-  git-lfs \
-  wget \
-  curl && \
+  pinentry-curses && \
   rm -rf /var/lib/apt/lists/*
 
 # Switch to nebari for environment creation
@@ -298,13 +282,12 @@ COPY --from=pixi-installer /usr/local/bin/pixi /usr/local/bin/pixi
 COPY --from=builder /opt/scripts/fix-permissions /usr/local/bin/
 
 # Install runtime libraries (all the UI/graphics libraries jupyterlab needs)
+# Note: openssh-client, tmux, git-lfs moved to pixi
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get update && apt-get install -y --no-install-recommends \
   locales \
   libnss-wrapper \
-  openssh-client \
-  tmux \
   libgl1 \
   libglx-mesa0 \
   libxrandr2 \
@@ -317,7 +300,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   libfontconfig1 \
   libxrender1 \
   libosmesa6 \
-  git-lfs \
   ca-certificates && \
   rm -rf /var/lib/apt/lists/*
 
