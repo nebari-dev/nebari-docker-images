@@ -52,6 +52,7 @@ pytest-cov = "*"
 black = "*"
 isort = "*"
 importnb = "*"
+git = "*"
 git-lfs = "*"
 
 # system utilities (moved from apt to conda-forge)
