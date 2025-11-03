@@ -264,7 +264,8 @@ RUN pixi install --manifest-path /opt/jupyterlab/pixi.toml -e ${DEFAULT_ENV} --l
 # Run postBuild as root (code-server installation creates /opt/tmpdir)
 USER root
 COPY jupyterlab/postBuild /opt/jupyterlab/
-RUN chmod +x /opt/jupyterlab/postBuild && /opt/jupyterlab/postBuild
+RUN chmod +x /opt/jupyterlab/postBuild && \
+  pixi run --manifest-path /opt/jupyterlab/pixi.toml -e ${DEFAULT_ENV} /opt/jupyterlab/postBuild
 
 # =============================================================================
 # Stage 9: JupyterLab Runtime
