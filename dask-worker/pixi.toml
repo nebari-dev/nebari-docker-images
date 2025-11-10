@@ -6,3 +6,6 @@ platforms = ["linux-64", "linux-aarch64"]
 [dependencies]
 python = "3.9.*"
 nebari-dask = "*"
+
+# system utilities (moved from apt to conda-forge)
+git-lfs = "*"

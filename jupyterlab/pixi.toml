@@ -52,7 +52,22 @@ pytest-cov = "*"
 black = "*"
 isort = "*"
 importnb = "*"
+git = "*"
 git-lfs = "*"
+
+# system utilities (moved from apt to conda-forge)
+htop = "*"
+tree = "*"
+zip = "*"
+unzip = "*"
+openssh = "*"
+tmux = "*"
+nano = "*"
+vim = "*"
+zsh = "*"
+neovim = "*"
+wget = "*"
+curl = "*"
 
 [pypi-dependencies]
 jupyter-vscode-proxy = { git = "https://github.com/betatim/vscode-binder.git" }
