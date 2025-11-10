@@ -88,6 +88,7 @@ RUN pixi install --manifest-path /opt/dask-worker/pixi.toml -e ${DEFAULT_ENV} --
 USER root
 COPY dask-worker/postBuild /opt/dask-worker/
 RUN chmod +x /opt/dask-worker/postBuild && /opt/dask-worker/postBuild
+USER nebari
 
 # =============================================================================
 # Stage 4: Dask-Worker Runtime
