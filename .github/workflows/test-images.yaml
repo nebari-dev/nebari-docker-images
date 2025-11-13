@@ -17,7 +17,7 @@ on:
 env:
   DOCKER_ORG: nebari
   GITHUB_SHA: ${{ github.sha }}
-  GPU_BASE_IMAGE: nvidia/cuda:12.8.1-base-ubuntu24.04
+  GPU_BASE_IMAGE: nvidia/cuda:12.8.1-runtime-ubuntu24.04
   GPU_IMAGE_SUFFIX: gpu
   BASE_IMAGE: ubuntu:24.04
 
