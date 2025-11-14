@@ -30,7 +30,7 @@ RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
     --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     /opt/scripts/install-conda-environment.sh /opt/dask-worker/environment.yaml 'false'
 
-ARG GPU=false
+ARG GPU
 ENV LD_LIBRARY_PATH=${GPU:+/usr/local/nvidia/lib64}
 ENV NVIDIA_PATH=${GPU:+/usr/local/nvidia/bin}
 ENV PATH=${GPU:+/usr/local/nvidia/bin:}${PATH}
@@ -92,7 +92,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 # ========== jupyterlab install ===========
 FROM intermediate AS jupyterlab
-ARG GPU=false
+ARG GPU
+
 ENV CONDA_DIR=/opt/conda \
     DEFAULT_ENV=default \
     LD_LIBRARY_PATH=${GPU:+/usr/local/nvidia/lib64} \
