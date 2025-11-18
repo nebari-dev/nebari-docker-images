@@ -120,7 +120,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     libosmesa6 \
     gnupg \
     pinentry-curses \
-    git-lfs
+    git-lfs \
+    make
 
 ARG SKIP_CONDA_SOLVE=no
 COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
@@ -132,6 +133,11 @@ RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
     ENV_FILE=/opt/jupyterlab/environment.yaml ; \
     fi ; \
     /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
+
+# Setup Custom Docker engine install
+RUN curl -fsSL https://get.docker.com -o get-docker.sh
+RUN chmod +x get-docker.sh
+RUN sh ./get-docker.sh
 
 # ========== code-server install ============
 ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
