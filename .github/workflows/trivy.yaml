@@ -11,12 +11,12 @@ permissions:
   contents: read
 
 jobs:
-  SAST:
+  config-scan:
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    name: Trivy config Scan
+    name: Trivy Config Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -28,13 +28,42 @@ jobs:
           scan-type: 'config'
           hide-progress: true
           format: 'sarif'
-          output: 'trivy-results.sarif'
+          output: 'trivy-config-results.sarif'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
           limit-severities-for-sarif: true
 
-      - name: Upload Trivy scan results to GitHub Security tab
+      - name: Upload Trivy config scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: 'trivy-config-results.sarif'
+          category: 'trivy-config'
+
+  secret-scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    name: Trivy Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy secret scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scanners: 'secret'
+          hide-progress: true
+          format: 'sarif'
+          output: 'trivy-secret-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+
+      - name: Upload Trivy secret scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-secret-results.sarif'
+          category: 'trivy-secrets'
