@@ -54,6 +54,10 @@ isort = "*"
 importnb = "*"
 git-lfs = "*"
 
+# jhub-apps requires pyjwt<2.10.0. We need to specify this here because otherwise a newer
+# version might be installed that is incompatible with jhub-apps.
+pyjwt = "<2.10.0"
+
 [pypi-dependencies]
 jupyter-vscode-proxy = { git = "https://github.com/betatim/vscode-binder.git" }
 jupyterlab_nvdashboard = "==0.12.0"
