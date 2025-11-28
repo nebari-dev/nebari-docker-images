@@ -13,7 +13,7 @@ python-kubernetes = "*"
 kubernetes_asyncio = "==29.0.0"
 jupyterhub-idle-culler = "==1.2.1"
 sqlalchemy = "==1.4.46"
-jhub-apps = "==2025.2.1"
+jhub-apps = "==2025.11.1"
 
 [pypi-dependencies]
 nebari-jupyterhub-theme = "==2024.7.1"
