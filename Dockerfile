@@ -1,4 +1,5 @@
-FROM ubuntu:24.04 AS builder
+ARG BASE_IMAGE=ubuntu:24.04
+FROM ${BASE_IMAGE} AS builder
 LABEL MAINTAINER="Nebari development team"
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -21,6 +22,11 @@ ENV DEFAULT_ENV=default
 
 # ========== dask-worker install ===========
 FROM builder AS dask-worker
+
+ARG GPU
+ENV LD_LIBRARY_PATH=${GPU:+/usr/local/nvidia/lib64}
+ENV NVIDIA_PATH=${GPU:+/usr/local/nvidia/bin}
+ENV PATH=${GPU:+/usr/local/nvidia/bin:}${PATH}
 
 COPY --from=builder /root/.pixi /root/.pixi
 COPY dask-worker/pixi.toml /opt/dask-worker/pixi.toml
@@ -85,6 +91,15 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 # ========== jupyterlab install ===========
 FROM intermediate AS jupyterlab
+
+ARG GPU
+
+ENV CONDA_DIR=/opt/conda \
+    DEFAULT_ENV=default \
+    LD_LIBRARY_PATH=${GPU:+/usr/local/nvidia/lib64} \
+    NVIDIA_PATH=${GPU:+/usr/local/nvidia/bin}
+
+ENV PATH=${GPU:+/usr/local/nvidia/bin:}${PATH}
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
