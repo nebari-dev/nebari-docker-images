@@ -5,14 +5,17 @@ on:
     paths:
       - "Dockerfile.*"
 
-      - "dask-worker/*"
-      - "jupyterhub/*"
-      - "jupyterlab/*"
+      - "*/apt.txt"
+      - "*/postBuild"
 
       - "scripts/*"
 
       - ".github/workflows/build-push-docker.yaml"
       - ".github/workflows/test-images.yaml"
+  workflow_run:
+    workflows: ["Update Pixi Lockfiles"]
+    types:
+      - completed
 
 env:
   DOCKER_ORG: nebari

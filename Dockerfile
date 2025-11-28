@@ -13,41 +13,43 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 COPY scripts /opt/scripts
 
-ENV MAMBAFORGE_VERSION=4.13.0-1 \
-    MAMBAFORGE_AARCH64_SHA256=69e3c90092f61916da7add745474e15317ed0dc6d48bfe4e4c90f359ba141d23 \
-    MAMBAFORGE_X86_64_SHA256=412b79330e90e49cf7e39a7b6f4752970fcdb8eb54b1a45cc91afe6777e8518c \
-    PATH=/opt/conda/bin:${PATH}:/opt/scripts
+RUN curl -fsSL https://pixi.sh/install.sh | bash
 
+ENV PATH=/root/.pixi/bin:/opt/scripts:${PATH}
 
-RUN /opt/scripts/install-conda.sh
-
+ENV DEFAULT_ENV=default
 
 
 # ========== dask-worker install ===========
 FROM builder AS dask-worker
-COPY dask-worker/environment.yaml /opt/dask-worker/environment.yaml
-RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
-    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
-    /opt/scripts/install-conda-environment.sh /opt/dask-worker/environment.yaml 'false'
 
 ARG GPU
 ENV LD_LIBRARY_PATH=${GPU:+/usr/local/nvidia/lib64}
 ENV NVIDIA_PATH=${GPU:+/usr/local/nvidia/bin}
 ENV PATH=${GPU:+/usr/local/nvidia/bin:}${PATH}
 
+COPY --from=builder /root/.pixi /root/.pixi
+COPY dask-worker/pixi.toml /opt/dask-worker/pixi.toml
+COPY dask-worker/pixi.lock /opt/dask-worker/pixi.lock
+RUN --mount=type=cache,target=/root/.cache/rattler/cache,sharing=locked \
+    pixi install --manifest-path /opt/dask-worker/ -e ${DEFAULT_ENV} --locked
+
 COPY dask-worker /opt/dask-worker
 RUN /opt/dask-worker/postBuild
 
-
-
+ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib64
+ENV NVIDIA_PATH=/usr/local/nvidia/bin
+ENV PATH=/opt/dask-worker/.pixi/envs/${DEFAULT_ENV}/bin:${NVIDIA_PATH}:$PATH
 
 
 # ========== jupyterhub install ===========
 FROM builder AS jupyterhub
-COPY jupyterhub/environment.yaml /opt/jupyterhub/environment.yaml
-RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
-    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
-    /opt/scripts/install-conda-environment.sh /opt/jupyterhub/environment.yaml 'false'
+
+COPY --from=builder /root/.pixi /root/.pixi
+COPY jupyterhub/pixi.toml /opt/jupyterhub/pixi.toml
+COPY jupyterhub/pixi.lock /opt/jupyterhub/pixi.lock
+RUN --mount=type=cache,target=/root/.cache/rattler/cache,sharing=locked \
+    pixi install --manifest-path /opt/jupyterhub/ -e ${DEFAULT_ENV} --locked
 
 COPY jupyterhub /opt/jupyterhub
 RUN /opt/jupyterhub/postBuild
@@ -57,19 +59,16 @@ WORKDIR /srv/jupyterhub
 # So we can actually write a db file here
 RUN fix-permissions /srv/jupyterhub
 
+ENV PATH=/opt/jupyterhub/.pixi/envs/${DEFAULT_ENV}/bin:${PATH}
+
 CMD ["jupyterhub", "--config", "/usr/local/etc/jupyterhub/jupyterhub_config.py"]
-
-
 
 
 # ========== jupyterlab base ===========
 FROM builder AS intermediate
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 \
-    CONDA_DIR=/opt/conda \
-    DEFAULT_ENV=default
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 RUN chmod -R a-w ~
-ENV TZ=UTC \
-    PATH=/opt/conda/envs/${DEFAULT_ENV}/bin:/opt/conda/bin:${PATH}:/opt/scripts
+ENV TZ=UTC
 # Set timezone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -92,6 +91,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 # ========== jupyterlab install ===========
 FROM intermediate AS jupyterlab
+
 ARG GPU
 
 ENV CONDA_DIR=/opt/conda \
@@ -122,41 +122,32 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     pinentry-curses \
     git-lfs
 
-ARG SKIP_CONDA_SOLVE=no
-COPY jupyterlab/environment.yaml /opt/jupyterlab/environment.yaml
-RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
-    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
-    if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
-    ENV_FILE=/opt/jupyterlab/conda-linux-64.lock ; \
-    else  \
-    ENV_FILE=/opt/jupyterlab/environment.yaml ; \
-    fi ; \
-    /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
+COPY --from=builder /root/.pixi /root/.pixi
+COPY jupyterlab/pixi.toml /opt/jupyterlab/pixi.toml
+COPY jupyterlab/pixi.lock /opt/jupyterlab/pixi.lock
+RUN --mount=type=cache,target=/root/.cache/rattler/cache,sharing=locked \
+    pixi install --manifest-path /opt/jupyterlab/ -e ${DEFAULT_ENV} --locked
 
 # ========== code-server install ============
-ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
+ENV PATH=/opt/jupyterlab/.pixi/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
 
 COPY jupyterlab /opt/jupyterlab
 RUN /opt/jupyterlab/postBuild
 
-
-
+ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib64
+ENV NVIDIA_PATH=/usr/local/nvidia/bin
+ENV PATH=/opt/jupyterhub/.pixi/envs/${DEFAULT_ENV}/bin:${NVIDIA_PATH}:$PATH
 
 
 # ========== nebari-workflow-controller install ============
 FROM intermediate AS workflow-controller
 
-ARG SKIP_CONDA_SOLVE=no
-COPY nebari-workflow-controller/environment.yaml /opt/nebari-workflow-controller/environment.yaml
-RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
-    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
-    if [ "${SKIP_CONDA_SOLVE}" != "no" ];then  \
-    ENV_FILE=/opt/nebari-workflow-controller/conda-linux-64.lock ; \
-    else  \
-    ENV_FILE=/opt/nebari-workflow-controller/environment.yaml ; \
-    fi ; \
-    /opt/scripts/install-conda-environment.sh "${ENV_FILE}" 'true'
+COPY --from=builder /root/.pixi /root/.pixi
+COPY nebari-workflow-controller/pixi.toml /opt/nebari-workflow-controller/pixi.toml
+COPY nebari-workflow-controller/pixi.lock /opt/nebari-workflow-controller/pixi.lock
+RUN --mount=type=cache,target=/root/.cache/rattler/cache,sharing=locked \
+    pixi install --manifest-path /opt/nebari-workflow-controller/ -e ${DEFAULT_ENV} --locked
 
-COPY nebari-workflow-controller /opt/nebari-workflow-controller
+ENV PATH=/opt/nebari-workflow-controller/.pixi/envs/${DEFAULT_ENV}/bin:${PATH}
 
 CMD ["python", "-m", "nebari_workflow_controller"]
