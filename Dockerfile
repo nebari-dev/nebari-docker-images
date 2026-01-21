@@ -87,7 +87,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     xvfb \
     nano \
     vim \
-    emacs
+    emacs \
+    build-essential
 
 
 # ========== jupyterlab install ===========
