@@ -139,7 +139,12 @@ ENV PATH=/opt/conda/envs/${DEFAULT_ENV}/share/code-server/bin:${PATH}
 COPY jupyterlab /opt/jupyterlab
 RUN /opt/jupyterlab/postBuild
 
+# ========== Add 'nebari' user for rootless runtime ==========
+RUN groupadd -g 100 users \
+    && useradd -m -u 1000 -g 100 -s /bin/bash nebari \
+    && chown -R nebari:users /opt/conda /opt/jupyterlab /home/nebari
 
+USER nebari
 
 
 
