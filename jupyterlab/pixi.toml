@@ -1,0 +1,70 @@
+[workspace]
+name = "default"
+channels = ["conda-forge"]
+platforms = ["linux-64", "linux-aarch64"]
+
+[dependencies]
+
+# general
+python = "3.12.*"
+
+# jupyterhub/jupyterlab
+nb_conda_kernels = "*"
+ipython = ">7"
+jupyter-server-proxy = ">=4.4.0"
+jupyter_server = ">=2.13.0"
+jupyterlab = "==4.2.5"
+jupyter_client = "*"
+jupyter_console = "*"
+jupyterhub = "==5.1.0"
+nbconvert = "*"
+nbval = "*"
+
+# jupyterlab extensions
+dask_labextension = ">=5.3.0"
+jupyterlab-git = ">=0.30.0"
+sidecar = ">=0.5.0"
+ipywidgets = ">=8.0.0"
+ipyleaflet = ">=0.13.5"
+pyviz_comms = ">=3.0.3"
+jupyter-resource-usage = ">=0.6.0"
+nbgitpuller = "*"
+jupyterlab_code_formatter = "*"
+jupyterlab-spellchecker = ">=0.7.3"
+jupyterlab-pioneer = "*"
+jupyter-ai = "*"
+jupyterlab-favorites = ">=3.2.1"
+jupyter-scheduler = ">=2.8.0,<3.0.0"
+
+# viz tools
+param = "*"
+python-graphviz = "*"
+plotly = ">=5.0"
+ipympl = ">=0.9.6"
+bokeh = ">=3.5.2"
+
+# testing, docs, linting
+pytest = "*"
+hypothesis = "*"
+flake8 = "*"
+sphinx = "*"
+pytest-cov = "*"
+black = "*"
+isort = "*"
+importnb = "*"
+git-lfs = "*"
+
+# jhub-apps requires pyjwt<2.10.0. We need to specify this here because otherwise a newer
+# version might be installed that is incompatible with jhub-apps.
+pyjwt = "<2.10.0"
+
+[pypi-dependencies]
+jupyter-vscode-proxy = { git = "https://github.com/betatim/vscode-binder.git" }
+jupyterlab_nvdashboard = "==0.12.0"
+argo-jupyter-scheduler = "==2024.6.1"
+jhub-apps = "==2025.11.1"
+jupyterlab-nebari-mode = "==0.3.0"
+jupyterlab-conda-store = "==2024.11.1"
+jupyterlab-launchpad = "==1.0.3"
+jupyterlab-gallery = "==0.6.3"
+jupyterlab-jhub-apps = "==0.3.1"

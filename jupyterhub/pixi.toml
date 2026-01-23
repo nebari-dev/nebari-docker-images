@@ -1,0 +1,20 @@
+[workspace]
+name = "default"
+channels = ["conda-forge"]
+platforms = ["linux-64", "linux-aarch64"]
+
+[dependencies]
+python = "3.10.*"
+jupyterhub = "==5.1.0"
+jupyterhub-kubespawner = "==6.2.0"
+oauthenticator = "==16.3.0"
+escapism = "==1.0.1"
+python-kubernetes = "*"
+kubernetes_asyncio = "==29.0.0"
+jupyterhub-idle-culler = "==1.2.1"
+sqlalchemy = "==1.4.46"
+jhub-apps = "==2025.11.1"
+
+[pypi-dependencies]
+nebari-jupyterhub-theme = "==2024.7.1"
+python-keycloak = "==0.26.1"

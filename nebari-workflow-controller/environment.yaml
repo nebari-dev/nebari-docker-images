@@ -1,8 +1,0 @@
-name: default
-channels:
-  - conda-forge
-dependencies:
-  - python=3.10
-  - pip
-  - pip:
-      - nebari-workflow-controller==2023.7.1
