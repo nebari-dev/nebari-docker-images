@@ -6,17 +6,18 @@ channels:
   - conda-forge
 dependencies:
   # general
+  - python==3.12
   - pip
 
   # jupyterhub/jupyterlab
   - nb_conda_kernels
   - ipython > 7
   - jupyter-server-proxy >=4.4.0
-  - "jupyter_server>=2.13.0"
-  - jupyterlab==4.4.2
+  - "jupyter_server>=2.20.0,<3.0.0"
+  - jupyterlab==4.5.9
   - jupyter_client
   - jupyter_console
-  - jupyterhub==5.3.0
+  - jupyterhub==5.5.0
   - nbconvert
   - nbval
 
